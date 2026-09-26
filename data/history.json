@@ -538,5 +538,275 @@
     "note": "兩張單程"
    }
   ]
+ },
+ {
+  "checkedAt": "2026-09-27T00:45",
+  "summary": "最低 捷星 ＋ 泰越捷 10/14 02:30→06:05 / 10/19 12:25→14:30，約 NT$23,551；非紅眼最低 虎航 ＋ 泰越捷 約 NT$26,233；去廉航回傳統最低 捷星 ＋ 中華 約 NT$35,091；比上次漲 NT$680；在目標內。",
+  "options": [
+   {
+    "airline": "捷星 ＋ 泰越捷",
+    "type": "LCC",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 12:25→14:30",
+    "fare2pax": 20551,
+    "bagsEst": 3000,
+    "totalEst": 23551,
+    "source": "Google 航班",
+    "note": "紅眼；兩張單程"
+   },
+   {
+    "airline": "捷星 ＋ 虎航",
+    "type": "LCC",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 11:15→13:10",
+    "fare2pax": 21403,
+    "bagsEst": 2700,
+    "totalEst": 24103,
+    "source": "Google 航班",
+    "note": "紅眼；兩張單程"
+   },
+   {
+    "airline": "捷星 ＋ 樂桃",
+    "type": "LCC",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 10:40→12:45",
+    "fare2pax": 21282,
+    "bagsEst": 2860,
+    "totalEst": 24142,
+    "source": "Google 航班",
+    "note": "紅眼；兩張單程"
+   },
+   {
+    "airline": "捷星日本航空",
+    "type": "LCC",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 23:35→01:30",
+    "fare2pax": 22105,
+    "bagsEst": 3000,
+    "totalEst": 25105,
+    "source": "Google 航班",
+    "note": "紅眼"
+   },
+   {
+    "airline": "虎航 ＋ 泰越捷",
+    "type": "LCC",
+    "out": "10/14 06:40→10:25",
+    "ret": "10/19 12:25→14:30",
+    "fare2pax": 23383,
+    "bagsEst": 2850,
+    "totalEst": 26233,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "捷星日本航空",
+    "type": "LCC",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 15:20→17:20",
+    "fare2pax": 23477,
+    "bagsEst": 3000,
+    "totalEst": 26477,
+    "source": "Google 航班",
+    "note": "紅眼"
+   },
+   {
+    "airline": "台灣虎航",
+    "type": "LCC",
+    "out": "10/14 06:40→10:25",
+    "ret": "10/19 11:15→13:10",
+    "fare2pax": 24235,
+    "bagsEst": 2550,
+    "totalEst": 26785,
+    "source": "Google 航班",
+    "note": ""
+   },
+   {
+    "airline": "虎航 ＋ 樂桃",
+    "type": "LCC",
+    "out": "10/14 06:40→10:25",
+    "ret": "10/19 10:40→12:45",
+    "fare2pax": 24114,
+    "bagsEst": 2710,
+    "totalEst": 26824,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "樂桃 ＋ 泰越捷",
+    "type": "LCC",
+    "out": "10/14 09:30→13:20",
+    "ret": "10/19 12:25→14:30",
+    "fare2pax": 24405,
+    "bagsEst": 2930,
+    "totalEst": 27335,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "虎航 ＋ 捷星",
+    "type": "LCC",
+    "out": "10/14 06:40→10:25",
+    "ret": "10/19 23:35→01:30",
+    "fare2pax": 24937,
+    "bagsEst": 2850,
+    "totalEst": 27787,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "樂桃 ＋ 虎航",
+    "type": "LCC",
+    "out": "10/14 09:30→13:20",
+    "ret": "10/19 11:15→13:10",
+    "fare2pax": 25257,
+    "bagsEst": 2630,
+    "totalEst": 27887,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "樂桃航空",
+    "type": "LCC",
+    "out": "10/14 09:30→13:20",
+    "ret": "10/19 10:40→12:45",
+    "fare2pax": 25136,
+    "bagsEst": 2790,
+    "totalEst": 27926,
+    "source": "Google 航班",
+    "note": ""
+   },
+   {
+    "airline": "捷星 ＋ 樂桃",
+    "type": "LCC",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 15:15→17:30",
+    "fare2pax": 25196,
+    "bagsEst": 2860,
+    "totalEst": 28056,
+    "source": "Google 航班",
+    "note": "紅眼；兩張單程"
+   },
+   {
+    "airline": "樂桃 ＋ 捷星",
+    "type": "LCC",
+    "out": "10/14 09:30→13:20",
+    "ret": "10/19 23:35→01:30",
+    "fare2pax": 25959,
+    "bagsEst": 2930,
+    "totalEst": 28889,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "虎航 ＋ 捷星",
+    "type": "LCC",
+    "out": "10/14 06:40→10:25",
+    "ret": "10/19 15:20→17:20",
+    "fare2pax": 26309,
+    "bagsEst": 2850,
+    "totalEst": 29159,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "星宇 ＋ 泰越捷",
+    "type": "MIX2",
+    "out": "10/14 10:15→14:00",
+    "ret": "10/19 12:25→14:30",
+    "fare2pax": 30069,
+    "bagsEst": 2000,
+    "totalEst": 32069,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "星宇 ＋ 虎航",
+    "type": "MIX2",
+    "out": "10/14 10:15→14:00",
+    "ret": "10/19 11:15→13:10",
+    "fare2pax": 30921,
+    "bagsEst": 1700,
+    "totalEst": 32621,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "星宇 ＋ 樂桃",
+    "type": "MIX2",
+    "out": "10/14 10:15→14:00",
+    "ret": "10/19 10:40→12:45",
+    "fare2pax": 30800,
+    "bagsEst": 1860,
+    "totalEst": 32660,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "捷星 ＋ 中華",
+    "type": "MIX",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 19:05→21:10",
+    "fare2pax": 34091,
+    "bagsEst": 1000,
+    "totalEst": 35091,
+    "source": "Google 航班",
+    "note": "紅眼；兩張單程"
+   },
+   {
+    "airline": "捷星 ＋ 長榮",
+    "type": "MIX",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 11:10→13:05",
+    "fare2pax": 35100,
+    "bagsEst": 1000,
+    "totalEst": 36100,
+    "source": "Google 航班",
+    "note": "紅眼；兩張單程"
+   },
+   {
+    "airline": "捷星 ＋ 國泰",
+    "type": "MIX",
+    "out": "10/14 02:30→06:05",
+    "ret": "10/19 16:15→18:15",
+    "fare2pax": 35164,
+    "bagsEst": 1000,
+    "totalEst": 36164,
+    "source": "Google 航班",
+    "note": "紅眼；兩張單程"
+   },
+   {
+    "airline": "星宇 ＋ 中華",
+    "type": "FSC",
+    "out": "10/14 10:15→14:00",
+    "ret": "10/19 19:05→21:10",
+    "fare2pax": 43609,
+    "bagsEst": 0,
+    "totalEst": 43609,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "星宇 ＋ 長榮",
+    "type": "FSC",
+    "out": "10/14 10:15→14:00",
+    "ret": "10/19 11:10→13:05",
+    "fare2pax": 44618,
+    "bagsEst": 0,
+    "totalEst": 44618,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   },
+   {
+    "airline": "星宇 ＋ 國泰",
+    "type": "FSC",
+    "out": "10/14 10:15→14:00",
+    "ret": "10/19 16:15→18:15",
+    "fare2pax": 44682,
+    "bagsEst": 0,
+    "totalEst": 44682,
+    "source": "Google 航班",
+    "note": "兩張單程"
+   }
+  ]
  }
 ]
