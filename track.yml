@@ -1,0 +1,45 @@
+name: 機票查價
+
+on:
+  schedule:
+    # GitHub 用 UTC：00:47 與 12:47 UTC = 台北 08:47 與 20:47
+    - cron: "47 0,12 * * *"
+  workflow_dispatch: {}   # 可在 Actions 頁面手動按「Run workflow」
+
+permissions:
+  contents: write
+
+concurrency:
+  group: track
+  cancel-in-progress: false
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安裝 Playwright
+        run: |
+          pip install playwright==1.47.0
+          python -m playwright install --with-deps chromium
+
+      - name: 查價
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NOTIFY_EVERY_RUN: ${{ vars.NOTIFY_EVERY_RUN }}
+        run: python tracker.py
+
+      - name: 存回結果
+        run: |
+          git config user.name "flight-tracker-bot"
+          git config user.email "flight-tracker-bot@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "價格更新 $(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')"
+          git push

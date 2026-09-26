@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>桃園⇄關西 機票追蹤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#f3f5f7; --panel:#ffffff; --ink:#15202b; --muted:#5d6b78; --line:#dde3e9;
+  --accent:#0b6e8a; --accent-soft:#e2f1f5; --good:#1c7c4a; --good-soft:#e3f4ea;
+  --warn:#a86400; --warn-soft:#fbf0dc; --bad:#b3312c; --bad-soft:#fbe6e4;
+  --target:#b3312c;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f161c; --panel:#162029; --ink:#e6edf2; --muted:#93a3b1; --line:#2a3641;
+    --accent:#4fb8d4; --accent-soft:#16323c; --good:#5cc88d; --good-soft:#15302237;
+    --warn:#e8a94a; --warn-soft:#3a2a1033; --bad:#ef7b74; --bad-soft:#3a1a1833; --target:#ef7b74;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f161c; --panel:#162029; --ink:#e6edf2; --muted:#93a3b1; --line:#2a3641;
+  --accent:#4fb8d4; --accent-soft:#16323c; --good:#5cc88d; --good-soft:#15302237;
+  --warn:#e8a94a; --warn-soft:#3a2a1033; --bad:#ef7b74; --bad-soft:#3a1a1833; --target:#ef7b74;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:24px 48px;display:grid;gap:20px}
+.wrap>*{min-width:0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+header{display:grid;gap:6px}
+.route{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+.route h1{margin:0;font-size:26px;font-weight:700;letter-spacing:.02em;text-wrap:balance}
+.iata{font-family:var(--mono);font-weight:600;color:var(--accent)}
+.meta{color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.stat{display:grid;gap:4px}
+.label{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.big{font-size:30px;font-weight:600}
+.pill{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;font-weight:500}
+.pill.good{background:var(--good-soft);color:var(--good);border:1px solid var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+.pill.lcc{background:var(--accent-soft);color:var(--accent)}
+.pill.fsc{background:transparent;color:var(--muted);border:1px solid var(--line)}
+h2{font-size:16px;margin:0 0 12px;font-weight:700}
+.chart-box{overflow-x:auto}
+svg text{fill:var(--muted);font-family:var(--mono);font-size:11px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.04em}
+td.r,th.r{text-align:right}
+tr.over td{color:var(--muted)}
+.sub{font-size:12px;color:var(--muted)}
+.notes{display:grid;gap:8px;font-size:14px}
+.notes p{margin:0}
+.empty{color:var(--muted);padding:24px 0;text-align:center}
+.status{font-size:12px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a{font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:6px}
+.links a:hover,.links a:focus-visible{border-color:var(--accent);outline:none}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="route">
+      <h1><span class="iata">TPE</span> 桃園 ⇄ <span class="iata">KIX</span> 關西</h1>
+      <span id="verdict" class="pill warn">載入中</span>
+    </div>
+    <div class="meta">
+      <span>去程 <b class="num">2026-10-14 (三)</b></span>
+      <span>回程 <b class="num">2026-10-19 (一)</b></span>
+      <span>成人 ×2 · 經濟艙</span>
+      <span>行李：去程 1 件、回程 2 件 (共 3 件 20–23kg)</span>
+      <span>目標總價 <b class="num">≤ NT$30,000</b></span>
+      <span>時間限制：去程 <b class="num">16:00 前抵達關西</b>、回程 <b class="num">10:00 後起飛</b></span>
+      <span>組合：全廉航、全傳統、去程廉航＋回程傳統</span>
+    </div>
+  </header>
+
+  <section class="panel summary" aria-label="目前最佳">
+    <div class="stat">
+      <span class="label">目前最低 (含行李估算)</span>
+      <span class="big num" id="bestTotal">—</span>
+      <span class="sub" id="bestWho">—</span>
+    </div>
+    <div class="stat">
+      <span class="label">距目標尚有</span>
+      <span class="big num" id="headroom">—</span>
+      <span class="sub">目標 NT$30,000，越低越好</span>
+    </div>
+    <div class="stat">
+      <span class="label">與上次檢查相比</span>
+      <span class="big num" id="delta">—</span>
+      <span class="sub" id="lastChecked">—</span>
+    </div>
+    <div class="stat">
+      <span class="label">歷史最低</span>
+      <span class="big num" id="allTimeLow">—</span>
+      <span class="sub" id="allTimeLowWhen">—</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>最低總價走勢</h2>
+    <div class="chart-box"><svg id="chart" width="100%" height="220" role="img" aria-label="每次檢查的最低總價"></svg></div>
+    <div class="sub">每一點是一次自動檢查的最低「票價＋行李」總額，虛線為 NT$30,000 目標。</div>
+  </section>
+
+  <section class="panel">
+    <h2>最新一次檢查的選項 <span class="status" id="count"></span></h2>
+    <div class="tbl">
+      <table>
+        <thead><tr>
+          <th>航空公司</th><th>去程</th><th>回程</th><th class="r">2人票價</th><th class="r">行李加購(估)</th><th class="r">總額(估)</th><th>來源</th>
+        </tr></thead>
+        <tbody id="rows"><tr><td colspan="7" class="empty">尚未有檢查紀錄</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel notes">
+    <h2>怎麼算的</h2>
+    <p>只列符合時間限制的航班：去程 10/14 在 16:00 前抵達關西、回程 10/19 在 10:00 以後從關西起飛。票價為兩位成人含稅總額；混搭組合是兩張單程票相加，需分開訂。</p>
+    <p>廉航 (樂桃、虎航、捷星、泰越捷、亞航X) 基本票不含托運，依線上預購價估算：去程 1 件、回程 2 件，樂桃約 NT$930/件、虎航約 NT$850/件、其他約 NT$1,000/件。傳統航空 (華航、長榮、星宇、國泰) 已含每人 23kg，不另加。</p>
+    <p>若去程兩人都只帶 7–10kg 手提，可再省約一件行李費。訂票時在航空公司官網一併加購最便宜，機場臨櫃會貴約 NT$400/件。</p>
+    <p id="nextNote" class="sub"></p>
+    <div class="links">
+      <a href="https://www.google.com/travel/flights/search?q=Flights%20to%20KIX%20from%20TPE%20on%202026-10-14%20through%202026-10-19%202%20adults&curr=TWD&hl=zh-TW&gl=TW" target="_blank" rel="noopener">Google 航班</a>
+      <a href="https://tw.trip.com/flights/showfarefirst?dcity=tpe&acity=kix&ddate=2026-10-14&rdate=2026-10-19&triptype=rt&class=y&quantity=2&locale=zh-TW&curr=TWD" target="_blank" rel="noopener">Trip.com</a>
+      <a href="https://www.skyscanner.com.tw/transport/flights/tpe/kix/261014/261019/?adultsv2=2&currency=TWD" target="_blank" rel="noopener">Skyscanner</a>
+      <a href="https://www.flypeach.com/tw" target="_blank" rel="noopener">樂桃</a>
+      <a href="https://www.tigerairtw.com/zh-tw" target="_blank" rel="noopener">台灣虎航</a>
+      <a href="https://www.jetstar.com/tw/zh" target="_blank" rel="noopener">捷星</a>
+      <a href="https://www.china-airlines.com/tw/zh" target="_blank" rel="noopener">華航</a>
+      <a href="https://www.evaair.com/zh-tw/" target="_blank" rel="noopener">長榮</a>
+      <a href="https://www.starlux-airlines.com/zh-TW" target="_blank" rel="noopener">星宇</a>
+    </div>
+  </section>
+  <div class="status" id="dbStatus">正在連線價格資料庫…</div>
+</div>
+
+<script>
+const TARGET = 30000;
+const fmt = n => (n==null||isNaN(n)) ? '—' : 'NT$' + Math.round(n).toLocaleString('en-US');
+const $ = id => document.getElementById(id);
+
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function render(checks){
+  checks = checks.filter(c=>Array.isArray(c.options)&&c.options.length).sort((a,b)=>a.checkedAt<b.checkedAt?-1:1);
+  if(!checks.length){ $('verdict').textContent='尚無資料'; return; }
+  const withBest = checks.map(c=>{
+    const best = c.options.reduce((m,o)=> (o.totalEst!=null && (!m||o.totalEst<m.totalEst))?o:m, null);
+    return {...c, best};
+  });
+  const last = withBest[withBest.length-1];
+  const prev = withBest.length>1 ? withBest[withBest.length-2] : null;
+  const b = last.best;
+
+  $('bestTotal').textContent = fmt(b.totalEst);
+  $('bestWho').textContent = `${b.airline} ${b.out} 去 / ${b.ret} 回 · ${b.source}`;
+  const head = TARGET - b.totalEst;
+  $('headroom').textContent = head>=0 ? fmt(head) : '超出 '+fmt(-head);
+  const v = $('verdict');
+  if(b.totalEst<=TARGET*0.8){v.className='pill good';v.textContent='低於目標 — 可考慮下訂';}
+  else if(b.totalEst<=TARGET){v.className='pill warn';v.textContent='在目標內';}
+  else {v.className='pill bad';v.textContent='高於目標';}
+
+  if(prev){
+    const d = b.totalEst - prev.best.totalEst;
+    $('delta').textContent = d===0 ? '持平' : (d>0?'+':'−') + fmt(Math.abs(d)).replace('NT$','NT$');
+    $('delta').style.color = d<0 ? 'var(--good)' : d>0 ? 'var(--bad)' : 'var(--ink)';
+  } else { $('delta').textContent = '首次紀錄'; }
+  $('lastChecked').textContent = '最後檢查 ' + last.checkedAt.replace('T',' ').slice(0,16) + ' (台北時間)';
+
+  const low = withBest.reduce((m,c)=>(!m||c.best.totalEst<m.best.totalEst)?c:m,null);
+  $('allTimeLow').textContent = fmt(low.best.totalEst);
+  $('allTimeLowWhen').textContent = `${low.best.airline} · ${low.checkedAt.slice(0,10)}`;
+
+  const opts = [...last.options].sort((a,b)=>(a.totalEst??1e9)-(b.totalEst??1e9));
+  $('count').textContent = `(${opts.length} 筆)`;
+  $('rows').innerHTML = opts.map(o=>`
+    <tr class="${o.totalEst>TARGET?'over':''}">
+      <td>${esc(o.airline)} <span class="pill ${o.type==='FSC'?'fsc':'lcc'}">${o.type==='LCC'?'廉航':o.type==='MIX'?'廉航去＋傳統回':o.type==='MIX2'?'傳統去＋廉航回':'傳統'}</span></td>
+      <td class="num">${esc(o.out)}</td>
+      <td class="num">${esc(o.ret||'—')}</td>
+      <td class="r num">${fmt(o.fare2pax)}</td>
+      <td class="r num">${o.bagsEst?fmt(o.bagsEst):'已含'}</td>
+      <td class="r num"><b>${fmt(o.totalEst)}</b></td>
+      <td class="sub">${esc(o.source)}${o.note?'<br>'+esc(o.note):''}</td>
+    </tr>`).join('');
+  $('nextNote').textContent = last.summary ? '最新判讀：' + last.summary : '';
+  drawChart(withBest);
+}
+
+function drawChart(pts){
+  const svg = $('chart');
+  const W = Math.max(svg.clientWidth||600, 320), H = 220, L=64, R=16, T=14, B=30;
+  const vals = pts.map(p=>p.best.totalEst);
+  let lo = Math.min(...vals, TARGET)*0.9, hi = Math.max(...vals, TARGET)*1.05;
+  lo = Math.floor(lo/2000)*2000; hi = Math.ceil(hi/2000)*2000;
+  const x = i => pts.length===1 ? (L+(W-L-R)/2) : L + i*(W-L-R)/(pts.length-1);
+  const y = v => T + (hi-v)*(H-T-B)/(hi-lo);
+  let g = '';
+  const step = (hi-lo)/4;
+  for(let k=0;k<=4;k++){const v=lo+k*step; g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end">${Math.round(v/1000)}k</text>`;}
+  g += `<line x1="${L}" x2="${W-R}" y1="${y(TARGET)}" y2="${y(TARGET)}" stroke="var(--target)" stroke-dasharray="5 4"/><text x="${W-R}" y="${y(TARGET)-6}" text-anchor="end" style="fill:var(--target)">目標 30k</text>`;
+  const path = pts.map((p,i)=>`${i?'L':'M'}${x(i)},${y(p.best.totalEst)}`).join('');
+  if(pts.length>1){
+    g += `<path d="${path} L${x(pts.length-1)},${H-B} L${x(0)},${H-B} Z" fill="var(--accent)" opacity=".10"/>`;
+    g += `<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2"/>`;
+  }
+  pts.forEach((p,i)=>{
+    const lastPt = i===pts.length-1;
+    g += `<circle cx="${x(i)}" cy="${y(p.best.totalEst)}" r="${lastPt?5:3}" fill="var(--accent)" stroke="var(--panel)" stroke-width="2"><title>${p.checkedAt.slice(0,16)} ${fmt(p.best.totalEst)}</title></circle>`;
+  });
+  const every = Math.ceil(pts.length/6);
+  pts.forEach((p,i)=>{ if(i%every===0||i===pts.length-1) g+=`<text x="${x(i)}" y="${H-10}" text-anchor="middle">${p.checkedAt.slice(5,10)}</text>`;});
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.innerHTML = g;
+}
+
+let latest = [];
+window.addEventListener('resize',()=>{ if(latest.length) render(latest); });
+
+async function load(){
+  try{
+    const res = await fetch('data/history.json?t=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error(res.status);
+    latest = await res.json();
+    $('dbStatus').textContent = `已載入 ${latest.length} 次檢查紀錄。頁面每 30 分鐘自動重新讀取；資料由排程每天更新兩次。`;
+    render(latest);
+  }catch(e){
+    $('dbStatus').textContent = '還沒有資料：請先執行一次 tracker.py（或等 GitHub Actions 第一次跑完）。';
+    $('verdict').textContent = '尚無資料';
+  }
+}
+load();
+setInterval(load, 30*60*1000);
+</script>
+</body>
+</html>
