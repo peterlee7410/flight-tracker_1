@@ -1,36 +1,32 @@
 {
-  "trip_name": "桃園 ⇄ 大阪關西",
-  "origin": "TPE",
-  "destination": "KIX",
-  "depart_date": "2026-10-14",
-  "return_date": "2026-10-19",
-  "adults": 2,
-
-  "outbound_arrive_by": "16:00",
-  "return_depart_after": "10:00",
-  "direct_only": true,
-
-  "bags_outbound": 1,
-  "bags_return": 2,
-
-  "target_total": 30000,
-  "alert_below": 21000,
-  "alert_drop": 800,
-  "alert_days_before": 7,
-  "keep_top": 15,
-
-  "lcc_bag_fee": {
-    "樂桃": 930,
-    "虎航": 850,
-    "捷星": 1000,
-    "泰越捷": 1000,
-    "越捷": 1000,
-    "亞洲航空": 1000,
-    "酷航": 1000,
-    "德威": 1000,
-    "真航空": 1000,
-    "濟州": 1000,
-    "獅子": 1000,
-    "香港快運": 1000
-  }
+ "trip_name": "桃園 ⇄ 大阪關西",
+ "origin": "TPE",
+ "destination": "KIX",
+ "depart_date": "2026-10-14",
+ "return_date": "2026-10-19",
+ "adults": 2,
+ "outbound_arrive_by": "16:00",
+ "return_depart_after": "10:00",
+ "direct_only": true,
+ "bags_outbound": 1,
+ "bags_return": 2,
+ "target_total": 30000,
+ "alert_below": 21000,
+ "alert_drop": 800,
+ "alert_days_before": 7,
+ "keep_top": 15,
+ "lcc_bag_fee": {
+  "樂桃": 930,
+  "虎航": 850,
+  "捷星": 1000,
+  "泰越捷": 1000,
+  "越捷": 1000,
+  "亞洲航空": 1000,
+  "酷航": 1000,
+  "德威": 1000,
+  "真航空": 1000,
+  "濟州": 1000,
+  "獅子": 1000,
+  "香港快運": 1000
+ }
 }
