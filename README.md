@@ -30,6 +30,10 @@
 3. 雙擊 `windows\open_page.bat` 開啟追蹤頁（會在本機起一個小伺服器，看完關掉黑色視窗即可）。
 4. 電腦需在排程時間開機（睡眠會錯過該次）。執行紀錄在 `data\run.log`。
 
+## 在 Spyder 裡手動跑
+
+整個資料夾要一起下載（`tracker.py` 旁邊要有 `config.json`；沒有也能用內建預設值跑）。第一次先在 IPython 主控台執行 `%pip install playwright` 與 `!python -m playwright install chromium`，之後直接按 Run 即可；結果會寫進同資料夾的 `data/history.json`。
+
 ## 手機推播（選用，兩種方式都適用）
 
 1. Telegram 搜尋 **@BotFather** → `/newbot` → 取得 **Bot Token**。

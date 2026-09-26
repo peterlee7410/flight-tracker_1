@@ -27,6 +27,28 @@ ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 TPE_TZ = dt.timezone(dt.timedelta(hours=8))
 
+# 找不到 config.json 時使用的預設值（與 config.json 內容相同）
+DEFAULT_CONFIG = {
+    "trip_name": "桃園 ⇄ 大阪關西",
+    "origin": "TPE", "destination": "KIX",
+    "depart_date": "2026-10-14", "return_date": "2026-10-19", "adults": 2,
+    "outbound_arrive_by": "16:00", "return_depart_after": "10:00", "direct_only": True,
+    "bags_outbound": 1, "bags_return": 2,
+    "target_total": 30000, "alert_below": 21000, "alert_drop": 800, "alert_days_before": 7,
+    "keep_top": 15,
+    "lcc_bag_fee": {"樂桃": 930, "虎航": 850, "捷星": 1000, "泰越捷": 1000, "越捷": 1000,
+                    "亞洲航空": 1000, "酷航": 1000, "德威": 1000, "真航空": 1000, "濟州": 1000,
+                    "獅子": 1000, "香港快運": 1000},
+}
+
+
+def load_config() -> dict:
+    path = ROOT / "config.json"
+    if not path.exists():
+        print("（找不到 config.json，使用程式內建的預設條件）")
+        return dict(DEFAULT_CONFIG)
+    return {**DEFAULT_CONFIG, **json.loads(path.read_text(encoding="utf-8"))}
+
 # ---------------------------------------------------------------- parsing
 
 TIME_RE = re.compile(r"(\d{1,2})月\s*(\d{1,2})\s*(凌晨|清晨|上午|中午|下午|晚上)(\d{1,2}):(\d{2})")
@@ -217,7 +239,26 @@ def returns_for(page, rt_url: str, out_label: str) -> list[dict]:
 
 
 def scrape(cfg, fixture: Path | None):
-    from playwright.sync_api import sync_playwright
+    """Spyder / Jupyter 內部已有 asyncio 迴圈，Playwright 同步 API 不能直接用，改在背景執行緒跑。"""
+    import asyncio
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return _scrape(cfg, fixture)
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(1) as ex:
+        return ex.submit(_scrape, cfg, fixture).result()
+
+
+def _scrape(cfg, fixture: Path | None):
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        raise SystemExit("尚未安裝 Playwright。請在命令提示字元執行：\n"
+                         "  python -m pip install playwright\n"
+                         "  python -m playwright install chromium\n"
+                         "（在 Spyder 可於 IPython 主控台輸入 %pip install playwright，"
+                         "再輸入 !python -m playwright install chromium）")
 
     u = urls(cfg)
     with sync_playwright() as p:
@@ -300,9 +341,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fixture", type=Path, help="離線測試資料夾")
     ap.add_argument("--dry-run", action="store_true", help="只印結果，不寫檔、不推播")
-    args = ap.parse_args()
+    args, _ = ap.parse_known_args()  # Spyder 會多塞參數，忽略即可
 
-    cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
+    cfg = load_config()
     now = dt.datetime.now(TPE_TZ)
     if now.date() >= dt.date.fromisoformat(cfg["depart_date"]):
         print("行程已出發，停止追蹤。")

@@ -236,7 +236,8 @@ window.addEventListener('resize',()=>{ if(latest.length) render(latest); });
 
 async function load(){
   try{
-    const res = await fetch('data/history.json?t=' + Date.now(), {cache:'no-store'});
+    let res = await fetch('data/history.json?t=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) res = await fetch('history.json?t=' + Date.now(), {cache:'no-store'});
     if(!res.ok) throw new Error(res.status);
     latest = await res.json();
     $('dbStatus').textContent = `已載入 ${latest.length} 次檢查紀錄。頁面每 30 分鐘自動重新讀取；資料由排程每天更新兩次。`;
