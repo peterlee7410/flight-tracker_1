@@ -160,6 +160,70 @@
      },
      "plans": 0
     }
+   },
+   "pleasant": {
+    "jalan": {
+     "available": false,
+     "calendar": "16 ×",
+     "roomsLeft": null,
+     "min": null,
+     "best": {},
+     "plans": 0
+    }
+   },
+   "viainn": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ○",
+     "roomsLeft": null,
+     "min": 34980,
+     "best": {
+      "none": {
+       "total": 34980,
+       "room": "【禁煙】ダブル 17平米 クイーンベッド",
+       "plan": "【大感謝プラン】ダブル・ツインを特価で",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "breakfast": {
+       "total": 38280,
+       "room": "【禁煙】ダブル 17平米 クイーンベッド",
+       "plan": "【大感謝プラン】朝食付",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      }
+     },
+     "plans": 0
+    }
+   },
+   "apa": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 3 部屋",
+     "roomsLeft": 3,
+     "min": 30420,
+     "best": {
+      "none": {
+       "total": 30420,
+       "room": "セミダブル【全室禁煙】",
+       "plan": "【素泊まり・事前決済限定】",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "breakfast": {
+       "total": 32580,
+       "room": "セミダブル【全室禁煙】",
+       "plan": "【朝食付き・事前決済限定】",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      }
+     },
+     "plans": 0
+    }
    }
   }
  }
