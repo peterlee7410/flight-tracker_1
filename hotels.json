@@ -102,7 +102,7 @@
      "アトリエ"
     ]
    },
-   "agoda": "https://www.agoda.com/zh-tw/search?q=Sakura%20Terrace%20The%20Atelier",
+   "agoda": "https://www.agoda.com/zh-tw/sakura-terrace-the-atelier_3/hotel/kyoto-jp.html",
    "official": "https://sakuraterrace-atelier.jp/",
    "map": "Sakura Terrace The Atelier Kyoto",
    "lat": 34.9809,
@@ -116,7 +116,7 @@
     "免費洗衣、咖啡，評價 8.3"
    ],
    "cons": [
-    "10/16 在じゃらん與 Booking 皆客滿",
+    "10/16 在じゃらん與 Booking 客滿（Agoda 請點按鈕確認）",
     "共用衛浴",
     "房間小"
    ],
@@ -143,7 +143,7 @@
      "綠色"
     ]
    },
-   "agoda": "https://www.agoda.com/zh-tw/search?q=Green%20Rich%20Hotel%20Kyoto%20Station%20South",
+   "agoda": "https://www.agoda.com/zh-tw/green-rich-hotel-kyoto-eki-minami/hotel/kyoto-jp.html",
    "official": "https://greenrichhotels.jp/kyoto/",
    "map": "Green Rich Hotel Kyoto Eki Minami",
    "lat": 34.9797,
@@ -189,7 +189,6 @@
    ],
    "cons": [
     "兩人約 ¥20,400 起（じゃらん）",
-    "Agoda 頁首寫 NT$2,832 起，但房型區顯示 10/16 已完售",
     "最便宜方案不可退款"
    ],
    "photos": [
@@ -221,7 +220,6 @@
    ],
    "cons": [
     "兩人約 ¥23,050 起（じゃらん）",
-    "Agoda 10/16 已完售",
     "最便宜方案不可退款"
    ],
    "photos": [
@@ -247,7 +245,7 @@
      "宜人"
     ]
    },
-   "agoda": "https://www.agoda.com/zh-tw/search?q=Kyoto%20Pleasant%20Hotel",
+   "agoda": "https://www.agoda.com/zh-tw/kyoto-pleasant-hotel/hotel/kyoto-jp.html",
    "official": "https://kyoto-pleasanthotel.com/",
    "map": "Kyoto Pleasant Hotel",
    "lat": 35.0297,
@@ -260,7 +258,7 @@
     "離下鴨神社較近（10/17 行程）"
    ],
    "cons": [
-    "10/16 じゃらん客滿、Agoda 未確認",
+    "10/16 在じゃらん客滿（Agoda 請點按鈕確認）",
     "從天橋立回來要拖行李搭地鐵"
    ],
    "photos": [
@@ -307,7 +305,7 @@
    "checkin": "2026-10-16",
    "checkout": "2026-10-17",
    "jalan": "302414",
-   "agoda": "https://www.agoda.com/zh-tw/search?q=APA%20Hotel%20Kyoto%20Ekimae%20Chuoguchi",
+   "agoda": "https://www.agoda.com/zh-tw/apa-villa-hotel-kyoto-ekimae/hotel/kyoto-jp.html",
    "official": "https://www3.apahotel.com/hotel/kansai/kyoto/kyoto-ekimae-chuoguchi/",
    "map": "APA Hotel Kyoto Ekimae Chuoguchi",
    "lat": 34.9884,
