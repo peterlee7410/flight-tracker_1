@@ -36,7 +36,16 @@ jobs:
           NOTIFY_EVERY_RUN: ${{ vars.NOTIFY_EVERY_RUN }}
         run: python tracker.py
 
+      - name: 飯店查價
+        if: always()
+        continue-on-error: true   # 飯店網站失敗時不影響機票結果存檔
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python hotel_tracker.py
+
       - name: 存回結果
+        if: always()
         run: |
           git config user.name "flight-tracker-bot"
           git config user.email "flight-tracker-bot@users.noreply.github.com"

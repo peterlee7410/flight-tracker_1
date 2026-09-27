@@ -1,0 +1,166 @@
+[
+ {
+  "checkedAt": "2026-09-27T13:10",
+  "hotels": {
+   "yosanoso": {
+    "jalan": {
+     "available": true,
+     "calendar": "15 3 部屋",
+     "roomsLeft": 3,
+     "min": 14268,
+     "best": {
+      "none": {
+       "total": 14268,
+       "room": "和室（ユニットバス・トイレ付き）【OceanView】",
+       "plan": "【じゃらんのお得な10日間】素泊まりプラン（１泊０食）",
+       "coupon": 4000,
+       "noBath": true,
+       "nonRefund": false
+      },
+      "dinner": {
+       "total": 24260,
+       "room": "和室（ユニットバス・トイレ付き）【OceanView】",
+       "plan": "お手軽会席プラン（1泊夕食付き）",
+       "coupon": 4800,
+       "noBath": true,
+       "nonRefund": false
+      },
+      "both": {
+       "total": 28880,
+       "room": "和室（ユニットバス・トイレ付き）【OceanView】",
+       "plan": "平日限定 お手軽会席プラン",
+       "coupon": 6600,
+       "noBath": true,
+       "nonRefund": false
+      }
+     },
+     "plans": 26
+    }
+   },
+   "amanohashidate-hotel": {
+    "jalan": {
+     "available": true,
+     "calendar": "15 2 部屋",
+     "roomsLeft": 2,
+     "min": 37400,
+     "best": {
+      "none": {
+       "total": 37400,
+       "room": "【禁煙】和洋室（オーシャンビュー）",
+       "plan": "食事なしプラン",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "breakfast": {
+       "total": 44000,
+       "room": "【禁煙】和洋室（オーシャンビュー）",
+       "plan": "朝食付きプラン",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "both": {
+       "total": 58520,
+       "room": "【禁煙】和洋室（オーシャンビュー）",
+       "plan": "和食通常プラン",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      }
+     },
+     "plans": 0
+    }
+   },
+   "atelier": {
+    "jalan": {
+     "available": false,
+     "calendar": "16 ×",
+     "roomsLeft": null,
+     "min": null,
+     "best": {},
+     "plans": 0
+    },
+    "booking": {
+     "found": true,
+     "title": "櫻花露台旅舍",
+     "price": null,
+     "soldOut": true
+    }
+   },
+   "greenrich": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ○",
+     "roomsLeft": null,
+     "min": 19280,
+     "best": {
+      "none": {
+       "total": 19280,
+       "room": "【喫煙】ダブルＡ",
+       "plan": "★スタンダードシンプルステイ★素泊まり★",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "breakfast": {
+       "total": 22560,
+       "room": "【禁煙】ダブルＡ",
+       "plan": "★朝食付プラン★",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      }
+     },
+     "plans": 0
+    }
+   },
+   "ilverde": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ▲",
+     "roomsLeft": null,
+     "min": 20400,
+     "best": {
+      "none": {
+       "total": 20400,
+       "room": "≪禁煙≫スタンダードダブルルーム",
+       "plan": "【事前決済限定】返金不可プラン",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": true
+      },
+      "breakfast": {
+       "total": 23120,
+       "room": "≪禁煙≫スタンダードダブルルーム",
+       "plan": "【事前決済限定】朝食付き 返金不可プラン",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": true
+      }
+     },
+     "plans": 0
+    }
+   },
+   "zequu-annex": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ○",
+     "roomsLeft": null,
+     "min": 23050,
+     "best": {
+      "none": {
+       "total": 23050,
+       "room": "ツインルーム【禁煙室】",
+       "plan": "【返金不可】スタンダードプラン",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": true
+      }
+     },
+     "plans": 0
+    }
+   }
+  }
+ }
+]

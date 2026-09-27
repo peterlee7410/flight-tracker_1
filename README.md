@@ -35,6 +35,15 @@
 
 整個資料夾要一起下載（`tracker.py` 旁邊要有 `config.json`；沒有也能用內建預設值跑）。第一次先在 IPython 主控台執行 `%pip install playwright` 與 `!python -m playwright install chromium`，之後直接按 Run 即可；結果會寫進同資料夾的 `data/history.json`。
 
+## 飯店自動查價（hotel_tracker.py）
+
+`hotels.json` 列出要追蹤的飯店與入住日期。GitHub Actions 每次查完機票後會接著執行 `hotel_tracker.py`：
+
+- **じゃらん**：指定日期的空房月曆、各方案（不含餐／附早餐／二食）兩人含稅總價。
+- **Booking.com**：搜尋結果卡片的價格與是否客滿（輔助來源，失敗時略過）。
+
+結果存進 `data/hotels.json`，網頁的住宿區會顯示最新價、漲跌、走勢與預算比較。價格下跌 ¥1,000 以上、由客滿變成有房、變成客滿，或じゃらん只剩 1 間時，會用同一組 Telegram 設定推播。要新增或移除飯店，直接編輯 `hotels.json`。
+
 ## 手機推播（選用，兩種方式都適用）
 
 1. Telegram 搜尋 **@BotFather** → `/newbot` → 取得 **Bot Token**。
