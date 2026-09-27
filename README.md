@@ -69,3 +69,14 @@
 python tests/make_fixtures.py
 python tracker.py --fixture tests/fixtures --dry-run
 ```
+
+## 旅程產生器（planner/）
+
+網址：https://peterlee7410.github.io/flight-tracker_1/planner/
+
+輸入目的地、日期、人數、預算與條件，產生整套行程（機票建議、住宿候選、每日行程與交通班次、費用試算）。
+
+- 在 GitHub Pages 上：按「產生提示詞」→ 貼到你的 Claude（網頁或 App，用訂閱額度，不需 API 金鑰）→ 把回覆的 JSON 貼回頁面 →「套用結果」。
+- 在 Claude 的 Artifact 版本裡：直接按「產生整套行程」即可。
+- 已存行程存在該裝置瀏覽器（localStorage）；可「下載 trip.json」帶到別台裝置或交給 Claude 做深度查證。
+- 價格與班次為 AI 估算，訂之前用頁面上的連結確認。
