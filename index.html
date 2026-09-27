@@ -79,7 +79,7 @@ tr.over td{color:var(--muted)}
 .route-strip{display:flex;align-items:stretch;gap:22px;overflow-x:auto;padding:10px 4px 14px;margin:8px 0 4px;scroll-snap-type:x proximity}.route-step{flex:0 0 180px;background:#f4fafb;border:1px solid #bcd9df;border-radius:8px;padding:10px 10px 10px 38px;position:relative;scroll-snap-align:start;font-size:12px;line-height:1.45;color:#263b45}.route-step::before{content:attr(data-n);position:absolute;left:9px;top:10px;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font:700 11px var(--mono)}.route-step::after{content:'›';position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:28px;color:#0b6e8a}.route-step:last-child::after{display:none}.route-help{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin-top:6px}.route-help::before{content:'←';color:var(--accent);font-weight:800}.day-route-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-weight:700;font-size:13px}.day-route-title span:last-child{font-weight:400;color:var(--muted);font-size:11px}
 .day-map{margin:10px 0 6px;border:1px solid #bcd9df;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#eef8f9,#f8f5e9);position:relative}.day-map::before{content:'';position:absolute;inset:0;background-image:linear-gradient(#0b6e8a0d 1px,transparent 1px),linear-gradient(90deg,#0b6e8a0d 1px,transparent 1px);background-size:24px 24px}.day-map svg{display:block;width:100%;height:auto;min-height:210px;position:relative}.map-path{fill:none;stroke:#0b6e8a;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:8 6;animation:routeFlow 14s linear infinite}.map-halo{fill:#fff;stroke:#0b6e8a;stroke-width:3}.map-stop-no{fill:#0b6e8a;font:700 10px var(--mono)}.map-stop-label{fill:#15202b;font:700 12px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}.map-stop-sub{fill:#5d6b78;font:10px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:3px}.map-compass{fill:#0b6e8a;font:700 10px var(--mono)}.map-legend{display:flex;gap:12px;flex-wrap:wrap;padding:0 12px 10px;color:var(--muted);font-size:11px}.map-legend b{color:var(--accent)}
 .poi-line{fill:none;stroke-width:2;stroke-dasharray:3 4}.poi-line.food{stroke:#d46b18}.poi-line.locker{stroke:#7951a8}.poi-dot{stroke:#fff;stroke-width:3}.poi-dot.food{fill:#d46b18}.poi-dot.locker{fill:#7951a8}.poi-icon{font-size:13px}.poi-label{fill:#15202b;font:700 10px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:4px}.poi-sub{fill:#5d6b78;font:9px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:3px}.poi-link:hover .poi-dot,.poi-link:focus .poi-dot{filter:drop-shadow(0 0 5px #f3a712)}.poi-note{padding:0 12px 10px;color:var(--muted);font-size:11px}.poi-note strong{color:#15202b}
-.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.photo-card{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}.photo-card>a:first-child{display:block;position:relative}.photo-card img{width:100%;height:115px;display:block;object-fit:cover;background:#e8eef0}.photo-kind{position:absolute;left:7px;top:7px;background:#15202bcc;color:#fff;border-radius:999px;padding:3px 7px;font-size:10px}.photo-card figcaption{padding:7px 8px}.photo-card figcaption b{display:block;font-size:12px}.photo-card figcaption span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.photo-source{color:var(--accent);font-size:9px;text-decoration:none}.photo-source:hover{text-decoration:underline}@media(max-width:600px){.photo-grid{grid-template-columns:1fr 1fr}.photo-card:last-child{grid-column:1/-1}.photo-card img{height:128px}}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.photo-card{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}.photo-card>a:first-child{display:block;position:relative}.photo-card img{width:100%;height:115px;display:block;object-fit:cover;background:#e8eef0}.photo-kind{position:absolute;left:7px;top:7px;background:#15202bcc;color:#fff;border-radius:999px;padding:3px 7px;font-size:10px}.photo-card figcaption{padding:7px 8px}.photo-card figcaption b{display:block;font-size:12px}.photo-card figcaption span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.photo-source{color:var(--accent);font-size:9px;text-decoration:none}.photo-source:hover{text-decoration:underline}.stay-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}.stay-card{border:1px solid var(--line);border-radius:9px;padding:12px;background:#fff}.stay-card.recommended{border-color:#0b6e8a;box-shadow:inset 4px 0 #0b6e8a}.stay-card h3{margin:0 0 4px;font-size:15px}.stay-badge{display:inline-block;border-radius:999px;background:#e7f4f6;color:#07576d;padding:2px 7px;font-size:10px;margin-bottom:6px}.stay-meta{display:flex;gap:6px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin:5px 0}.stay-card p{font-size:12px;margin:6px 0}.stay-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.stay-actions a{border-radius:999px;padding:6px 9px;text-decoration:none;font-size:11px;font-weight:700}.stay-actions .price{background:#0b6e8a;color:#fff}.stay-actions .map{border:1px solid var(--line);color:var(--accent)}.price-note{border-left:4px solid #f3a712;background:#fff8e7;padding:10px 12px;font-size:12px;margin:10px 0}.booking-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:10px}.booking-steps div{background:#f4fafb;border-radius:8px;padding:10px;font-size:12px}.booking-steps b{display:block;color:var(--accent);margin-bottom:3px}@media(max-width:600px){.photo-grid{grid-template-columns:1fr 1fr}.photo-card:last-child{grid-column:1/-1}.photo-card img{height:128px}}
 .guide-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.guide-links a,.coupon a{color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px}
 .coupon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.coupon{border:1px solid var(--line);border-radius:8px;padding:12px}.coupon h3{font-size:14px;margin:0 0 5px}.coupon p{font-size:13px;margin:4px 0}.coupon .valid{color:var(--muted)}
 .route-map{padding:0;overflow:hidden}.route-map h2{padding:16px 18px 0}.route-canvas{position:relative;overflow-x:auto;background:linear-gradient(180deg,#e4f4f7 0%,#f7f1de 72%,#dfead2 100%)}
@@ -177,6 +177,19 @@ tr.over td{color:var(--muted)}
   <section class="panel" aria-label="逐日行程">
     <h2>逐日行程</h2>
     <div class="day-grid" id="dayGrid"><div class="empty">正在載入行程…</div></div>
+  </section>
+
+  <section class="panel" aria-label="天橋立與京都住宿">
+    <h2>天橋立與京都住宿比價</h2>
+    <p class="sub">天橋立 10/15、京都 10/16；2位成人、1間房。房價、餐食與取消條件以平台結帳頁為準。</p>
+    <div class="price-note">按「Agoda 即時價格」會帶入飯店名稱與指定日期重新搜尋。請比較含稅總價，不只看首頁顯示的每晚價格。</div>
+    <div class="stay-grid" id="stayGrid"></div>
+    <div class="booking-steps">
+      <div><b>1｜先鎖定可取消房</b>先保留免費取消方案，不必等最低價才訂。</div>
+      <div><b>2｜核對餐食</b>天橋立確認是否含早晚餐；京都以不含餐平價房較彈性。</div>
+      <div><b>3｜看兩人含稅總額</b>核對服務費、溫泉稅、城市稅及付款幣別。</div>
+      <div><b>4｜期限前再比一次</b>免費取消期限前，重新比較 Agoda、Booking 與官網。</div>
+    </div>
   </section>
 
   <section class="panel" aria-label="交通票券建議">
@@ -365,6 +378,15 @@ function renderTrip(){
       ['車站','KIX第一航廈出發層','4樓辦理托運',commons('Kansai Airport Terminal 1 Departure 2025.JPG'),'KIX Terminal 1 Departure','https://commons.wikimedia.org/wiki/File:Kansai_Airport_Terminal_1_Departure_2025.JPG']
     ]
   };
+  const stays=[
+    {city:'天橋立 10/15',name:'文珠莊 Monjusou',tag:'位置與溫泉首選',walk:'天橋立站步行約5分',fit:'適合一泊二食與隔天前往伊根；通常價格較高。',checkin:'2026-10-15',checkout:'2026-10-16',q:'Monjusou Amanohashidate'},
+    {city:'天橋立 10/15',name:'天橋立飯店',tag:'車站最近',walk:'天橋立站步行約1分',fit:'拖行李最省力，隔天退房寄物與回站搭車方便。',checkin:'2026-10-15',checkout:'2026-10-16',q:'Amanohashidate Hotel'},
+    {city:'天橋立 10/15',name:'Auberge Amanohashidate',tag:'平價優先',walk:'天橋立站步行約2分',fit:'房型較簡單，訂房前確認衛浴、寄物與餐食形式。',checkin:'2026-10-15',checkout:'2026-10-16',q:'Auberge Amanohashidate'},
+    {city:'京都 10/16',name:'APA Hotel 京都站前中央口',tag:'平價與交通平衡',walk:'京都站中央口約3–5分',fit:'可寄放行李、周邊餐廳多；雙人房偏小，確認兩件行李空間。',checkin:'2026-10-16',checkout:'2026-10-17',q:'APA Hotel Kyoto Ekimae Chuoguchi'},
+    {city:'京都 10/16',name:'Via Inn Prime 京都站八條口',tag:'便利備選',walk:'京都站八條口約2分',fit:'適合拖行李回站；前往下鴨神社需穿越或繞行京都站。',checkin:'2026-10-16',checkout:'2026-10-17',q:'Via Inn Prime Kyotoeki Hachijoguchi'},
+    {city:'京都 10/16',name:'Hotel Granvia Kyoto',tag:'最省轉乘時間',walk:'京都站共構',fit:'幾乎不用拖行李，但通常不是平價方案；促銷價接近時再考慮。',checkin:'2026-10-16',checkout:'2026-10-17',q:'Hotel Granvia Kyoto'}
+  ];
+  const renderStays=()=>{$('stayGrid').innerHTML=stays.map((s,i)=>{const agoda=`https://www.agoda.com/search?text=${encodeURIComponent(s.q)}&checkIn=${s.checkin}&checkOut=${s.checkout}&rooms=1&adults=2&children=0`,booking=`https://www.booking.com/searchresults.zh-tw.html?ss=${encodeURIComponent(s.q)}&checkin=${s.checkin}&checkout=${s.checkout}&group_adults=2&no_rooms=1&group_children=0`,map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.q)}`;return `<article class="stay-card ${i===1||i===3?'recommended':''}"><span class="stay-badge">${esc(s.city)} · ${esc(s.tag)}</span><h3>${esc(s.name)}</h3><div class="stay-meta"><span>🚶 ${esc(s.walk)}</span><span>🧳 可先詢問寄物</span></div><p>${esc(s.fit)}</p><div class="stay-actions"><a class="price" href="${agoda}" target="_blank" rel="noopener noreferrer">Agoda 即時價格 ↗</a><a class="map" href="${booking}" target="_blank" rel="noopener noreferrer">Booking 比價</a><a class="map" href="${map}" target="_blank" rel="noopener noreferrer">地圖位置</a></div></article>`}).join('')};
   const photoGallery=(date)=>{
     const photos=photoGuides[date]||[];
     if(!photos.length)return '';
@@ -392,6 +414,7 @@ function renderTrip(){
   }
   $('couponGrid').innerHTML=(trip.coupons||[]).map(c=>`<article class="coupon"><h3>${esc(c.store)}</h3><p>${esc(c.offer)}</p><p class="valid">有效期：${esc(c.valid)}</p><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">開啟最新優惠券 ↗</a></article>`).join('');
   $('lockerLinks').innerHTML=(trip.lockerLinks||[]).map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a>`).join('');
+  renderStays();
   if(latest.length)render(latest);
 }
 
