@@ -44,11 +44,25 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python hotel_tracker.py
 
+      - name: 其他行程查價（trips/*/）
+        if: always()
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NOTIFY_EVERY_RUN: ${{ vars.NOTIFY_EVERY_RUN }}
+        run: |
+          shopt -s nullglob
+          for d in trips/*/; do
+            if [ -f "$d/config.json" ]; then python tracker.py --trip "$d" || echo "::warning::機票查價失敗 $d"; fi
+            if [ -f "$d/hotels.json" ]; then python hotel_tracker.py --trip "$d" || echo "::warning::飯店查價失敗 $d"; fi
+          done
+
       - name: 存回結果
         if: always()
         run: |
           git config user.name "flight-tracker-bot"
           git config user.email "flight-tracker-bot@users.noreply.github.com"
-          git add data/
+          git add data/ trips/
           git diff --cached --quiet || git commit -m "價格更新 $(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')"
           git push

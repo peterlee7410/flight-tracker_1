@@ -25,6 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
+CONFIG_PATH = ROOT / "config.json"  # --trip trips/<slug> 會改成該資料夾
 TPE_TZ = dt.timezone(dt.timedelta(hours=8))
 
 # 找不到 config.json 時使用的預設值（與 config.json 內容相同）
@@ -43,7 +44,7 @@ DEFAULT_CONFIG = {
 
 
 def load_config() -> dict:
-    path = ROOT / "config.json"
+    path = CONFIG_PATH
     if not path.exists():
         print("（找不到 config.json，使用程式內建的預設條件）")
         return dict(DEFAULT_CONFIG)
@@ -348,7 +349,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fixture", type=Path, help="離線測試資料夾")
     ap.add_argument("--dry-run", action="store_true", help="只印結果，不寫檔、不推播")
+    ap.add_argument("--trip", type=Path, help="行程資料夾（如 trips/sapporo-2026-12），讀它的 config.json、寫它的 data/")
     args, _ = ap.parse_known_args()  # Spyder 會多塞參數，忽略即可
+    if args.trip:
+        global DATA, CONFIG_PATH
+        base = args.trip if args.trip.is_absolute() else ROOT / args.trip
+        DATA, CONFIG_PATH = base / "data", base / "config.json"
 
     cfg = load_config()
     now = dt.datetime.now(TPE_TZ)

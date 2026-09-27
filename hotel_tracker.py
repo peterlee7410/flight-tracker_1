@@ -198,9 +198,15 @@ def notify(text):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--trip", type=Path, help="行程資料夾（如 trips/sapporo-2026-12），讀它的 hotels.json、寫它的 data/")
     args, _ = ap.parse_known_args()
+    global DATA
+    base = ROOT
+    if args.trip:
+        base = args.trip if args.trip.is_absolute() else ROOT / args.trip
+        DATA = base / "data"
 
-    cfg = json.loads((ROOT / "hotels.json").read_text(encoding="utf-8"))
+    cfg = json.loads((base / "hotels.json").read_text(encoding="utf-8"))
     now = dt.datetime.now(TPE_TZ)
     last_night = max(h["checkin"] for h in cfg["hotels"])
     if now.date().isoformat() >= last_night:

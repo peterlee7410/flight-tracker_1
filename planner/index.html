@@ -195,6 +195,7 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 const fmt = n => Math.round(n).toLocaleString("en-US");
 const enc = encodeURIComponent;
 let trip = EXAMPLE, fx = EXAMPLE.localToTwd, foodLevel = "normal", optionalOn = new Set();
+let live = {flight:null, hotels:null};
 let sample = null, db = null, downloads = null, ctl = null, currentDocId = null, lastReq = null;
 const LS_KEY='tripGenerator.trips';
 const lsGet=()=>{try{return JSON.parse(localStorage.getItem(LS_KEY)||'[]')}catch{return []}};
@@ -278,7 +279,7 @@ function render(){
   const budgetLine = m.budgetTwd ? (cm.total<=m.budgetTwd ? `在預算 NT$${fmt(m.budgetTwd)} 內，剩約 NT$${fmt(m.budgetTwd-cm.total)}` : `超出預算 NT$${fmt(cm.total-m.budgetTwd)}`) : "";
 
   $("out").innerHTML = `
-  ${isEx ? `<div class="banner"><span><b>範例</b>　這是 2026/10 關西之旅用同一套方法做出的內容（班次與房價為實查）。填左邊條件按「產生整套行程」就會換成你的目的地。</span></div>`
+  ${m.source==="verified" ? `<div class="banner"><span><b>已實查</b>　查證日 ${esc(m.verifiedAt||"")}${live.flight?`；機票最新查價 ${esc(live.flight.checkedAt.replace("T"," "))}`:""}${live.hotels?`；飯店最新查價 ${esc(live.hotels.checkedAt.replace("T"," "))}`:""}。出發前仍請用官方連結再確認一次。</span></div>` : isEx ? `<div class="banner"><span><b>範例</b>　這是 2026/10 關西之旅用同一套方法做出的內容（班次與房價為實查）。填左邊條件按「產生整套行程」就會換成你的目的地。</span></div>`
          : `<div class="banner"><span><b>AI 估算</b>　價格、班次與營業資訊來自 Claude 的既有知識，沒有即時查網路；訂之前用每項旁邊的連結確認。</span></div>`}
   <div class="hero">
     <div class="route">${esc(m.origin||"")} → ${esc(t.flights?.arriveAirport||"")}　${esc(m.start)} – ${esc(m.end)}　${p} 人</div>
@@ -312,6 +313,7 @@ function render(){
   <section class="block" id="s-flight"><h3>機票 <small>${esc(t.flights?.arriveAirport||"")} 進 ${esc(t.flights?.departAirport||"")} 出</small></h3>
     <div class="card">
       <div class="kv"><span>估計（全員含行李）</span><span class="num">NT$${fmt(t.flights?.estTwdTotal||0)}</span></div>
+      ${live.flight?`<div class="kv" style="color:var(--accent)"><span>最新查價（${esc(live.flight.checkedAt.replace("T"," "))}）</span><span class="num">NT$${fmt(live.flight.options?.[0]?.totalEst||0)}</span></div><p style="margin:0;font-size:13px">${esc(live.flight.summary)}</p>`:""}
       <p style="margin:0">${esc(t.flights?.advice)}</p>
       ${(t.flights?.tips||[]).length?`<ul class="clean">${t.flights.tips.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
       <div class="links">${flightLinks(t).map(([l,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(l)} ↗</a>`).join("")}</div>
@@ -326,7 +328,8 @@ function render(){
       <div style="font-size:13px">${esc(s.why)}</div>
       ${(s.candidates||[]).map(c=>`<div class="cand"><div class="top"><strong>${esc(c.name)}</strong><span class="price">${typeof c.estLocalPerNight==="number"?`${esc(cur)} ${fmt(c.estLocalPerNight)}／晚 ≈ NT$${fmt(c.estLocalPerNight*fx)}`:""}</span></div>
         ${c.note?`<div style="font-size:12px;color:var(--muted)">${esc(c.note)}</div>`:""}
-        <div class="links">${hotelLinks(c.name,s,p).map(([l,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(l)} ↗</a>`).join("")}</div></div>`).join("")}
+        ${liveHotel(c)}
+        <div class="links">${[...(c.agodaUrl?[["Agoda",c.agodaUrl]]:[]),...(c.jalanUrl?[["じゃらん",c.jalanUrl]]:[]),...(c.url?[["官網",c.url]]:[]),...hotelLinks(c.name,s,p)].map(([l,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(l)} ↗</a>`).join("")}</div></div>`).join("")}
     </div>`).join("")}</div>
   </section>
 
@@ -354,6 +357,15 @@ function render(){
   $("dlBtn").onclick = downloadTrip;
 }
 
+function liveHotel(c){
+  const r=c.trackId && live.hotels?.hotels?.[c.trackId]; if(!r) return "";
+  const j=r.jalan||{}, b=r.booking||{};
+  const parts=[];
+  if (j.available && j.min) parts.push(`じゃらん ¥${fmt(j.min)}${j.roomsLeft?`（剩 ${j.roomsLeft} 間）`:""}`);
+  else if (j.calendar!==undefined && !j.error) parts.push("じゃらん 客滿");
+  if (b.found && !b.soldOut && b.price) parts.push(`Booking NT$${fmt(b.price)}`);
+  return parts.length?`<div style="font-size:12px;color:var(--accent);font-weight:500">即時：${esc(parts.join("　"))}</div>`:"";
+}
 /* ---------- actions ---------- */
 function toast(msg){ const el=$("toast"); el.textContent=msg; el.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(()=>el.hidden=true,2600); }
 async function copyVerify(){
@@ -501,9 +513,31 @@ $("applyAnswer").onclick = () => {
 };
 
 /* ---------- boot ---------- */
+async function loadRepoTrip(){
+  let slug=null; try{ slug=new URLSearchParams(location.search).get("trip"); }catch{}
+  if (location.protocol!=="https:" && location.protocol!=="http:") return;
+  try {
+    const idx=await fetch("../trips/index.json",{cache:"no-store"}).then(r=>r.ok?r.json():[]);
+    if (Array.isArray(idx) && idx.length){
+      const box=document.createElement("div"); box.className="saved";
+      box.innerHTML=`<div class="ticket-head"><span>VERIFIED TRIPS</span><span>${idx.length}</span></div>`+idx.map(x=>`<div class="it"><span>${esc(x.start||"")}　${esc(x.title||x.slug)}</span><a class="btn small" style="text-decoration:none" href="?trip=${enc(x.slug)}">開啟</a></div>`).join("");
+      document.querySelector("aside.panel").append(box);
+    }
+  } catch {}
+  if (!slug || !/^[a-z0-9-]+$/i.test(slug)) return;
+  try {
+    const base=`../trips/${slug}/`;
+    const t=await fetch(base+"trip.json",{cache:"no-store"}).then(r=>{if(!r.ok) throw 0; return r.json();});
+    const [fh,hh]=await Promise.all([fetch(base+"data/history.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null), fetch(base+"data/hotels.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null)]);
+    live={flight:Array.isArray(fh)&&fh.length?fh[fh.length-1]:null, hotels:Array.isArray(hh)&&hh.length?hh[hh.length-1]:null};
+    const om={...(t.meta||{})}; trip=normalize(t,om); trip.meta={...om, source:om.source||"verified"}; fx=trip.localToTwd; fillForm(trip.meta); render();
+    document.title=`${trip.title}｜旅程產生器`;
+  } catch { $("status").className="status err"; $("status").textContent=`找不到行程「${slug}」。`; }
+}
 fillForm({destination:"", origin:"TPE", start:"", end:"", travelers:2, budgetTwd:60000});
 $("dest").placeholder = "例：北海道 札幌・小樽・富良野";
 render();
+loadRepoTrip();
 (async () => {
   const manualMode = () => { $("go").textContent="產生提示詞"; $("modeNote").textContent="這個網址不能直接呼叫 Claude：按下後會產生提示詞，貼到你的 Claude（不需 API 金鑰），再把回覆貼回來。已存的行程只存在這台裝置的瀏覽器，也可下載 trip.json。"; renderSaved(localDocs()); };
   if (!window.claude?.use){ manualMode(); return; }
