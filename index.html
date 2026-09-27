@@ -70,10 +70,14 @@ tr.over td{color:var(--muted)}
 .budget-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:12px 0}
 .field{display:grid;gap:5px;font-size:13px;color:var(--muted)}
 .field input,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);font:inherit}
-.day-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px}
+.day-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:12px}
 .day{border:1px solid var(--line);border-radius:8px;padding:12px}
 .day h3{font-size:15px;margin:0 0 6px}.day ul{margin:4px 0 8px;padding-left:20px;font-size:13px}
 .day .sub{margin:0}.fit{font-weight:600;color:var(--good)}.not-fit{color:var(--warn)}
+.day details{border-top:1px solid var(--line);padding-top:7px;margin-top:7px}.day summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--accent)}
+.day details p{font-size:13px;margin:6px 0}.day details ul{margin-bottom:2px}
+.guide-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.guide-links a,.coupon a{color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px}
+.coupon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.coupon{border:1px solid var(--line);border-radius:8px;padding:12px}.coupon h3{font-size:14px;margin:0 0 5px}.coupon p{font-size:13px;margin:4px 0}.coupon .valid{color:var(--muted)}
 .action{background:none;border:1px solid var(--accent);border-radius:6px;color:var(--accent);padding:4px 8px;cursor:pointer;font:inherit;font-size:12px}
 .action:focus-visible{outline:2px solid var(--accent)}
 </style>
@@ -139,6 +143,18 @@ tr.over td{color:var(--muted)}
   <section class="panel" aria-label="逐日行程">
     <h2>逐日行程</h2>
     <div class="day-grid" id="dayGrid"><div class="empty">正在載入行程…</div></div>
+  </section>
+
+  <section class="panel" aria-label="交通票券建議">
+    <h2 id="ticketPlanTitle">交通票券建議</h2>
+    <div class="notes" id="ticketPlan"><div class="empty">正在載入票券資料…</div></div>
+  </section>
+
+  <section class="panel" aria-label="商店優惠券">
+    <h2>藥妝與量販店優惠券</h2>
+    <p class="sub">優惠券須在結帳前出示；免稅資格、最低消費、排除品牌與有效期以手機當下顯示的券面為準。</p>
+    <div class="coupon-grid" id="couponGrid"><div class="empty">正在載入優惠券…</div></div>
+    <div class="guide-links" id="lockerLinks"></div>
   </section>
 
   <section class="panel">
@@ -223,7 +239,14 @@ function renderTrip(){
   $('landBudget').value=localStorage.getItem('flightTripBudget')??String(trip.landBudgetJpy.min);
   $('jpyRate').value=localStorage.getItem('flightTripRate')??String(trip.defaultJpyToTwd);
   $('landNote').textContent=`當地兩人估算 ¥${trip.landBudgetJpy.min.toLocaleString()}–¥${trip.landBudgetJpy.max.toLocaleString()}。${trip.landBudgetNote}`;
-  $('dayGrid').innerHTML=trip.days.map(d=>`<article class="day"><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">住宿：${esc(d.stay)}</p></article>`).join('');
+  const detail=(title,items)=>`<details><summary>${title}</summary><ul>${(items||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></details>`;
+  $('dayGrid').innerHTML=trip.days.map(d=>`<article class="day"><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">住宿：${esc(d.stay)}</p>${detail('🚆 交通方式',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${detail('🍽️ 建議餐廳',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`).join('');
+  if(trip.ticketPlan){
+    $('ticketPlanTitle').textContent=trip.ticketPlan.title;
+    $('ticketPlan').innerHTML=`<ul>${trip.ticketPlan.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p><b>購買方式：</b>${esc(trip.ticketPlan.buy)}</p><div class="guide-links">${trip.ticketPlan.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a>`).join('')}</div>`;
+  }
+  $('couponGrid').innerHTML=(trip.coupons||[]).map(c=>`<article class="coupon"><h3>${esc(c.store)}</h3><p>${esc(c.offer)}</p><p class="valid">有效期：${esc(c.valid)}</p><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">開啟最新優惠券 ↗</a></article>`).join('');
+  $('lockerLinks').innerHTML=(trip.lockerLinks||[]).map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a>`).join('');
   if(latest.length)render(latest);
 }
 
