@@ -76,6 +76,7 @@ tr.over td{color:var(--muted)}
 .day .sub{margin:0}.fit{font-weight:600;color:var(--good)}.not-fit{color:var(--warn)}
 .day details{border-top:1px solid var(--line);padding-top:7px;margin-top:7px}.day summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--accent)}
 .day details p{font-size:13px;margin:6px 0}.day details ul{margin-bottom:2px}
+.route-strip{display:flex;align-items:stretch;gap:22px;overflow-x:auto;padding:10px 4px 14px;margin:8px 0 4px;scroll-snap-type:x proximity}.route-step{flex:0 0 180px;background:#f4fafb;border:1px solid #bcd9df;border-radius:8px;padding:10px 10px 10px 38px;position:relative;scroll-snap-align:start;font-size:12px;line-height:1.45;color:#263b45}.route-step::before{content:attr(data-n);position:absolute;left:9px;top:10px;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font:700 11px var(--mono)}.route-step::after{content:'›';position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:28px;color:#0b6e8a}.route-step:last-child::after{display:none}.route-help{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin-top:6px}.route-help::before{content:'←';color:var(--accent);font-weight:800}.day-route-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-weight:700;font-size:13px}.day-route-title span:last-child{font-weight:400;color:var(--muted);font-size:11px}
 .guide-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.guide-links a,.coupon a{color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px}
 .coupon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.coupon{border:1px solid var(--line);border-radius:8px;padding:12px}.coupon h3{font-size:14px;margin:0 0 5px}.coupon p{font-size:13px;margin:4px 0}.coupon .valid{color:var(--muted)}
 .route-map{padding:0;overflow:hidden}.route-map h2{padding:16px 18px 0}.route-canvas{position:relative;overflow-x:auto;background:linear-gradient(180deg,#e4f4f7 0%,#f7f1de 72%,#dfead2 100%)}
@@ -271,7 +272,7 @@ function renderTrip(){
   $('landNote').textContent=`當地兩人估算 ¥${trip.landBudgetJpy.min.toLocaleString()}–¥${trip.landBudgetJpy.max.toLocaleString()}。${trip.landBudgetNote}`;
   const detail=(title,items)=>`<details><summary>${title}</summary><ul>${(items||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></details>`;
   const dayMaps={
-    '2026-10-14':'https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Shinsaibashi&waypoints=Tennoji%7CShinsekai%7CDotonbori&travelmode=transit',
+    '2026-10-14':'https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Shinsaibashi&waypoints=Tennoji%7CShinsekai%7CNamba+Yasaka+Shrine%7CDotonbori&travelmode=transit',
     '2026-10-15':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Amanohashidate+Station&waypoints=Kyoto+Station&travelmode=transit',
     '2026-10-16':'https://www.google.com/maps/dir/?api=1&origin=Amanohashidate+Station&destination=Kyoto+Station&waypoints=Ine+Bay+Sightseeing+Boat&travelmode=transit',
     '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Juso+Station&waypoints=Shimogamo+Shrine%7CTennoji+Station&travelmode=transit',
@@ -282,7 +283,8 @@ function renderTrip(){
     const sc=(trip.scenes||[]).find(s=>s.date===d.date)||{theme:'osaka',icon:'📍',title:d.place,blurb:''};
     const mapUrl=d.mapUrl||dayMaps[d.date];
     const map=mapUrl?`<div class="guide-links"><a class="map-link" href="${esc(mapUrl)}" target="_blank" rel="noopener noreferrer">📍 開啟今日 Google Maps ↗</a></div>`:'';
-    return `<article class="day"><div class="scene scene-${esc(sc.theme)}"><div class="scene-copy"><div class="scene-icon">${esc(sc.icon)}</div><div class="scene-title">${esc(sc.title)}</div><div class="scene-blurb">${esc(sc.blurb)}</div></div></div><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">🏨 ${esc(d.stay)}</p>${map}${detail('🚆 交通方式',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${detail('🍽️ 建議餐廳',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`;
+    const route=(d.route||[]).length?`<div class="day-route-title"><span>🚉 照順序走</span><span>左右滑動查看</span></div><div class="route-strip" aria-label="${esc(d.date)} 詳細路線">${d.route.map((s,i)=>`<div class="route-step" data-n="${i+1}">${esc(s)}</div>`).join('')}</div><div class="route-help">每一格都是下一個要找的站名、出口或地標</div>`:'';
+    return `<article class="day"><div class="scene scene-${esc(sc.theme)}"><div class="scene-copy"><div class="scene-icon">${esc(sc.icon)}</div><div class="scene-title">${esc(sc.title)}</div><div class="scene-blurb">${esc(sc.blurb)}</div></div></div><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">🏨 ${esc(d.stay)}</p>${route}${map}${detail('🚆 備用文字版交通',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${detail('🍜 平價美食',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`;
   }).join('');
   if(trip.ticketPlan){
     $('ticketPlanTitle').textContent=trip.ticketPlan.title;
