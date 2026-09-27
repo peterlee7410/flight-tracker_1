@@ -88,6 +88,7 @@ tr.over td{color:var(--muted)}
 .stay-meals{list-style:none;margin:6px 0;padding:0;border:1px solid var(--line);border-radius:7px}.stay-meals li{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:baseline;padding:5px 8px;font-size:12px;border-top:1px solid var(--line)}.stay-meals li:first-child{border-top:0}.stay-meals small{color:var(--muted);font-size:11px}
 .stay-facts{margin:8px 0;display:grid;gap:4px}.stay-facts div{display:grid;grid-template-columns:62px 1fr;gap:6px;font-size:12px}.stay-facts dt{color:var(--muted)}.stay-facts dd{margin:0}.stay-pc{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px}.stay-pc ul{margin:0;padding-left:16px}.pros li::marker{content:'＋ ';color:var(--good)}.cons li::marker{content:'－ ';color:var(--bad)}.stay-gallery.one{grid-template-columns:1fr}.stay-actions .price.agoda{background:#5a2d91}.stay-actions .price.agoda:hover{background:#46207a}.agoda-row a{color:#5a2d91;font-weight:700;text-decoration:none}.img-fail{background:linear-gradient(135deg,var(--accent-soft),var(--line))}.img-fail img{visibility:hidden}
 @media(max-width:600px){.bar-row{grid-template-columns:92px 1fr 70px}.stay-pc{grid-template-columns:1fr}}
+.cost-bar{display:flex;height:18px;border-radius:6px;overflow:hidden;margin:12px 0 6px;background:var(--line)}.cost-bar span{display:block;min-width:2px}.cost-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;margin-bottom:6px}.cost-legend i,.cat-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}.cost-legend small{color:var(--muted)}.cost-detail summary{cursor:pointer;font-weight:700;font-size:13px;color:var(--accent);margin:6px 0}.cost-table{min-width:640px}.cost-table td{font-size:13px}.cost-table td:first-child{white-space:nowrap}.cost-total td{border-top:2px solid var(--ink)}
 .guide-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.guide-links a,.coupon a{color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px}
 .coupon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.coupon{border:1px solid var(--line);border-radius:8px;padding:12px}.coupon h3{font-size:14px;margin:0 0 5px}.coupon p{font-size:13px;margin:4px 0}.coupon .valid{color:var(--muted)}
 .route-map{padding:0;overflow:hidden}.route-map h2{padding:16px 18px 0}.route-canvas{position:relative;overflow-x:auto;background:linear-gradient(180deg,#e4f4f7 0%,#f7f1de 72%,#dfead2 100%)}
@@ -167,20 +168,27 @@ tr.over td{color:var(--muted)}
     </div>
   </section>
 
-  <section class="panel" aria-label="行程與機票試算">
-    <h2>機票搭配行程 <span class="status" id="fitCount"></span></h2>
-    <p class="sub">依目前行程，去程於 14:00 前抵達、回程於 10:00–15:00 起飛為較合適的班次。選擇下方航班即可試算兩人總費用；價格以最後查詢時間為準。</p>
+  <section class="panel" aria-label="全程費用試算">
+    <h2>全程費用試算（兩人） <span class="status" id="fitCount"></span></h2>
+    <p class="sub">機票與天橋立、京都住宿都用最新自動查價，選項預設為「可訂到的最便宜」。其他交通、門票、餐飲依目前行程逐項估算，可切換方案即時重算。</p>
     <div class="summary">
+      <div class="stat"><span class="label">全程總費用（兩人）</span><span class="big num" id="tripTotal">—</span><span class="sub" id="tripBreakdown">—</span></div>
+      <div class="stat"><span class="label">每人約</span><span class="big num" id="perPerson">—</span><span class="sub" id="perPersonNote">—</span></div>
       <div class="stat"><span class="label">符合行程的最低機票</span><span class="big num" id="fitBest">—</span><span class="sub" id="fitBestWho">—</span></div>
-      <div class="stat"><span class="label">選定航班＋日本當地預算</span><span class="big num" id="tripTotal">—</span><span class="sub" id="tripBreakdown">—</span></div>
     </div>
+    <div class="cost-bar" id="costBar" role="img" aria-label="各類費用比例"></div>
+    <div class="cost-legend" id="costLegend"></div>
     <div class="budget-grid">
-      <label class="field">選擇航班<select id="flightChoice" aria-label="選擇航班"></select></label>
-      <label class="field">日本當地兩人預算（¥）<input id="landBudget" type="number" min="0" step="1000" inputmode="numeric"></label>
+      <label class="field">機票<select id="flightChoice" aria-label="選擇航班"></select></label>
+      <label class="field">10/15 天橋立住宿<select id="stay15"></select></label>
+      <label class="field">10/16 京都住宿<select id="stay16"></select></label>
+      <label class="field">餐飲預算<select id="foodLevel"></select></label>
+      <label class="field">RTI 天王寺 3 晚已付（¥，選填）<input id="rtiJpy" type="number" min="0" step="1000" inputmode="numeric" placeholder="例：36000"></label>
       <label class="field">換算匯率（1日圓＝新台幣）<input id="jpyRate" type="number" min="0.01" max="1" step="0.001" inputmode="decimal"></label>
     </div>
+    <details class="cost-detail" open><summary>逐項明細</summary><div class="tbl"><table class="cost-table"><thead><tr><th>類別</th><th>項目</th><th class="r">日圓</th><th class="r">台幣</th><th>說明</th></tr></thead><tbody id="costRows"></tbody></table></div></details>
     <p class="sub" id="landNote"></p>
-    <p class="sub">行李為估算；票價可能在付款前變動。當地預算與匯率可自行修改，輸入值只儲存在這台裝置。</p>
+    <p class="sub">機票行李費為估算；飯店價為じゃらん含稅總價；選擇與輸入只儲存在這台裝置。</p>
   </section>
 
   <section class="panel" aria-label="逐日行程">
@@ -257,7 +265,8 @@ tr.over td{color:var(--muted)}
 const TARGET = 30000;
 const fmt = n => (n==null||isNaN(n)) ? '—' : 'NT$' + Math.round(n).toLocaleString('en-US');
 const $ = id => document.getElementById(id);
-let trip = null, currentOptions = [], userSelected = false;
+let trip = null, currentOptions = [], userSelected = false, hotelState = null;
+const COST_COLORS={'機票':'#0b6e8a','住宿':'#7951a8','交通':'#2f8f5b','門票與活動':'#d46b18','餐飲':'#c2410c','其他':'#6b7a86'};
 const tripLink = 'https://www.google.com/travel/flights/search?q=Flights%20to%20KIX%20from%20TPE%20on%202026-10-14%20through%202026-10-19%202%20adults&curr=TWD&hl=zh-TW&gl=TW';
 const flightTimes = o => ({
   arrive: o.outArr || /→(\d\d:\d\d)/.exec(o.out||'')?.[1],
@@ -268,16 +277,52 @@ function fitsTrip(o){
   return !!(trip && t.arrive && t.depart && t.arrive<=trip.preferredArrivalBy &&
     t.depart>='10:00' && t.depart<=trip.preferredReturnBy);
 }
+function hotelOptions(city){
+  if(!hotelState)return [];
+  const {cfg,hist}=hotelState, last=hist[hist.length-1]; if(!last)return [];
+  const MEAL={none:'不含餐',breakfast:'附早餐',dinner:'附晚餐',both:'一泊二食'};
+  const out=[];
+  cfg.hotels.filter(h=>h.city===city).forEach(h=>{const j=(last.hotels[h.id]||{}).jalan||{};
+    if(j.available&&j.best) Object.entries(j.best).forEach(([k,v])=>out.push({value:`${h.id}|${k}`,hotel:h,meal:k,jpy:v.total,label:`${h.nameZh.replace(/（.*?）/,'')}・${MEAL[k]||k}｜¥${v.total.toLocaleString()}`}));
+    else out.push({value:`${h.id}|x`,hotel:h,meal:null,jpy:null,label:`${h.nameZh.replace(/（.*?）/,'')}｜目前客滿`,disabled:true});});
+  return out.sort((a,b)=>(a.jpy??1e9)-(b.jpy??1e9));
+}
+function fillStayChoices(){
+  [['stay15','amanohashidate'],['stay16','kyoto']].forEach(([id,city])=>{
+    const opts=hotelOptions(city), el=$(id), saved=localStorage.getItem('cost_'+id);
+    el.innerHTML=opts.map(o=>`<option value="${o.value}" ${o.disabled?'disabled':''}>${esc(o.label)}</option>`).join('')||'<option value="">尚無查價資料</option>';
+    const ok=opts.find(o=>o.value===saved&&!o.disabled), first=opts.find(o=>!o.disabled);
+    el.value=(ok||first||{value:''}).value;
+  });
+  quote();
+}
 function quote(){
-  const idx=Number($('flightChoice').value), o=currentOptions[idx];
-  const land=Number($('landBudget').value), rate=Number($('jpyRate').value);
-  if(!o || !Number.isFinite(land) || land<0 || !Number.isFinite(rate) || rate<=0){
-    $('tripTotal').textContent='—';$('tripBreakdown').textContent='請填入有效的預算與匯率';return;
-  }
-  $('tripTotal').textContent=fmt(o.totalEst+land*rate);
-  $('tripBreakdown').textContent=`機票 ${fmt(o.totalEst)} ＋ 當地 ¥${land.toLocaleString('en-US')} × ${rate}（約 ${fmt(land*rate)}）`;
-  localStorage.setItem('flightTripBudget',String(land));
-  localStorage.setItem('flightTripRate',String(rate));
+  const o=currentOptions[Number($('flightChoice').value)], rate=Number($('jpyRate').value);
+  if(!trip||!Number.isFinite(rate)||rate<=0){$('tripTotal').textContent='—';$('tripBreakdown').textContent='請填入有效的匯率';return;}
+  const rows=[];
+  if(o) rows.push({cat:'機票',label:`${o.airline}（含行李估算）`,twd:o.totalEst,note:`${o.out} 去／${o.ret} 回`});
+  let mealAdj=0;
+  [['stay15','10/15 天橋立'],['stay16','10/16 京都']].forEach(([id,day])=>{const opt=hotelOptions(id==='stay15'?'amanohashidate':'kyoto').find(x=>x.value===$(id).value);
+    if(opt&&opt.jpy){rows.push({cat:'住宿',label:`${day}｜${opt.hotel.nameZh.replace(/（.*?）/,'')}`,jpy:opt.jpy,note:opt.label.split('｜')[0].split('・').pop()+'・じゃらん含稅'});
+      if(opt.meal==='dinner'||opt.meal==='both')mealAdj+=2500*trip.travelers; if(opt.meal==='breakfast'||opt.meal==='both')mealAdj+=800*trip.travelers;}
+    else rows.push({cat:'住宿',label:`${day}｜尚未選定`,jpy:0,note:'目前無可訂資料'});});
+  const rti=Number($('rtiJpy').value)||0;
+  rows.push({cat:'住宿',label:'RTI 天王寺 3 晚（10/14、10/17、10/18）',jpy:rti,note:rti?'已付金額':'已訂，未填金額不計入'});
+  (trip.costItems||[]).forEach(c=>rows.push({cat:c.cat,label:c.label,jpy:c.jpy,note:c.note}));
+  const lv=(trip.foodLevels||[]).find(f=>f.key===$('foodLevel').value)||trip.foodLevels[0];
+  const food=(lv.perDay*5+Math.round(lv.perDay*0.4))*trip.travelers-mealAdj;
+  rows.push({cat:'餐飲',label:`餐飲｜${lv.label.split('（')[0]}`,jpy:food,note:`每人每天約 ¥${lv.perDay.toLocaleString()}×5 天＋10/19 機場一餐${mealAdj?`；已扣住宿含餐 ¥${mealAdj.toLocaleString()}`:''}`});
+  rows.forEach(r=>{if(r.twd==null)r.twd=Math.round(r.jpy*rate)});
+  const total=rows.reduce((s,r)=>s+r.twd,0), jpyTotal=rows.reduce((s,r)=>s+(r.jpy||0),0);
+  const byCat={};rows.forEach(r=>byCat[r.cat]=(byCat[r.cat]||0)+r.twd);
+  $('tripTotal').textContent=fmt(total);
+  $('tripBreakdown').textContent=`機票 ${fmt(byCat['機票']||0)} ＋ 日本當地 ¥${jpyTotal.toLocaleString()}（約 ${fmt(total-(byCat['機票']||0))}）`;
+  $('perPerson').textContent=fmt(Math.round(total/trip.travelers));
+  $('perPersonNote').textContent=rti?'含 RTI 住宿，不含購物':'不含 RTI 天王寺 3 晚與購物';
+  $('costBar').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span style="flex:${v};background:${COST_COLORS[k]}" title="${esc(k)} ${fmt(v)}"></span>`).join('');
+  $('costLegend').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span><i style="background:${COST_COLORS[k]}"></i>${esc(k)} <b class="num">${fmt(v)}</b> <small>${Math.round(v/total*100)}%</small></span>`).join('');
+  $('costRows').innerHTML=rows.map(r=>`<tr><td><span class="cat-dot" style="background:${COST_COLORS[r.cat]}"></span>${esc(r.cat)}</td><td>${esc(r.label)}</td><td class="r num">${r.jpy!=null?'¥'+r.jpy.toLocaleString():'—'}</td><td class="r num">${fmt(r.twd)}</td><td class="sub">${esc(r.note||'')}</td></tr>`).join('')+`<tr class="cost-total"><td colspan="3"><b>合計（兩人）</b></td><td class="r num"><b>${fmt(total)}</b></td><td class="sub">每人約 ${fmt(Math.round(total/trip.travelers))}</td></tr>`;
+  try{localStorage.setItem('flightTripRate',String(rate));['stay15','stay16','foodLevel','rtiJpy'].forEach(id=>localStorage.setItem('cost_'+id,$(id).value));}catch(e){}
 }
 function renderTripOptions(options){
   const selected=currentOptions[Number($('flightChoice').value)];
@@ -293,9 +338,10 @@ function renderTripOptions(options){
 }
 function renderTrip(){
   if(!trip)return;
-  $('landBudget').value=localStorage.getItem('flightTripBudget')??String(trip.landBudgetJpy.min);
+  $('foodLevel').innerHTML=(trip.foodLevels||[]).map(f=>`<option value="${f.key}">${esc(f.label)}｜¥${f.perDay.toLocaleString()}/人/日</option>`).join('');
+  try{$('foodLevel').value=localStorage.getItem('cost_foodLevel')||'save';$('rtiJpy').value=localStorage.getItem('cost_rtiJpy')||'';}catch(e){}
   $('jpyRate').value=localStorage.getItem('flightTripRate')??String(trip.defaultJpyToTwd);
-  $('landNote').textContent=`當地兩人估算 ¥${trip.landBudgetJpy.min.toLocaleString()}–¥${trip.landBudgetJpy.max.toLocaleString()}。${trip.landBudgetNote}`;
+  $('landNote').textContent=trip.landBudgetNote;
   const detail=(title,items)=>`<details><summary>${title}</summary><ul>${(items||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></details>`;
   const dayMaps={
     '2026-10-14':'https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Shinsaibashi&waypoints=Tennoji%7CShinsekai%7CNamba+Yasaka+Shrine%7CDotonbori&travelmode=transit',
@@ -424,7 +470,7 @@ function renderTrip(){
       return `<div class="stay-group"><div class="stay-group-head"><h3>${title}</h3><span class="sub">${sub}・預算 NT$${budget.toLocaleString()}</span></div><div class="bar-chart" role="img" aria-label="${esc(title)} 各飯店目前最低價與預算比較">${bars}<div class="bar-legend"><span><i class="lg ok"></i>預算內</span><span><i class="lg over"></i>超過預算</span><span><i class="lg budget"></i>預算線</span></div></div><div class="flow-title">🧭 ${key==='amanohashidate'?'住與謝荘的接駁與行李動線':'京都站到飯店的步行動線'}</div><div class="flow">${flow}</div><div class="stay-grid">${cards}</div></div>`;
     }).join('');
   };
-  Promise.all([fetch('hotels.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()),fetch('data/hotels.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():[]).catch(()=>[])]).then(([c,h])=>{hotelCfg=c;hotelHist=h;renderStays()}).catch(()=>{$('stayUpdated').textContent='住宿資料讀取失敗，請重新整理頁面。'});
+  Promise.all([fetch('hotels.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()),fetch('data/hotels.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():[]).catch(()=>[])]).then(([c,h])=>{hotelCfg=c;hotelHist=h;hotelState={cfg:c,hist:h};renderStays();fillStayChoices()}).catch(()=>{$('stayUpdated').textContent='住宿資料讀取失敗，請重新整理頁面。'});
   const photoGallery=(date)=>{
     const photos=photoGuides[date]||[];
     if(!photos.length)return '';
@@ -538,7 +584,7 @@ function drawChart(pts){
 
 let latest = [];
 $('flightChoice').addEventListener('change',()=>{userSelected=true;quote()});
-$('landBudget').addEventListener('input',quote);
+['stay15','stay16','foodLevel'].forEach(id=>$(id).addEventListener('change',quote));$('rtiJpy').addEventListener('input',quote);
 $('jpyRate').addEventListener('input',quote);
 window.addEventListener('resize',()=>{ if(latest.length) render(latest); });
 
