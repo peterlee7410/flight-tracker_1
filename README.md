@@ -80,3 +80,8 @@ python tracker.py --fixture tests/fixtures --dry-run
 - 在 Claude 的 Artifact 版本裡：直接按「產生整套行程」即可。
 - 已存行程存在該裝置瀏覽器（localStorage）；可「下載 trip.json」帶到別台裝置或交給 Claude 做深度查證。
 - 價格與班次為 AI 估算，訂之前用頁面上的連結確認。
+
+## 交接文件
+
+- `docs/SESSION-HANDOFF.md`：整個規劃 session 的完整交接（需求、行程現況、系統、資料來源、待辦）
+- `HANDOFF-claude-code.md`：在 Claude Code 用 `/plan-trip` agent 產生新行程
