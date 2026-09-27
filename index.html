@@ -78,6 +78,7 @@ tr.over td{color:var(--muted)}
 .day details p{font-size:13px;margin:6px 0}.day details ul{margin-bottom:2px}
 .route-strip{display:flex;align-items:stretch;gap:22px;overflow-x:auto;padding:10px 4px 14px;margin:8px 0 4px;scroll-snap-type:x proximity}.route-step{flex:0 0 180px;background:#f4fafb;border:1px solid #bcd9df;border-radius:8px;padding:10px 10px 10px 38px;position:relative;scroll-snap-align:start;font-size:12px;line-height:1.45;color:#263b45}.route-step::before{content:attr(data-n);position:absolute;left:9px;top:10px;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font:700 11px var(--mono)}.route-step::after{content:'›';position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:28px;color:#0b6e8a}.route-step:last-child::after{display:none}.route-help{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin-top:6px}.route-help::before{content:'←';color:var(--accent);font-weight:800}.day-route-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-weight:700;font-size:13px}.day-route-title span:last-child{font-weight:400;color:var(--muted);font-size:11px}
 .day-map{margin:10px 0 6px;border:1px solid #bcd9df;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#eef8f9,#f8f5e9);position:relative}.day-map::before{content:'';position:absolute;inset:0;background-image:linear-gradient(#0b6e8a0d 1px,transparent 1px),linear-gradient(90deg,#0b6e8a0d 1px,transparent 1px);background-size:24px 24px}.day-map svg{display:block;width:100%;height:auto;min-height:210px;position:relative}.map-path{fill:none;stroke:#0b6e8a;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:8 6;animation:routeFlow 14s linear infinite}.map-halo{fill:#fff;stroke:#0b6e8a;stroke-width:3}.map-stop-no{fill:#0b6e8a;font:700 10px var(--mono)}.map-stop-label{fill:#15202b;font:700 12px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}.map-stop-sub{fill:#5d6b78;font:10px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:3px}.map-compass{fill:#0b6e8a;font:700 10px var(--mono)}.map-legend{display:flex;gap:12px;flex-wrap:wrap;padding:0 12px 10px;color:var(--muted);font-size:11px}.map-legend b{color:var(--accent)}
+.poi-line{fill:none;stroke-width:2;stroke-dasharray:3 4}.poi-line.food{stroke:#d46b18}.poi-line.locker{stroke:#7951a8}.poi-dot{stroke:#fff;stroke-width:3}.poi-dot.food{fill:#d46b18}.poi-dot.locker{fill:#7951a8}.poi-icon{font-size:13px}.poi-label{fill:#15202b;font:700 10px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:4px}.poi-sub{fill:#5d6b78;font:9px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:3px}.poi-link:hover .poi-dot,.poi-link:focus .poi-dot{filter:drop-shadow(0 0 5px #f3a712)}.poi-note{padding:0 12px 10px;color:var(--muted);font-size:11px}.poi-note strong{color:#15202b}
 .guide-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.guide-links a,.coupon a{color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px}
 .coupon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.coupon{border:1px solid var(--line);border-radius:8px;padding:12px}.coupon h3{font-size:14px;margin:0 0 5px}.coupon p{font-size:13px;margin:4px 0}.coupon .valid{color:var(--muted)}
 .route-map{padding:0;overflow:hidden}.route-map h2{padding:16px 18px 0}.route-canvas{position:relative;overflow-x:auto;background:linear-gradient(180deg,#e4f4f7 0%,#f7f1de 72%,#dfead2 100%)}
@@ -300,13 +301,44 @@ function renderTrip(){
       ['RTI','帶齊行李',10,62],['JR天王寺','中央口',31,45],['HARUKA','指定席',53,63],['JR關西機場','出閘過空橋',74,38],['KIX T1','4F托運',91,55]
     ]
   };
+  const dailyPOIs={
+    '2026-10-14':[
+      ['food','八重勝串炸','新世界｜約¥1,000起',40,90,40,76,'八重勝 新世界 大阪'],
+      ['food','わなか章魚燒','難波千日前｜約¥600起',72,58,73,38,'たこ焼道楽 わなか 千日前本店'],
+      ['locker','RTI天王寺','先寄飯店最穩',27,35,27,55,'RTI Tennoji luggage storage']
+    ],
+    '2026-10-15':[
+      ['food','はしだて茶屋','沙洲蛤蜊丼',84,86,82,65,'はしだて茶屋 天橋立'],
+      ['locker','天橋立站寄物櫃','出站前先確認',65,25,68,46,'天橋立駅 コインロッカー']
+    ],
+    '2026-10-16':[
+      ['food','舟屋食堂','海鮮丼／定食',48,72,48,48,'舟屋食堂 伊根'],
+      ['food','京都拉麵小路','京都站10F',92,55,92,78,'京都拉麵小路'],
+      ['locker','天橋立飯店','退房後寄放',76,82,78,58,'天橋立駅 荷物預かり']
+    ],
+    '2026-10-17':[
+      ['food','出町ふたば','豆餅外帶',38,12,39,28,'出町ふたば'],
+      ['food','京都第一旭','平價拉麵',64,62,72,72,'本家第一旭 たかばし本店'],
+      ['locker','京都住宿','退房後寄放',61,88,72,72,'京都駅 手荷物預かり']
+    ],
+    '2026-10-18':[
+      ['food','麵闘庵','巾著烏龍麵',42,10,44,25,'麺闘庵 奈良'],
+      ['food','伊藤久右衛門','抹茶蕎麥／甜點',77,14,75,35,'伊藤久右衛門 JR宇治駅前店'],
+      ['locker','RTI天王寺','大行李留飯店',10,88,8,70,'RTI Tennoji luggage storage']
+    ],
+    '2026-10-19':[
+      ['food','KIX安檢後餐飲','托運後再用餐',91,78,91,55,'Kansai Airport Terminal 1 restaurants'],
+      ['locker','不寄物','行李直接托運',74,16,74,38,'Kansai Airport baggage storage']
+    ]
+  };
   const miniMap=(date)=>{
     const pts=dailyMaps[date]||[];
     if(!pts.length)return '';
     const id=`arrow-${date.slice(5)}`;
     const xy=pts.map(p=>`${p[2]*5},${p[3]*2.2}`).join(' ');
     const nodes=pts.map((p,i)=>{const x=p[2]*5,y=p[3]*2.2,anchor=x>410?'end':x<70?'start':'middle',dx=anchor==='end'?-10:anchor==='start'?10:0;return `<g><circle cx="${x}" cy="${y}" r="13" class="map-halo"/><text x="${x}" y="${y+4}" text-anchor="middle" class="map-stop-no">${i+1}</text><text x="${x+dx}" y="${y-19}" text-anchor="${anchor}" class="map-stop-label">${esc(p[0])}</text><text x="${x+dx}" y="${y+27}" text-anchor="${anchor}" class="map-stop-sub">${esc(p[1])}</text></g>`}).join('');
-    return `<div class="day-map"><svg viewBox="0 0 500 210" role="img" aria-label="${esc(date)} 每日路線地圖"><defs><marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#0b6e8a"/></marker></defs><polyline points="${xy}" class="map-path" marker-end="url(#${id})"/>${nodes}<text x="470" y="20" class="map-compass">N ↑</text></svg><div class="map-legend"><span><b>●</b> 依號碼前進</span><span><b>虛線</b> 車程或步行</span><span>下方步驟卡提供出口細節</span></div></div>`;
+    const pois=(dailyPOIs[date]||[]).map(p=>{const [type,label,sub,px,py,fx,fy,query]=p,x=px*5,y=py*2.2,x2=fx*5,y2=fy*2.2,anchor=x>400?'end':x<85?'start':'middle',dx=anchor==='end'?-12:anchor==='start'?12:0,icon=type==='food'?'🍜':'🧳',url=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;return `<g><line x1="${x2}" y1="${y2}" x2="${x}" y2="${y}" class="poi-line ${type}"/><a class="poi-link" href="${url}" target="_blank" rel="noopener noreferrer"><circle cx="${x}" cy="${y}" r="12" class="poi-dot ${type}"/><text x="${x}" y="${y+4}" text-anchor="middle" class="poi-icon">${icon}</text><text x="${x+dx}" y="${y-17}" text-anchor="${anchor}" class="poi-label">${esc(label)}</text><text x="${x+dx}" y="${y+25}" text-anchor="${anchor}" class="poi-sub">${esc(sub)}</text></a></g>`}).join('');
+    return `<div class="day-map"><svg viewBox="0 0 500 220" role="img" aria-label="${esc(date)} 每日路線、餐廳與寄物地圖"><defs><marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#0b6e8a"/></marker></defs><polyline points="${xy}" class="map-path" marker-end="url(#${id})"/>${nodes}${pois}<text x="470" y="20" class="map-compass">N ↑</text></svg><div class="map-legend"><span><b>●</b> 依號碼前進</span><span style="color:#d46b18">🍜 平價美食</span><span style="color:#7951a8">🧳 寄物</span></div><div class="poi-note"><strong>點擊 🍜 或 🧳</strong> 可直接開啟該地點的 Google Maps；離線時依支線連回最近的編號站點。</div></div>`;
   };
   $('dayGrid').innerHTML=trip.days.map(d=>{
     const sc=(trip.scenes||[]).find(s=>s.date===d.date)||{theme:'osaka',icon:'📍',title:d.place,blurb:''};
