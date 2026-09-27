@@ -127,13 +127,14 @@ tr.over td{color:var(--muted)}
   <section class="panel route-map" aria-label="六日行程路線圖">
     <h2>六日移動路線</h2>
     <div class="route-canvas">
-      <svg viewBox="0 0 920 285" role="img" aria-label="關西機場、大阪、天橋立、伊根、京都、奈良、宇治與關西機場的行程路線">
+      <svg viewBox="0 0 920 285" role="img" aria-label="關西機場、大阪、天橋立、伊根、京都、嵐山、奈良、宇治與關西機場的行程路線">
         <path id="mainRoute" d="M65 198 C120 112 180 96 235 122 S330 80 390 72 S462 18 520 57 S570 150 625 152 S707 86 758 126 S832 181 867 204" class="route-line"/>
         <text class="route-plane"><textPath href="#mainRoute" startOffset="0%">✈<animate attributeName="startOffset" from="0%" to="100%" dur="12s" repeatCount="indefinite"/></textPath></text>
         <g transform="translate(65 198)"><circle r="18" class="route-node"/><text x="0" y="5" text-anchor="middle">✈</text><text x="0" y="39" text-anchor="middle" class="route-label">KIX</text><text x="0" y="55" text-anchor="middle" class="route-date">10/14</text></g>
         <g transform="translate(235 122)"><circle r="22" class="route-node"/><text x="0" y="6" text-anchor="middle">🏙</text><text x="0" y="45" text-anchor="middle" class="route-label">大阪</text><text x="0" y="61" text-anchor="middle" class="route-date">10/14</text></g>
         <g transform="translate(390 72)"><circle r="22" class="route-node"/><text x="0" y="6" text-anchor="middle">🌊</text><text x="0" y="45" text-anchor="middle" class="route-label">天橋立</text><text x="0" y="61" text-anchor="middle" class="route-date">10/15</text></g>
         <g transform="translate(520 57)"><circle r="22" class="route-node"/><text x="0" y="6" text-anchor="middle">🏘</text><text x="0" y="45" text-anchor="middle" class="route-label">伊根</text><text x="0" y="61" text-anchor="middle" class="route-date">10/16</text></g>
+        <path d="M612 170 L571 214" class="route-line" style="stroke-width:3"/><g transform="translate(562 224)"><circle r="16" class="route-node"/><text x="0" y="5" text-anchor="middle">🎋</text><text x="-24" y="8" text-anchor="end" class="route-label">嵐山</text><text x="-24" y="23" text-anchor="end" class="route-date">10/16 夜</text></g>
         <g transform="translate(625 152)"><circle r="22" class="route-node"/><text x="0" y="6" text-anchor="middle">⛩</text><text x="0" y="45" text-anchor="middle" class="route-label">京都</text><text x="0" y="61" text-anchor="middle" class="route-date">10/16–17</text></g>
         <g transform="translate(758 126)"><circle r="22" class="route-node hot"/><text x="0" y="6" text-anchor="middle">🎆</text><text x="0" y="45" text-anchor="middle" class="route-label">淀川</text><text x="0" y="61" text-anchor="middle" class="route-date">10/17</text></g>
         <g transform="translate(832 181)"><circle r="22" class="route-node"/><text x="0" y="6" text-anchor="middle">🦌</text><text x="-12" y="45" text-anchor="middle" class="route-label">奈良</text><text x="25" y="45" text-anchor="middle" class="route-label">宇治</text><text x="0" y="61" text-anchor="middle" class="route-date">10/18</text></g>
@@ -299,8 +300,8 @@ function renderTrip(){
   const dayMaps={
     '2026-10-14':'https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Shinsaibashi&waypoints=Tennoji%7CShinsekai%7CNamba+Yasaka+Shrine%7CDotonbori&travelmode=transit',
     '2026-10-15':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Bekkan+Yosanoso+Miyazu&waypoints=Kyoto+Station%7CAmanohashidate+Station&travelmode=transit',
-    '2026-10-16':'https://www.google.com/maps/dir/?api=1&origin=Bekkan+Yosanoso+Miyazu&destination=Green+Rich+Hotel+Kyoto+Eki+Minami&waypoints=Amanohashidate+Station%7CIne+Bay+Sightseeing+Boat%7CKyoto+Station&travelmode=transit',
-    '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Juso+Station&waypoints=Shimogamo+Shrine%7CTennoji+Station&travelmode=transit',
+    '2026-10-16':'https://www.google.com/maps/dir/?api=1&origin=Bekkan+Yosanoso+Miyazu&destination=Arashiyama+Bamboo+Grove&waypoints=Amanohashidate+Station%7CIne+Bay+Sightseeing+Boat%7CKyoto+Station%7CSaga-Arashiyama+Station&travelmode=transit',
+    '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Juso+Station&waypoints=Kiyomizu-dera%7CShimogamo+Shrine%7CTennoji+Station&travelmode=transit',
     '2026-10-18':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Tennoji+Station&waypoints=Nara+Park%7CTodai-ji%7CByodoin%7CUji+Station&travelmode=transit',
     '2026-10-19':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Kansai+International+Airport&travelmode=transit'
   };
@@ -312,10 +313,10 @@ function renderTrip(){
       ['天王寺','JR中央口',6,78],['京都','特急月台',22,56],['天橋立站','¥800大型櫃',40,34],['智恩寺','迴旋橋',55,62],['View Land','纜車',68,24],['天橋立站','取行李上接駁',82,50],['與謝荘','接駁5分',94,82]
     ],
     '2026-10-16':[
-      ['與謝荘','接駁回站',6,80],['天橋立站','寄櫃→巴士',19,52],['日出碼頭','遊覽船',34,22],['伊根舟屋','散步／午餐',50,44],['天橋立站','取行李',65,70],['京都站','八條口',81,38],['京都住宿','南行6–10分',94,76]
+      ['與謝荘','接駁回站',5,80],['天橋立站','寄櫃→巴士',17,52],['日出碼頭','遊覽船',29,20],['伊根舟屋','午餐',41,46],['天橋立站','15:51特急',54,74],['京都住宿','18:30入住',68,42],['嵯峨嵐山','JR 15分',82,76],['月灯路','20:40前入場',95,34]
     ],
     '2026-10-17':[
-      ['京都','JR奈良線',8,75],['東福寺','轉京阪',23,50],['出町柳','5號出口',39,28],['下鴨神社','糺之森',54,48],['天王寺','先放行李',72,72],['十三','西口→會場',91,35]
+      ['京都住宿','7:00退房',5,78],['清水寺','7:20人少',18,34],['二年坂','石板街',31,66],['祇園四条','京阪',44,36],['下鴨神社','糺之森',58,18],['京都站','取行李',70,62],['天王寺','放行李',83,82],['十三','19:00煙火',95,38]
     ],
     '2026-10-18':[
       ['天王寺','大和路快速',8,70],['JR奈良','東口2號站牌',27,50],['東大寺','奈良公園',44,25],['JR奈良','JR奈良線',58,50],['JR宇治','南口',75,35],['平等院','表參道',91,58]
@@ -335,14 +336,14 @@ function renderTrip(){
       ['locker','¥800大型櫃','右後方12格',26,20,40,34,'天橋立駅 コインロッカー']
     ],
     '2026-10-16':[
-      ['food','舟屋食堂','海鮮丼／定食',50,72,50,44,'舟屋食堂 伊根'],
-      ['food','京都拉麵小路','京都站10F',74,14,81,38,'京都拉麵小路'],
-      ['locker','¥800大型櫃','行李放一天',22,88,19,52,'天橋立駅 コインロッカー']
+      ['food','舟屋食堂','海鮮丼／定食',41,74,41,46,'舟屋食堂 伊根'],
+      ['food','京都拉麵小路','21:30晚餐',68,12,68,42,'京都拉麵小路'],
+      ['locker','¥800大型櫃','14:30前取件',19,90,17,52,'天橋立駅 コインロッカー']
     ],
     '2026-10-17':[
-      ['food','出町ふたば','豆餅外帶',38,12,39,28,'出町ふたば'],
-      ['food','京都第一旭','平價拉麵',64,62,72,72,'本家第一旭 たかばし本店'],
-      ['locker','京都住宿','退房後寄放',61,88,72,72,'京都駅 手荷物預かり']
+      ['food','加茂みたらし茶屋','糰子早午餐',70,20,58,18,'加茂みたらし茶屋'],
+      ['food','京都拉麵小路','午餐',58,86,70,62,'京都拉麵小路'],
+      ['locker','京都住宿','寄放行李',18,92,5,78,'Sakura Terrace The Atelier Kyoto']
     ],
     '2026-10-18':[
       ['food','麵闘庵','巾著烏龍麵',42,10,44,25,'麺闘庵 奈良'],
@@ -369,11 +370,11 @@ function renderTrip(){
     '2026-10-16':[
       ['景點','伊根舟屋','實際景觀',commons('Funaya in Ine Town, Yosa District, Kyoto Prefecture 003.jpg'),'伊根舟屋','https://commons.wikimedia.org/wiki/File:Funaya_in_Ine_Town,_Yosa_District,_Kyoto_Prefecture_003.jpg'],
       ['美食','伊根海鮮丼／定食','代表餐點實拍',commons('Kaisendon.jpg'),'舟屋食堂 伊根','https://commons.wikimedia.org/wiki/File:Kaisendon.jpg'],
-      ['車站','京都站中央口','抵達後認中央口方向',commons('Kyoto-STA Central.jpg'),'京都站中央口','https://commons.wikimedia.org/wiki/File:Kyoto-STA_Central.jpg']
+      ['景點','嵐山竹林小徑','月灯路會場',commons('Arashiyama Bamboo Grove.jpg'),'嵐山 竹林の小径','https://commons.wikimedia.org/wiki/File:Arashiyama_Bamboo_Grove.jpg']
     ],
     '2026-10-17':[
-      ['景點','下鴨神社','實際景點',commons('Shimogamo Shrine, Kyoto.jpg'),'下鴨神社','https://commons.wikimedia.org/wiki/File:Shimogamo_Shrine,_Kyoto.jpg'],
-      ['美食','京都平價拉麵','代表餐點實拍',commons('A bowl of ramen in Osaka, Japan.jpg'),'本家第一旭 たかばし本店','https://commons.wikimedia.org/wiki/File:A_bowl_of_ramen_in_Osaka,_Japan.jpg'],
+      ['景點','清水寺','清晨人少',commons('Kiyomizu-dera in Kyoto.jpg'),'清水寺','https://commons.wikimedia.org/wiki/File:Kiyomizu-dera_in_Kyoto.jpg'],
+      ['景點','下鴨神社','糺之森',commons('Shimogamo Shrine, Kyoto.jpg'),'下鴨神社','https://commons.wikimedia.org/wiki/File:Shimogamo_Shrine,_Kyoto.jpg'],
       ['車站','出町柳站今出川口','前往糺之森方向',commons('Demachiyanagi station Imadegawa gate.jpg'),'出町柳站 5號出口','https://commons.wikimedia.org/wiki/File:Demachiyanagi_station_Imadegawa_gate.jpg']
     ],
     '2026-10-18':[
@@ -395,7 +396,7 @@ function renderTrip(){
   const hotelLinks=(h,cfg)=>{const nights=1;const d=new Date(h.checkin+'T00:00:00');const jal=h.jalan?`https://www.jalan.net/yad${h.jalan}/plan/?stayYear=${d.getFullYear()}&stayMonth=${d.getMonth()+1}&stayDay=${d.getDate()}&stayCount=${nights}&roomCount=1&adultNum=${cfg.adults}&yadNo=${h.jalan}&roomCrack=200000`:'';const bq=(h.booking&&h.booking.query)||h.map;const booking=`https://www.booking.com/searchresults.zh-tw.html?ss=${encodeURIComponent(bq)}&checkin=${h.checkin}&checkout=${h.checkout}&group_adults=${cfg.adults}&no_rooms=1&group_children=0&selected_currency=TWD`;const ag=`${h.agoda}?checkIn=${h.checkin}&checkOut=${h.checkout}&los=1&rooms=1&adults=${cfg.adults}&children=0&currencyCode=TWD`;const map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.map)}`;return {jal,booking,ag,map}};
   const transferFlow={
     amanohashidate:[['🚆','天橋立站','10/15 抵達'],['🧳','大型寄物櫃','¥800／可放大行李箱'],['🌲','智恩寺・View Land','輕裝觀光'],['📞','約好的時間','站前上接駁車'],['🏨','與謝荘','車程約5分・18:00前入住'],['🚐','10/16 接駁回站','行李寄站內櫃→伊根巴士']],
-    kyoto:[['🚆','京都站','特急抵達・西口出站'],['🚶','地下通路往南','走到八條口（南側）'],['➡️','沿烏丸通往南','約500m・過九條通前'],['🏨','京都住宿','Atelier 約6分／Green Rich 約10分'],['🚌','10/17 早上','九條站地鐵或門口市巴士']]
+    kyoto:[['🚆','京都站','特急抵達・西口出站'],['🚶','地下通路往南','走到八條口（南側）'],['➡️','沿烏丸通往南','約500m・過九條通前'],['🏨','京都住宿','Atelier 約6分／Green Rich 約10分'],['🌙','10/16 晚上','放好行李再搭 JR 去嵐山月灯路'],['🚕','10/17 7:00','退房寄行李，計程車約15分到清水寺']]
   };
   const renderStays=()=>{
     if(!hotelCfg)return;
