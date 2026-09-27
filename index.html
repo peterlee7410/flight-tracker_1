@@ -183,6 +183,7 @@ tr.over td{color:var(--muted)}
       <label class="field">10/15 天橋立住宿<select id="stay15"></select></label>
       <label class="field">10/16 京都住宿<select id="stay16"></select></label>
       <label class="field">餐飲預算<select id="foodLevel"></select></label>
+      <label class="field">淀川花火<select id="fireworksMode"><option value="free">免費觀賞（姫島／十三側河川敷）｜¥0</option><option value="paid">付費席｜兩人約 ¥28,000</option></select></label>
       <label class="field">RTI 天王寺 3 晚已付（¥，選填）<input id="rtiJpy" type="number" min="0" step="1000" inputmode="numeric" placeholder="例：36000"></label>
       <label class="field">換算匯率（1日圓＝新台幣）<input id="jpyRate" type="number" min="0.01" max="1" step="0.001" inputmode="decimal"></label>
     </div>
@@ -308,7 +309,8 @@ function quote(){
     else rows.push({cat:'住宿',label:`${day}｜尚未選定`,jpy:0,note:'目前無可訂資料'});});
   const rti=Number($('rtiJpy').value)||0;
   rows.push({cat:'住宿',label:'RTI 天王寺 3 晚（10/14、10/17、10/18）',jpy:rti,note:rti?'已付金額':'已訂，未填金額不計入'});
-  (trip.costItems||[]).forEach(c=>rows.push({cat:c.cat,label:c.label,jpy:c.jpy,note:c.note}));
+  const fwPaid=$('fireworksMode').value==='paid';
+  (trip.costItems||[]).forEach(c=>{if(c.toggle==='fireworks'){rows.push({cat:c.cat,label:fwPaid?'淀川花火付費席':'淀川花火（免費觀賞：姫島河堤）',jpy:fwPaid?c.jpy:0,note:fwPaid?c.note:'不買付費席；17:00 前到姫島河川敷佔位，備案十三側免費區'});}else rows.push({cat:c.cat,label:c.label,jpy:c.jpy,note:c.note});});
   const lv=(trip.foodLevels||[]).find(f=>f.key===$('foodLevel').value)||trip.foodLevels[0];
   const food=(lv.perDay*5+Math.round(lv.perDay*0.4))*trip.travelers-mealAdj;
   rows.push({cat:'餐飲',label:`餐飲｜${lv.label.split('（')[0]}`,jpy:food,note:`每人每天約 ¥${lv.perDay.toLocaleString()}×5 天＋10/19 機場一餐${mealAdj?`；已扣住宿含餐 ¥${mealAdj.toLocaleString()}`:''}`});
@@ -322,7 +324,7 @@ function quote(){
   $('costBar').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span style="flex:${v};background:${COST_COLORS[k]}" title="${esc(k)} ${fmt(v)}"></span>`).join('');
   $('costLegend').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span><i style="background:${COST_COLORS[k]}"></i>${esc(k)} <b class="num">${fmt(v)}</b> <small>${Math.round(v/total*100)}%</small></span>`).join('');
   $('costRows').innerHTML=rows.map(r=>`<tr><td><span class="cat-dot" style="background:${COST_COLORS[r.cat]}"></span>${esc(r.cat)}</td><td>${esc(r.label)}</td><td class="r num">${r.jpy!=null?'¥'+r.jpy.toLocaleString():'—'}</td><td class="r num">${fmt(r.twd)}</td><td class="sub">${esc(r.note||'')}</td></tr>`).join('')+`<tr class="cost-total"><td colspan="3"><b>合計（兩人）</b></td><td class="r num"><b>${fmt(total)}</b></td><td class="sub">每人約 ${fmt(Math.round(total/trip.travelers))}</td></tr>`;
-  try{localStorage.setItem('flightTripRate',String(rate));['stay15','stay16','foodLevel','rtiJpy'].forEach(id=>localStorage.setItem('cost_'+id,$(id).value));}catch(e){}
+  try{localStorage.setItem('flightTripRate',String(rate));['stay15','stay16','foodLevel','rtiJpy','fireworksMode'].forEach(id=>localStorage.setItem('cost_'+id,$(id).value));}catch(e){}
 }
 function renderTripOptions(options){
   const selected=currentOptions[Number($('flightChoice').value)];
@@ -339,7 +341,7 @@ function renderTripOptions(options){
 function renderTrip(){
   if(!trip)return;
   $('foodLevel').innerHTML=(trip.foodLevels||[]).map(f=>`<option value="${f.key}">${esc(f.label)}｜¥${f.perDay.toLocaleString()}/人/日</option>`).join('');
-  try{$('foodLevel').value=localStorage.getItem('cost_foodLevel')||'save';$('rtiJpy').value=localStorage.getItem('cost_rtiJpy')||'';}catch(e){}
+  try{$('fireworksMode').value=localStorage.getItem('cost_fireworksMode')||'free';$('foodLevel').value=localStorage.getItem('cost_foodLevel')||'save';$('rtiJpy').value=localStorage.getItem('cost_rtiJpy')||'';}catch(e){}
   $('jpyRate').value=localStorage.getItem('flightTripRate')??String(trip.defaultJpyToTwd);
   $('landNote').textContent=trip.landBudgetNote;
   const detail=(title,items)=>`<details><summary>${title}</summary><ul>${(items||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></details>`;
@@ -347,7 +349,7 @@ function renderTrip(){
     '2026-10-14':'https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Shinsaibashi&waypoints=Tennoji%7CShinsekai%7CNamba+Yasaka+Shrine%7CDotonbori&travelmode=transit',
     '2026-10-15':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Bekkan+Yosanoso+Miyazu&waypoints=Kyoto+Station%7CAmanohashidate+Station&travelmode=transit',
     '2026-10-16':'https://www.google.com/maps/dir/?api=1&origin=Bekkan+Yosanoso+Miyazu&destination=Arashiyama+Bamboo+Grove&waypoints=Amanohashidate+Station%7CIne+Bay+Sightseeing+Boat%7CKyoto+Station%7CSaga-Arashiyama+Station&travelmode=transit',
-    '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Juso+Station&waypoints=Kiyomizu-dera%7CShimogamo+Shrine%7CTennoji+Station&travelmode=transit',
+    '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Himejima+Station+Osaka&waypoints=Kiyomizu-dera%7CShimogamo+Shrine%7CTennoji+Station%7COsaka-Umeda+Station+Hanshin&travelmode=transit',
     '2026-10-18':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Tennoji+Station&waypoints=Nara+Park%7CTodai-ji%7CByodoin%7CUji+Station&travelmode=transit',
     '2026-10-19':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Kansai+International+Airport&travelmode=transit'
   };
@@ -362,7 +364,7 @@ function renderTrip(){
       ['與謝荘','接駁回站',5,80],['天橋立站','寄櫃→巴士',17,52],['日出碼頭','遊覽船',29,20],['伊根舟屋','午餐',41,46],['天橋立站','15:51特急',54,74],['京都住宿','18:30入住',68,42],['嵯峨嵐山','JR 15分',82,76],['月灯路','20:40前入場',95,34]
     ],
     '2026-10-17':[
-      ['京都住宿','7:00退房',5,78],['清水寺','7:20人少',18,34],['二年坂','石板街',31,66],['祇園四条','京阪',44,36],['下鴨神社','糺之森',58,18],['京都站','取行李',70,62],['天王寺','放行李',83,82],['十三','19:00煙火',95,38]
+      ['京都住宿','7:00退房',5,78],['清水寺','7:20人少',18,34],['二年坂','石板街',31,66],['祇園四条','京阪',44,36],['下鴨神社','糺之森',58,26],['京都站','取行李',70,62],['天王寺','放行李',82,82],['姫島河堤','17:00到・免費',95,40]
     ],
     '2026-10-18':[
       ['天王寺','大和路快速',8,70],['JR奈良','東口2號站牌',27,50],['東大寺','奈良公園',44,25],['JR奈良','JR奈良線',58,50],['JR宇治','南口',75,35],['平等院','表參道',91,58]
@@ -387,9 +389,10 @@ function renderTrip(){
       ['locker','¥800大型櫃','14:30前取件',19,90,17,52,'天橋立駅 コインロッカー']
     ],
     '2026-10-17':[
-      ['food','加茂みたらし茶屋','糰子早午餐',70,20,58,18,'加茂みたらし茶屋'],
-      ['food','京都拉麵小路','午餐',58,86,70,62,'京都拉麵小路'],
-      ['locker','京都住宿','寄放行李',18,92,5,78,'Sakura Terrace The Atelier Kyoto']
+      ['food','加茂みたらし茶屋','糰子早午餐',55,58,58,26,'加茂みたらし茶屋'],
+      ['food','京都拉麵小路','午餐',64,90,70,62,'京都拉麵小路'],
+      ['food','姫島站前','超市補給',84,20,95,40,'阪神 姫島駅'],
+      ['locker','京都住宿','寄放行李',30,94,5,78,'Sakura Terrace The Atelier Kyoto']
     ],
     '2026-10-18':[
       ['food','麵闘庵','巾著烏龍麵',42,10,44,25,'麺闘庵 奈良'],
@@ -584,7 +587,7 @@ function drawChart(pts){
 
 let latest = [];
 $('flightChoice').addEventListener('change',()=>{userSelected=true;quote()});
-['stay15','stay16','foodLevel'].forEach(id=>$(id).addEventListener('change',quote));$('rtiJpy').addEventListener('input',quote);
+['stay15','stay16','foodLevel','fireworksMode'].forEach(id=>$(id).addEventListener('change',quote));$('rtiJpy').addEventListener('input',quote);
 $('jpyRate').addEventListener('input',quote);
 window.addEventListener('resize',()=>{ if(latest.length) render(latest); });
 
