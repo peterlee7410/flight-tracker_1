@@ -67,6 +67,15 @@ tr.over td{color:var(--muted)}
 .links{display:flex;flex-wrap:wrap;gap:8px}
 .links a{font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:6px}
 .links a:hover,.links a:focus-visible{border-color:var(--accent);outline:none}
+.budget-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:12px 0}
+.field{display:grid;gap:5px;font-size:13px;color:var(--muted)}
+.field input,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);font:inherit}
+.day-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px}
+.day{border:1px solid var(--line);border-radius:8px;padding:12px}
+.day h3{font-size:15px;margin:0 0 6px}.day ul{margin:4px 0 8px;padding-left:20px;font-size:13px}
+.day .sub{margin:0}.fit{font-weight:600;color:var(--good)}.not-fit{color:var(--warn)}
+.action{background:none;border:1px solid var(--accent);border-radius:6px;color:var(--accent);padding:4px 8px;cursor:pointer;font:inherit;font-size:12px}
+.action:focus-visible{outline:2px solid var(--accent)}
 </style>
 </head>
 <body>
@@ -111,6 +120,27 @@ tr.over td{color:var(--muted)}
     </div>
   </section>
 
+  <section class="panel" aria-label="行程與機票試算">
+    <h2>機票搭配行程 <span class="status" id="fitCount"></span></h2>
+    <p class="sub">依目前行程，去程於 14:00 前抵達、回程於 10:00–15:00 起飛為較合適的班次。選擇下方航班即可試算兩人總費用；價格以最後查詢時間為準。</p>
+    <div class="summary">
+      <div class="stat"><span class="label">符合行程的最低機票</span><span class="big num" id="fitBest">—</span><span class="sub" id="fitBestWho">—</span></div>
+      <div class="stat"><span class="label">選定航班＋日本當地預算</span><span class="big num" id="tripTotal">—</span><span class="sub" id="tripBreakdown">—</span></div>
+    </div>
+    <div class="budget-grid">
+      <label class="field">選擇航班<select id="flightChoice" aria-label="選擇航班"></select></label>
+      <label class="field">日本當地兩人預算（¥）<input id="landBudget" type="number" min="0" step="1000" inputmode="numeric"></label>
+      <label class="field">換算匯率（1日圓＝新台幣）<input id="jpyRate" type="number" min="0.01" max="1" step="0.001" inputmode="decimal"></label>
+    </div>
+    <p class="sub" id="landNote"></p>
+    <p class="sub">行李為估算；票價可能在付款前變動。當地預算與匯率可自行修改，輸入值只儲存在這台裝置。</p>
+  </section>
+
+  <section class="panel" aria-label="逐日行程">
+    <h2>逐日行程</h2>
+    <div class="day-grid" id="dayGrid"><div class="empty">正在載入行程…</div></div>
+  </section>
+
   <section class="panel">
     <h2>最低總價走勢</h2>
     <div class="chart-box"><svg id="chart" width="100%" height="220" role="img" aria-label="每次檢查的最低總價"></svg></div>
@@ -122,7 +152,7 @@ tr.over td{color:var(--muted)}
     <div class="tbl">
       <table>
         <thead><tr>
-          <th>航空公司</th><th>去程</th><th>回程</th><th class="r">2人票價</th><th class="r">行李加購(估)</th><th class="r">總額(估)</th><th>來源</th>
+          <th>航空公司</th><th>去程</th><th>回程</th><th class="r">2人票價</th><th class="r">行李加購(估)</th><th class="r">總額(估)</th><th>行程／核價</th>
         </tr></thead>
         <tbody id="rows"><tr><td colspan="7" class="empty">尚未有檢查紀錄</td></tr></tbody>
       </table>
@@ -131,9 +161,9 @@ tr.over td{color:var(--muted)}
 
   <section class="panel notes">
     <h2>怎麼算的</h2>
-    <p>只列符合時間限制的航班：去程 10/14 在 16:00 前抵達關西、回程 10/19 在 10:00 以後從關西起飛。票價為兩位成人含稅總額；混搭組合是兩張單程票相加，需分開訂。</p>
+    <p>只列符合時間限制的航班：去程 10/14 在 16:00 前抵達關西、回程 10/19 在 10:00 以後從關西起飛。Google 搜尋以兩位成人設定，查到的是當時顯示的起價，並非鎖定席位；混搭組合是兩張單程票相加，需分開訂。</p>
     <p>廉航 (樂桃、虎航、捷星、泰越捷、亞航X) 基本票不含托運，依線上預購價估算：去程 1 件、回程 2 件，樂桃約 NT$930/件、虎航約 NT$850/件、其他約 NT$1,000/件。傳統航空 (華航、長榮、星宇、國泰) 已含每人 23kg，不另加。</p>
-    <p>若去程兩人都只帶 7–10kg 手提，可再省約一件行李費。訂票時在航空公司官網一併加購最便宜，機場臨櫃會貴約 NT$400/件。</p>
+    <p>行李實際費用、件數與重量須依航空公司方案和訂票頁核對；不同票種可能已含行李。請在付款前重新確認兩人總價、稅費、行李、航班時間與轉機條件。</p>
     <p id="nextNote" class="sub"></p>
     <div class="links">
       <a href="https://www.google.com/travel/flights/search?q=Flights%20to%20KIX%20from%20TPE%20on%202026-10-14%20through%202026-10-19%202%20adults&curr=TWD&hl=zh-TW&gl=TW" target="_blank" rel="noopener">Google 航班</a>
@@ -154,6 +184,48 @@ tr.over td{color:var(--muted)}
 const TARGET = 30000;
 const fmt = n => (n==null||isNaN(n)) ? '—' : 'NT$' + Math.round(n).toLocaleString('en-US');
 const $ = id => document.getElementById(id);
+let trip = null, currentOptions = [], userSelected = false;
+const tripLink = 'https://www.google.com/travel/flights/search?q=Flights%20to%20KIX%20from%20TPE%20on%202026-10-14%20through%202026-10-19%202%20adults&curr=TWD&hl=zh-TW&gl=TW';
+const flightTimes = o => ({
+  arrive: o.outArr || /→(\d\d:\d\d)/.exec(o.out||'')?.[1],
+  depart: o.retDep || /\d{1,2}\/\d{1,2} (\d\d:\d\d)/.exec(o.ret||'')?.[1]
+});
+function fitsTrip(o){
+  const t=flightTimes(o);
+  return !!(trip && t.arrive && t.depart && t.arrive<=trip.preferredArrivalBy &&
+    t.depart>='10:00' && t.depart<=trip.preferredReturnBy);
+}
+function quote(){
+  const idx=Number($('flightChoice').value), o=currentOptions[idx];
+  const land=Number($('landBudget').value), rate=Number($('jpyRate').value);
+  if(!o || !Number.isFinite(land) || land<0 || !Number.isFinite(rate) || rate<=0){
+    $('tripTotal').textContent='—';$('tripBreakdown').textContent='請填入有效的預算與匯率';return;
+  }
+  $('tripTotal').textContent=fmt(o.totalEst+land*rate);
+  $('tripBreakdown').textContent=`機票 ${fmt(o.totalEst)} ＋ 當地 ¥${land.toLocaleString('en-US')} × ${rate}（約 ${fmt(land*rate)}）`;
+  localStorage.setItem('flightTripBudget',String(land));
+  localStorage.setItem('flightTripRate',String(rate));
+}
+function renderTripOptions(options){
+  const selected=currentOptions[Number($('flightChoice').value)];
+  currentOptions=options;
+  const suitable=options.filter(fitsTrip);
+  $('fitCount').textContent=`(${suitable.length} / ${options.length} 筆符合建議時段)`;
+  $('fitBest').textContent=suitable.length?fmt(suitable[0].totalEst):'目前無合適航班';
+  $('fitBestWho').textContent=suitable.length?`${suitable[0].airline} · ${suitable[0].out} / ${suitable[0].ret}`:'可改看完整航班表';
+  $('flightChoice').innerHTML=options.map((o,i)=>`<option value="${i}">${esc(o.airline)}｜${fmt(o.totalEst)}｜${fitsTrip(o)?'符合行程':'需調整行程'}</option>`).join('');
+  const prior=selected && options.findIndex(o=>o.airline===selected.airline && o.out===selected.out && o.ret===selected.ret);
+  $('flightChoice').value=userSelected && prior>=0 ? String(prior) : String(Math.max(0,options.indexOf(suitable[0])));
+  quote();
+}
+function renderTrip(){
+  if(!trip)return;
+  $('landBudget').value=localStorage.getItem('flightTripBudget')??String(trip.landBudgetJpy.min);
+  $('jpyRate').value=localStorage.getItem('flightTripRate')??String(trip.defaultJpyToTwd);
+  $('landNote').textContent=`當地兩人估算 ¥${trip.landBudgetJpy.min.toLocaleString()}–¥${trip.landBudgetJpy.max.toLocaleString()}。${trip.landBudgetNote}`;
+  $('dayGrid').innerHTML=trip.days.map(d=>`<article class="day"><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">住宿：${esc(d.stay)}</p></article>`).join('');
+  if(latest.length)render(latest);
+}
 
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
@@ -189,6 +261,7 @@ function render(checks){
   $('allTimeLowWhen').textContent = `${low.best.airline} · ${low.checkedAt.slice(0,10)}`;
 
   const opts = [...last.options].sort((a,b)=>(a.totalEst??1e9)-(b.totalEst??1e9));
+  renderTripOptions(opts);
   $('count').textContent = `(${opts.length} 筆)`;
   $('rows').innerHTML = opts.map(o=>`
     <tr class="${o.totalEst>TARGET?'over':''}">
@@ -198,8 +271,11 @@ function render(checks){
       <td class="r num">${fmt(o.fare2pax)}</td>
       <td class="r num">${o.bagsEst?fmt(o.bagsEst):'已含'}</td>
       <td class="r num"><b>${fmt(o.totalEst)}</b></td>
-      <td class="sub">${esc(o.source)}${o.note?'<br>'+esc(o.note):''}</td>
+      <td class="sub"><span class="${fitsTrip(o)?'fit':'not-fit'}">${trip?(fitsTrip(o)?'符合行程':'需調整行程'):'時間待核對'}</span><br>${esc(o.source)}${o.note?'<br>'+esc(o.note):''}<br><a href="${esc(o.checkUrl||tripLink)}" target="_blank" rel="noopener noreferrer">開啟 Google 航班搜尋 ↗</a> · <button class="action" data-choice="${opts.indexOf(o)}">試算</button></td>
     </tr>`).join('');
+  $('rows').querySelectorAll('[data-choice]').forEach(btn=>btn.addEventListener('click',()=>{
+    userSelected=true;$('flightChoice').value=btn.dataset.choice;quote();$('tripTotal').scrollIntoView({behavior:'smooth',block:'center'});
+  }));
   $('nextNote').textContent = last.summary ? '最新判讀：' + last.summary : '';
   drawChart(withBest);
 }
@@ -232,7 +308,12 @@ function drawChart(pts){
 }
 
 let latest = [];
+$('flightChoice').addEventListener('change',()=>{userSelected=true;quote()});
+$('landBudget').addEventListener('input',quote);
+$('jpyRate').addEventListener('input',quote);
 window.addEventListener('resize',()=>{ if(latest.length) render(latest); });
+
+fetch('data/trip.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(data=>{trip=data;renderTrip()}).catch(()=>{$('dayGrid').textContent='行程資料讀取失敗，請重新整理頁面。'});
 
 async function load(){
   try{

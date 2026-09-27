@@ -141,10 +141,17 @@ def make_option(cfg, out, ret, fare, source, note=""):
         "type": kind,
         "out": f"{out['dep_date']} {out['dep']}→{out['arr']}",
         "ret": f"{ret['dep_date']} {ret['dep']}→{ret['arr']}",
+        "outArr": out["arr"],
+        "retDep": ret["dep"],
+        "outDepDate": out["dep_date"],
+        "outArrDate": out["arr_date"],
+        "retDepDate": ret["dep_date"],
+        "retArrDate": ret["arr_date"],
         "fare2pax": fare,
         "bagsEst": bags,
         "totalEst": fare + bags,
         "source": source,
+        "checkUrl": urls(cfg)["rt"],
         "note": "；".join(notes),
     }
 
@@ -325,7 +332,7 @@ def should_alert(cfg, best, prev_best, now) -> bool:
     days_left = (dt.date.fromisoformat(cfg["depart_date"]) - now.date()).days
     return (best <= cfg["alert_below"]
             or (prev_best is not None and prev_best - best >= cfg["alert_drop"])
-            or days_left <= cfg["alert_days_before"])
+            or (0 <= days_left <= cfg["alert_days_before"]))
 
 
 def notify(text: str):
