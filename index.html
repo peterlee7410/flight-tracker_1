@@ -77,6 +77,7 @@ tr.over td{color:var(--muted)}
 .day details{border-top:1px solid var(--line);padding-top:7px;margin-top:7px}.day summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--accent)}
 .day details p{font-size:13px;margin:6px 0}.day details ul{margin-bottom:2px}
 .route-strip{display:flex;align-items:stretch;gap:22px;overflow-x:auto;padding:10px 4px 14px;margin:8px 0 4px;scroll-snap-type:x proximity}.route-step{flex:0 0 180px;background:#f4fafb;border:1px solid #bcd9df;border-radius:8px;padding:10px 10px 10px 38px;position:relative;scroll-snap-align:start;font-size:12px;line-height:1.45;color:#263b45}.route-step::before{content:attr(data-n);position:absolute;left:9px;top:10px;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font:700 11px var(--mono)}.route-step::after{content:'›';position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:28px;color:#0b6e8a}.route-step:last-child::after{display:none}.route-help{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin-top:6px}.route-help::before{content:'←';color:var(--accent);font-weight:800}.day-route-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-weight:700;font-size:13px}.day-route-title span:last-child{font-weight:400;color:var(--muted);font-size:11px}
+.day-map{margin:10px 0 6px;border:1px solid #bcd9df;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#eef8f9,#f8f5e9);position:relative}.day-map::before{content:'';position:absolute;inset:0;background-image:linear-gradient(#0b6e8a0d 1px,transparent 1px),linear-gradient(90deg,#0b6e8a0d 1px,transparent 1px);background-size:24px 24px}.day-map svg{display:block;width:100%;height:auto;min-height:210px;position:relative}.map-path{fill:none;stroke:#0b6e8a;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:8 6;animation:routeFlow 14s linear infinite}.map-halo{fill:#fff;stroke:#0b6e8a;stroke-width:3}.map-stop-no{fill:#0b6e8a;font:700 10px var(--mono)}.map-stop-label{fill:#15202b;font:700 12px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}.map-stop-sub{fill:#5d6b78;font:10px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:3px}.map-compass{fill:#0b6e8a;font:700 10px var(--mono)}.map-legend{display:flex;gap:12px;flex-wrap:wrap;padding:0 12px 10px;color:var(--muted);font-size:11px}.map-legend b{color:var(--accent)}
 .guide-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.guide-links a,.coupon a{color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px}
 .coupon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.coupon{border:1px solid var(--line);border-radius:8px;padding:12px}.coupon h3{font-size:14px;margin:0 0 5px}.coupon p{font-size:13px;margin:4px 0}.coupon .valid{color:var(--muted)}
 .route-map{padding:0;overflow:hidden}.route-map h2{padding:16px 18px 0}.route-canvas{position:relative;overflow-x:auto;background:linear-gradient(180deg,#e4f4f7 0%,#f7f1de 72%,#dfead2 100%)}
@@ -279,11 +280,39 @@ function renderTrip(){
     '2026-10-18':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Tennoji+Station&waypoints=Nara+Park%7CTodai-ji%7CByodoin%7CUji+Station&travelmode=transit',
     '2026-10-19':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Kansai+International+Airport&travelmode=transit'
   };
+  const dailyMaps={
+    '2026-10-14':[
+      ['KIX','JR關空快速',8,78],['天王寺','放行李',27,55],['新世界','動物園前1號口',40,76],['八阪神社','難波32號口',58,58],['道頓堀','步行北上',73,38],['心齋橋','購物',90,20]
+    ],
+    '2026-10-15':[
+      ['天王寺','JR中央口',8,76],['大阪','轉京都線',26,58],['京都','西口／特急月台',45,74],['天橋立站','主要剪票口',68,46],['智恩寺','步行',82,65],['View Land','纜車',92,28]
+    ],
+    '2026-10-16':[
+      ['天橋立站','站前巴士',9,65],['日出碼頭','遊覽船',29,30],['伊根舟屋','散步／午餐',48,48],['日出碼頭','回程巴士',65,30],['天橋立站','取行李',78,58],['京都','特急指定席',92,78]
+    ],
+    '2026-10-17':[
+      ['京都','JR奈良線',8,75],['東福寺','轉京阪',23,50],['出町柳','5號出口',39,28],['下鴨神社','糺之森',54,48],['天王寺','先放行李',72,72],['十三','西口→會場',91,35]
+    ],
+    '2026-10-18':[
+      ['天王寺','大和路快速',8,70],['JR奈良','東口2號站牌',27,50],['東大寺','奈良公園',44,25],['JR奈良','JR奈良線',58,50],['JR宇治','南口',75,35],['平等院','表參道',91,58]
+    ],
+    '2026-10-19':[
+      ['RTI','帶齊行李',10,62],['JR天王寺','中央口',31,45],['HARUKA','指定席',53,63],['JR關西機場','出閘過空橋',74,38],['KIX T1','4F托運',91,55]
+    ]
+  };
+  const miniMap=(date)=>{
+    const pts=dailyMaps[date]||[];
+    if(!pts.length)return '';
+    const id=`arrow-${date.slice(5)}`;
+    const xy=pts.map(p=>`${p[2]*5},${p[3]*2.2}`).join(' ');
+    const nodes=pts.map((p,i)=>{const x=p[2]*5,y=p[3]*2.2,anchor=x>410?'end':x<70?'start':'middle',dx=anchor==='end'?-10:anchor==='start'?10:0;return `<g><circle cx="${x}" cy="${y}" r="13" class="map-halo"/><text x="${x}" y="${y+4}" text-anchor="middle" class="map-stop-no">${i+1}</text><text x="${x+dx}" y="${y-19}" text-anchor="${anchor}" class="map-stop-label">${esc(p[0])}</text><text x="${x+dx}" y="${y+27}" text-anchor="${anchor}" class="map-stop-sub">${esc(p[1])}</text></g>`}).join('');
+    return `<div class="day-map"><svg viewBox="0 0 500 210" role="img" aria-label="${esc(date)} 每日路線地圖"><defs><marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#0b6e8a"/></marker></defs><polyline points="${xy}" class="map-path" marker-end="url(#${id})"/>${nodes}<text x="470" y="20" class="map-compass">N ↑</text></svg><div class="map-legend"><span><b>●</b> 依號碼前進</span><span><b>虛線</b> 車程或步行</span><span>下方步驟卡提供出口細節</span></div></div>`;
+  };
   $('dayGrid').innerHTML=trip.days.map(d=>{
     const sc=(trip.scenes||[]).find(s=>s.date===d.date)||{theme:'osaka',icon:'📍',title:d.place,blurb:''};
     const mapUrl=d.mapUrl||dayMaps[d.date];
     const map=mapUrl?`<div class="guide-links"><a class="map-link" href="${esc(mapUrl)}" target="_blank" rel="noopener noreferrer">📍 開啟今日 Google Maps ↗</a></div>`:'';
-    const route=(d.route||[]).length?`<div class="day-route-title"><span>🚉 照順序走</span><span>左右滑動查看</span></div><div class="route-strip" aria-label="${esc(d.date)} 詳細路線">${d.route.map((s,i)=>`<div class="route-step" data-n="${i+1}">${esc(s)}</div>`).join('')}</div><div class="route-help">每一格都是下一個要找的站名、出口或地標</div>`:'';
+    const route=(d.route||[]).length?`<div class="day-route-title"><span>🗺️ 今日路線地圖</span><span>依編號前進</span></div>${miniMap(d.date)}<div class="day-route-title"><span>🚉 出口與轉乘細節</span><span>左右滑動查看</span></div><div class="route-strip" aria-label="${esc(d.date)} 詳細路線">${d.route.map((s,i)=>`<div class="route-step" data-n="${i+1}">${esc(s)}</div>`).join('')}</div><div class="route-help">地圖編號對應下方步驟；每格都有下一個站名、出口或地標</div>`:'';
     return `<article class="day"><div class="scene scene-${esc(sc.theme)}"><div class="scene-copy"><div class="scene-icon">${esc(sc.icon)}</div><div class="scene-title">${esc(sc.title)}</div><div class="scene-blurb">${esc(sc.blurb)}</div></div></div><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">🏨 ${esc(d.stay)}</p>${route}${map}${detail('🚆 備用文字版交通',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${detail('🍜 平價美食',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`;
   }).join('');
   if(trip.ticketPlan){
