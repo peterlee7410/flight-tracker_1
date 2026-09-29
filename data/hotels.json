@@ -945,5 +945,239 @@
     }
    }
   }
+ },
+ {
+  "checkedAt": "2026-09-29T14:14",
+  "hotels": {
+   "yosanoso": {
+    "jalan": {
+     "available": true,
+     "calendar": "15 3 部屋",
+     "roomsLeft": 3,
+     "min": 14268,
+     "best": {
+      "both": {
+       "total": 28880,
+       "room": "和室（ユニットバス・トイレ付き）【OceanView】",
+       "plan": "【定番】平日限定でお得に天橋立観光♪\"お手軽会席プラン\"",
+       "coupon": 4500,
+       "noBath": true,
+       "nonRefund": false
+      },
+      "none": {
+       "total": 14268,
+       "room": "和室（ユニットバス・トイレ付き）【OceanView】",
+       "plan": "【じゃらんのお得な10日間】【定番】お食事はご自由に♪素泊まりプラン（１泊０食）",
+       "coupon": 3000,
+       "noBath": true,
+       "nonRefund": false
+      },
+      "dinner": {
+       "total": 24260,
+       "room": "和室（ユニットバス・トイレ付き）【OceanView】",
+       "plan": "【限定】早朝出発orお寝坊さんにオススメ！お得に天橋立観光お手軽会席プラン1（泊夕食付き）",
+       "coupon": 3800,
+       "noBath": true,
+       "nonRefund": false
+      },
+      "breakfast": {
+       "total": 18658,
+       "room": "和室（ユニットバス・トイレ付き）【OceanView】",
+       "plan": "【じゃらんのお得な10日間】【定番】夕食はご自由に♪１泊朝食＆ドリンクバー付きプラン（１泊１食）",
+       "coupon": 3000,
+       "noBath": true,
+       "nonRefund": false
+      }
+     },
+     "plans": 26,
+     "url": "https://www.jalan.net/yad369872/plan/?stayYear=2026&stayMonth=10&stayDay=15&stayCount=1&roomCount=1&adultNum=2&yadNo=369872&roomCrack=200000"
+    },
+    "booking": {
+     "error": "Page.wait_for_selector: Timeout 30000ms exceeded.\nCall log:\nwaiting for locator(\"[data-testid=\\\"property-card\\\"]\") to be visible\n"
+    }
+   },
+   "amanohashidate-hotel": {
+    "jalan": {
+     "available": true,
+     "calendar": "15 2 部屋",
+     "roomsLeft": 2,
+     "min": 37400,
+     "best": {
+      "both": {
+       "total": 58520,
+       "room": "【禁煙】和洋室（オーシャンビュー）",
+       "plan": "【じゃらんのお得な10日間】【9月】和食通常プラン",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "breakfast": {
+       "total": 44000,
+       "room": "【禁煙】和洋室（オーシャンビュー）",
+       "plan": "朝食付きプラン／天橋立で湯ったり温泉、朝食は和洋バイキング",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "none": {
+       "total": 37400,
+       "room": "【禁煙】和洋室（オーシャンビュー）",
+       "plan": "食事なしプラン／お食事なしで気軽に温泉旅行",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      }
+     },
+     "plans": 8,
+     "url": "https://www.jalan.net/yad329976/plan/?stayYear=2026&stayMonth=10&stayDay=15&stayCount=1&roomCount=1&adultNum=2&yadNo=329976&roomCrack=200000"
+    }
+   },
+   "atelier": {
+    "jalan": {
+     "available": false,
+     "calendar": "16 ×",
+     "roomsLeft": null,
+     "min": null,
+     "best": {},
+     "plans": 0,
+     "url": "https://www.jalan.net/yad390084/plan/?stayYear=2026&stayMonth=10&stayDay=16&stayCount=1&roomCount=1&adultNum=2&yadNo=390084&roomCrack=200000"
+    },
+    "booking": {
+     "error": "Page.wait_for_selector: Timeout 30000ms exceeded.\nCall log:\nwaiting for locator(\"[data-testid=\\\"property-card\\\"]\") to be visible\n"
+    }
+   },
+   "greenrich": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ○",
+     "roomsLeft": null,
+     "min": 18330,
+     "best": {
+      "none": {
+       "total": 18330,
+       "room": "【喫煙】ダブルＡ",
+       "plan": "【じゃらんのお得な10日間】★スタンダードシンプルステイ★素泊まり★",
+       "coupon": 2000,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "breakfast": {
+       "total": 18330,
+       "room": "【禁煙】ダブルＡ",
+       "plan": "【じゃらんのお得な10日間】★朝食付プラン★全室Wi-Fi＆有線LAN接続無料☆大浴場でリフレッシュ♪",
+       "coupon": 2000,
+       "noBath": false,
+       "nonRefund": false
+      }
+     },
+     "plans": 22,
+     "url": "https://www.jalan.net/yad346842/plan/?stayYear=2026&stayMonth=10&stayDay=16&stayCount=1&roomCount=1&adultNum=2&yadNo=346842&roomCrack=200000"
+    },
+    "booking": {
+     "error": "Page.wait_for_selector: Timeout 30000ms exceeded.\nCall log:\nwaiting for locator(\"[data-testid=\\\"property-card\\\"]\") to be visible\n"
+    }
+   },
+   "ilverde": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ▲",
+     "roomsLeft": null,
+     "min": 22100,
+     "best": {
+      "breakfast": {
+       "total": 24820,
+       "room": "≪禁煙≫スタンダードツインルーム",
+       "plan": "☆飲み放題付き☆【事前決済限定】朝食付き ー返金不可プラン　ご予定が決まっているならおすすめ◎",
+       "coupon": 1000,
+       "noBath": false,
+       "nonRefund": true
+      },
+      "none": {
+       "total": 22100,
+       "room": "≪禁煙≫スタンダードツインルーム",
+       "plan": "☆飲み放題付き☆【事前決済限定】返金不可プラン　ご予定が決まっているならおすすめ◎【素泊まり】",
+       "coupon": 1000,
+       "noBath": false,
+       "nonRefund": true
+      }
+     },
+     "plans": 22,
+     "url": "https://www.jalan.net/yad384901/plan/?stayYear=2026&stayMonth=10&stayDay=16&stayCount=1&roomCount=1&adultNum=2&yadNo=384901&roomCrack=200000"
+    }
+   },
+   "zequu-annex": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ○",
+     "roomsLeft": null,
+     "min": 25590,
+     "best": {
+      "none": {
+       "total": 25590,
+       "room": "ツインルーム【禁煙室】",
+       "plan": "【じゃらんのお得な10日間】【返金不可】スタンダードプラン　小学生のお子様添い寝無料【素泊まり】",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": true
+      }
+     },
+     "plans": 7,
+     "url": "https://www.jalan.net/yad367761/plan/?stayYear=2026&stayMonth=10&stayDay=16&stayCount=1&roomCount=1&adultNum=2&yadNo=367761&roomCrack=200000"
+    }
+   },
+   "pleasant": {
+    "jalan": {
+     "available": false,
+     "calendar": "16 ×",
+     "roomsLeft": null,
+     "min": null,
+     "best": {},
+     "plans": 0,
+     "url": "https://www.jalan.net/yad341349/plan/?stayYear=2026&stayMonth=10&stayDay=16&stayCount=1&roomCount=1&adultNum=2&yadNo=341349&roomCrack=200000"
+    },
+    "booking": {
+     "error": "Page.wait_for_selector: Timeout 30000ms exceeded.\nCall log:\nwaiting for locator(\"[data-testid=\\\"property-card\\\"]\") to be visible\n"
+    }
+   },
+   "viainn": {
+    "jalan": {
+     "available": true,
+     "calendar": "16 ○",
+     "roomsLeft": null,
+     "min": 38160,
+     "best": {
+      "breakfast": {
+       "total": 41460,
+       "room": "バストイレ別・２６平米【禁煙】デラックスダブル＜２名＞",
+       "plan": "洗い場付きのバスルームでお仕事・旅の疲れをRefresh◇セパレートバスで贅沢STAY【朝食付き】",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      },
+      "none": {
+       "total": 38160,
+       "room": "バストイレ別・２６平米【禁煙】デラックスダブル（２名）",
+       "plan": "洗い場付きのバスルームでお仕事・旅の疲れをRefresh◇セパレートバスで贅沢STAY【食事なし】",
+       "coupon": 0,
+       "noBath": false,
+       "nonRefund": false
+      }
+     },
+     "plans": 16,
+     "url": "https://www.jalan.net/yad367740/plan/?stayYear=2026&stayMonth=10&stayDay=16&stayCount=1&roomCount=1&adultNum=2&yadNo=367740&roomCrack=200000"
+    }
+   },
+   "apa": {
+    "jalan": {
+     "available": false,
+     "calendar": "16 ×",
+     "roomsLeft": null,
+     "min": null,
+     "best": {},
+     "plans": 0,
+     "url": "https://www.jalan.net/yad302414/plan/?stayYear=2026&stayMonth=10&stayDay=16&stayCount=1&roomCount=1&adultNum=2&yadNo=302414&roomCrack=200000"
+    }
+   }
+  }
  }
 ]
