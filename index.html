@@ -175,7 +175,7 @@ tr.over td{color:var(--muted)}
 
   <section class="panel" aria-label="全程費用試算">
     <h2>全程費用試算（兩人） <span class="status" id="fitCount"></span></h2>
-    <p class="sub">機票與天橋立、京都住宿都用最新自動查價，選項預設為「可訂到的最便宜」。其他交通、門票、餐飲依目前行程逐項估算，可切換方案即時重算。</p>
+    <p class="sub">機票與住宿都已訂，填入實付金額即可計入總額。其他交通、門票、餐飲依目前行程逐項估算，可切換方案即時重算。</p>
     <div class="summary">
       <div class="stat"><span class="label">全程總費用（兩人）</span><span class="big num" id="tripTotal">—</span><span class="sub" id="tripBreakdown">—</span></div>
       <div class="stat"><span class="label">每人約</span><span class="big num" id="perPerson">—</span><span class="sub" id="perPersonNote">—</span></div>
@@ -392,7 +392,7 @@ function renderTrip(){
       ['與謝荘','接駁回站',5,80],['天橋立站','寄櫃→巴士',17,52],['日出碼頭','遊覽船',29,20],['伊根舟屋','午餐',41,46],['天橋立站','15:51特急',54,74],['京都住宿','18:30入住',68,42],['嵯峨嵐山','JR 15分',82,76],['月灯路','20:40前入場',95,34]
     ],
     '2026-10-17':[
-      ['京都住宿','7:00退房',5,78],['清水寺','7:20人少',18,34],['二年坂','石板街',31,66],['祇園四条','京阪',44,36],['下鴨神社','糺之森',58,26],['京都站','取行李',70,62],['天王寺','放行李',82,82],['姫島河堤','17:00到・免費',95,40]
+      ['Almont','7:00退房',5,78],['清水寺','7:20人少',18,34],['二年坂','石板街',31,66],['祇園四条','京阪',44,36],['下鴨神社','糺之森',58,26],['京都站','取行李',70,62],['天王寺','放行李',82,82],['姫島河堤','17:00到・免費',95,40]
     ],
     '2026-10-18':[
       ['天王寺','大和路快速',8,70],['JR奈良','東口2號站牌',27,50],['東大寺','奈良公園',44,25],['JR奈良','JR奈良線',58,50],['JR宇治','南口',75,35],['平等院','表參道',91,58]
@@ -420,7 +420,7 @@ function renderTrip(){
       ['food','加茂みたらし茶屋','糰子早午餐',55,58,58,26,'加茂みたらし茶屋'],
       ['food','京都拉麵小路','午餐',64,90,70,62,'京都拉麵小路'],
       ['food','姫島站前','超市補給',84,20,95,40,'阪神 姫島駅'],
-      ['locker','京都住宿','寄放行李',30,94,5,78,'Sakura Terrace The Atelier Kyoto']
+      ['locker','Almont','寄放行李',30,94,5,78,'アルモントホテル京都']
     ],
     '2026-10-18':[
       ['food','麵闘庵','巾著烏龍麵',42,10,44,25,'麺闘庵 奈良'],
@@ -473,9 +473,18 @@ function renderTrip(){
   const hotelLinks=(h,cfg)=>{const nights=1;const d=new Date(h.checkin+'T00:00:00');const jal=h.jalan?`https://www.jalan.net/yad${h.jalan}/plan/?stayYear=${d.getFullYear()}&stayMonth=${d.getMonth()+1}&stayDay=${d.getDate()}&stayCount=${nights}&roomCount=1&adultNum=${cfg.adults}&yadNo=${h.jalan}&roomCrack=200000`:'';const bq=(h.booking&&h.booking.query)||h.map;const booking=`https://www.booking.com/searchresults.zh-tw.html?ss=${encodeURIComponent(bq)}&checkin=${h.checkin}&checkout=${h.checkout}&group_adults=${cfg.adults}&no_rooms=1&group_children=0&selected_currency=TWD`;const ag=`${h.agoda}?checkIn=${h.checkin}&checkOut=${h.checkout}&los=1&rooms=1&adults=${cfg.adults}&children=0&currencyCode=TWD`;const map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.map)}`;return {jal,booking,ag,map}};
   const transferFlow={
     amanohashidate:[['🚆','天橋立站','10/15 抵達'],['🧳','大型寄物櫃','¥800／可放大行李箱'],['🌲','智恩寺・View Land','輕裝觀光'],['📞','約好的時間','站前上接駁車'],['🏨','與謝荘','車程約5分・18:00前入住'],['🚐','10/16 接駁回站','行李寄站內櫃→伊根巴士']],
-    kyoto:[['🚆','京都站','特急抵達・西口出站'],['🚶','地下通路往南','走到八條口（南側）'],['➡️','沿烏丸通往南','約500m・過九條通前'],['🏨','京都住宿','Atelier 約6分／Green Rich 約10分'],['🌙','10/16 晚上','放好行李再搭 JR 去嵐山月灯路'],['🚕','10/17 7:00','退房寄行李，計程車約15分到清水寺']]
+    kyoto:[['🚆','京都站','はしだて到 31 號月台'],['🚶','八条東口','南側、麥當勞那側出口'],['🏨','Almont Hotel Kyoto','步行約5分・14:00 起入住'],['🌙','10/16 晚上','放好行李回 32 號月台搭 JR 去嵐山'],['♨️','回飯店泡大浴場','16:00–翌 2:00'],['🚕','10/17 7:00','退房寄行李，計程車約15分到清水寺']]
   };
   const renderStays=()=>{
+    if(trip&&trip.bookedStays){
+      ['stayUpdated'].forEach(id=>$(id).hidden=true);
+      document.querySelectorAll('.price-note,.booking-steps').forEach(e=>e.hidden=true);
+      $('stayGroups').innerHTML=Object.entries(trip.bookedStays).map(([dt,b])=>{
+        const flow=(transferFlow[b.flow]||[]).map(f=>`<div class="flow-step"><span class="flow-ic">${f[0]}</span><b>${esc(f[1])}</b><small>${esc(f[2])}</small></div>`).join('<span class="flow-arrow">→</span>');
+        return `<div class="stay-group"><div class="stay-group-head"><h3>${esc(dt.slice(5).replace('-','/'))} ${esc(b.name.replace(/（.*?）/,''))}</h3><span class="sub">入住 ${esc(b.in)}・退房 ${esc(b.out)}</span></div>${flow?`<div class="flow">${flow}</div>`:''}<div class="guide-links"><a class="map-link" href="${esc(b.official)}" target="_blank" rel="noopener noreferrer">飯店頁面 ↗</a> <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.map)}" target="_blank" rel="noopener noreferrer">📍 地圖 ↗</a></div></div>`;
+      }).join('');
+      return;
+    }
     if(!hotelCfg)return;
     const cfg=hotelCfg,last=hotelHist[hotelHist.length-1],prev=hotelHist[hotelHist.length-2];
     $('stayUpdated').innerHTML=last?`最後查價：<b>${esc(last.checkedAt.replace('T',' '))}</b>（台北時間）・已累積 ${hotelHist.length} 次紀錄`:'尚未有自動查價紀錄';
@@ -536,7 +545,7 @@ function renderTrip(){
   $('couponGrid').innerHTML=(trip.coupons||[]).map(c=>`<article class="coupon"><h3>${esc(c.store)}</h3><p>${esc(c.offer)}</p><p class="valid">有效期：${esc(c.valid)}</p><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">開啟最新優惠券 ↗</a></article>`).join('');
   $('lockerLinks').innerHTML=(trip.lockerLinks||[]).map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a>`).join('');
   renderStays();
-  if(trip.bookedStays){$('bookedStays').innerHTML=`<div class="booked-stays">${Object.entries(trip.bookedStays).map(([dt,b])=>`<div class="booked-stay"><span class="pill good">已訂</span> <b>${esc(dt.slice(5).replace('-','/'))}</b> ${esc(b.name)}<br><span class="sub">${esc(b.city)}｜入住 ${esc(b.in)}，退房 ${esc(b.out)}｜${esc(b.note)}</span></div>`).join('')}<p class="sub">已停止飯店查價；下方為訂房前的比價紀錄。</p></div>`;}
+  if(trip.bookedStays){$('bookedStays').innerHTML=`<div class="booked-stays">${Object.entries(trip.bookedStays).map(([dt,b])=>`<div class="booked-stay"><span class="pill good">已訂</span> <b>${esc(dt.slice(5).replace('-','/'))}</b> ${esc(b.name)}<br><span class="sub">${esc(b.city)}｜入住 ${esc(b.in)}，退房 ${esc(b.out)}｜${esc(b.note)}</span></div>`).join('')}<p class="sub">兩晚都已訂好，已停止飯店查價。</p></div>`;}
   if(latest.length)render(latest);
 }
 
