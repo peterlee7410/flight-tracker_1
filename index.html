@@ -124,10 +124,8 @@ tr.over td{color:var(--muted)}
       <span>回程 <b class="num">2026-10-19 (一)</b></span>
       <span>成人 ×2 · 經濟艙</span>
       <span><a href="planner/" style="color:inherit;font-weight:700">🧭 旅程產生器（其他目的地）→</a></span>
-      <span>行李：去程 1 件、回程 2 件 (共 3 件 20–23kg)</span>
-      <span>目標總價 <b class="num">≤ NT$30,000</b></span>
-      <span>時間限制：去程 <b class="num">16:00 前抵達關西</b>、回程 <b class="num">10:00 後起飛</b></span>
-      <span>組合：全廉航、全傳統、去程廉航＋回程傳統</span>
+      <span>✈ 已訂 星宇 <b class="num">JX820</b> 10/14 08:30→12:15 KIX</span>
+      <span>✈ 已訂 星宇 <b class="num">JX823</b> 10/19 15:10 KIX→17:05</span>
     </div>
   </header>
 
@@ -180,7 +178,7 @@ tr.over td{color:var(--muted)}
     <div class="summary">
       <div class="stat"><span class="label">全程總費用（兩人）</span><span class="big num" id="tripTotal">—</span><span class="sub" id="tripBreakdown">—</span></div>
       <div class="stat"><span class="label">每人約</span><span class="big num" id="perPerson">—</span><span class="sub" id="perPersonNote">—</span></div>
-      <div class="stat"><span class="label">符合行程的最低機票</span><span class="big num" id="fitBest">—</span><span class="sub" id="fitBestWho">—</span></div>
+      <div class="stat"><span class="label" id="fitLabel">符合行程的最低機票</span><span class="big num" id="fitBest">—</span><span class="sub" id="fitBestWho">—</span></div>
     </div>
     <div class="cost-bar" id="costBar" role="img" aria-label="各類費用比例"></div>
     <div class="cost-legend" id="costLegend"></div>
@@ -190,6 +188,7 @@ tr.over td{color:var(--muted)}
       <label class="field">10/16 京都住宿<select id="stay16"></select></label>
       <label class="field">餐飲預算<select id="foodLevel"></select></label>
       <label class="field">淀川花火<select id="fireworksMode"><option value="free">免費觀賞（姫島／十三側河川敷）｜¥0</option><option value="paid">付費席｜兩人約 ¥28,000</option></select></label>
+      <label class="field" id="flightPaidWrap" hidden>已訂機票金額（NT$，兩人，選填）<input id="flightPaid" type="number" min="0" step="100" inputmode="numeric" placeholder="例：28000"></label>
       <label class="field">RTI 天王寺 3 晚已付（¥，選填）<input id="rtiJpy" type="number" min="0" step="1000" inputmode="numeric" placeholder="例：36000"></label>
       <label class="field">換算匯率（1日圓＝新台幣）<input id="jpyRate" type="number" min="0.01" max="1" step="0.001" inputmode="decimal"></label>
     </div>
@@ -304,10 +303,12 @@ function fillStayChoices(){
   quote();
 }
 function quote(){
-  const o=currentOptions[Number($('flightChoice').value)], rate=Number($('jpyRate').value);
+  const booked=trip&&trip.bookedFlights&&$('flightChoice').value==='booked';
+  const o=booked?null:currentOptions[Number($('flightChoice').value)], rate=Number($('jpyRate').value);
   if(!trip||!Number.isFinite(rate)||rate<=0){$('tripTotal').textContent='—';$('tripBreakdown').textContent='請填入有效的匯率';return;}
   const rows=[];
-  if(o) rows.push({cat:'機票',label:`${o.airline}（含行李估算）`,twd:o.totalEst,note:`${o.out} 去／${o.ret} 回`});
+  if(booked){const b=trip.bookedFlights,paid=Number($('flightPaid').value)||0;rows.push({cat:'機票',label:`${b.airline} ${b.outbound.no}／${b.return.no}（已訂）`,twd:paid,note:paid?'已付金額':'已訂，未填金額不計入'});}
+  else if(o) rows.push({cat:'機票',label:`${o.airline}（含行李估算）`,twd:o.totalEst,note:`${o.out} 去／${o.ret} 回`});
   let mealAdj=0;
   [['stay15','10/15 天橋立'],['stay16','10/16 京都']].forEach(([id,day])=>{const opt=hotelOptions(id==='stay15'?'amanohashidate':'kyoto').find(x=>x.value===$(id).value);
     if(opt&&opt.jpy){rows.push({cat:'住宿',label:`${day}｜${opt.hotel.nameZh.replace(/（.*?）/,'')}`,jpy:opt.jpy,note:opt.label.split('｜')[0].split('・').pop()+'・じゃらん含稅'});
@@ -330,7 +331,19 @@ function quote(){
   $('costBar').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span style="flex:${v};background:${COST_COLORS[k]}" title="${esc(k)} ${fmt(v)}"></span>`).join('');
   $('costLegend').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span><i style="background:${COST_COLORS[k]}"></i>${esc(k)} <b class="num">${fmt(v)}</b> <small>${Math.round(v/total*100)}%</small></span>`).join('');
   $('costRows').innerHTML=rows.map(r=>`<tr><td><span class="cat-dot" style="background:${COST_COLORS[r.cat]}"></span>${esc(r.cat)}</td><td>${esc(r.label)}</td><td class="r num">${r.jpy!=null?'¥'+r.jpy.toLocaleString():'—'}</td><td class="r num">${fmt(r.twd)}</td><td class="sub">${esc(r.note||'')}</td></tr>`).join('')+`<tr class="cost-total"><td colspan="3"><b>合計（兩人）</b></td><td class="r num"><b>${fmt(total)}</b></td><td class="sub">每人約 ${fmt(Math.round(total/trip.travelers))}</td></tr>`;
-  try{localStorage.setItem('flightTripRate',String(rate));['stay15','stay16','foodLevel','rtiJpy','fireworksMode'].forEach(id=>localStorage.setItem('cost_'+id,$(id).value));}catch(e){}
+  try{localStorage.setItem('flightTripRate',String(rate));['stay15','stay16','foodLevel','rtiJpy','fireworksMode','flightPaid'].forEach(id=>localStorage.setItem('cost_'+id,$(id).value));}catch(e){}
+}
+function applyBooked(){
+  const b=trip&&trip.bookedFlights; if(!b) return false;
+  $('flightChoice').innerHTML=`<option value="booked">已訂 ${esc(b.airline)} ${esc(b.outbound.no)}／${esc(b.return.no)}</option>`;
+  $('flightChoice').value='booked'; $('flightChoice').disabled=true; $('flightPaidWrap').hidden=false;
+  try{$('flightPaid').value=localStorage.getItem('cost_flightPaid')||'';}catch(e){}
+  $('fitLabel').textContent='已訂機票'; $('fitCount').textContent='';
+  $('fitBest').textContent=`${b.outbound.no}／${b.return.no}`;
+  $('fitBestWho').textContent=`${b.airline} · 10/14 ${b.outbound.dep}→${b.outbound.arr} / 10/19 ${b.return.dep}→${b.return.arr}`;
+  const v=$('verdict'); v.className='pill good'; v.textContent='機票已訂';
+  $('nextNote').textContent='機票已訂（星宇 JX820／JX823），已停止查價；上方價格為訂票前的查價紀錄。';
+  return true;
 }
 function renderTripOptions(options){
   const selected=currentOptions[Number($('flightChoice').value)];
@@ -339,6 +352,7 @@ function renderTripOptions(options){
   $('fitCount').textContent=`(${suitable.length} / ${options.length} 筆符合建議時段)`;
   $('fitBest').textContent=suitable.length?fmt(suitable[0].totalEst):'目前無合適航班';
   $('fitBestWho').textContent=suitable.length?`${suitable[0].airline} · ${suitable[0].out} / ${suitable[0].ret}`:'可改看完整航班表';
+  if(applyBooked()){quote();return;}
   $('flightChoice').innerHTML=options.map((o,i)=>`<option value="${i}">${esc(o.airline)}｜${fmt(o.totalEst)}｜${fitsTrip(o)?'符合行程':'需調整行程'}</option>`).join('');
   const prior=selected && options.findIndex(o=>o.airline===selected.airline && o.out===selected.out && o.ret===selected.ret);
   $('flightChoice').value=userSelected && prior>=0 ? String(prior) : String(Math.max(0,options.indexOf(suitable[0])));
@@ -567,6 +581,7 @@ function render(checks){
     userSelected=true;$('flightChoice').value=btn.dataset.choice;quote();$('tripTotal').scrollIntoView({behavior:'smooth',block:'center'});
   }));
   $('nextNote').textContent = last.summary ? '最新判讀：' + last.summary : '';
+  applyBooked();
   drawChart(withBest);
 }
 
@@ -599,6 +614,7 @@ function drawChart(pts){
 
 let latest = [];
 $('flightChoice').addEventListener('change',()=>{userSelected=true;quote()});
+$('flightPaid').addEventListener('input',quote);
 ['stay15','stay16','foodLevel','fireworksMode'].forEach(id=>$(id).addEventListener('change',quote));$('rtiJpy').addEventListener('input',quote);
 $('jpyRate').addEventListener('input',quote);
 window.addEventListener('resize',()=>{ if(latest.length) render(latest); });

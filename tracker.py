@@ -357,6 +357,9 @@ def main():
         DATA, CONFIG_PATH = base / "data", base / "config.json"
 
     cfg = load_config()
+    if cfg.get("booked"):
+        print("機票已訂（config.json booked=true），停止查價。")
+        return
     now = dt.datetime.now(TPE_TZ)
     if now.date() >= dt.date.fromisoformat(cfg["depart_date"]):
         print("行程已出發，停止追蹤。")
