@@ -379,7 +379,7 @@ function renderTrip(){
     '2026-10-16':'https://www.google.com/maps/dir/?api=1&origin=Bekkan+Yosanoso+Miyazu&destination=Arashiyama+Bamboo+Grove&waypoints=Amanohashidate+Station%7CIne+Bay+Sightseeing+Boat%7CKyoto+Station%7CSaga-Arashiyama+Station&travelmode=transit',
     '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Himejima+Station+Osaka&waypoints=Kiyomizu-dera%7CShimogamo+Shrine%7CTennoji+Station%7COsaka-Umeda+Station+Hanshin&travelmode=transit',
     '2026-10-18':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Tennoji+Station&waypoints=Nara+Park%7CTodai-ji%7CByodoin%7CUji+Station&travelmode=transit',
-    '2026-10-19':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Kansai+International+Airport&travelmode=transit'
+    '2026-10-19':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Kansai+International+Airport&waypoints=Rinku+Premium+Outlets&travelmode=transit'
   };
   const dailyMaps={
     '2026-10-14':[
@@ -398,7 +398,7 @@ function renderTrip(){
       ['天王寺','大和路快速',8,70],['JR奈良','東口2號站牌',27,50],['東大寺','奈良公園',44,25],['JR奈良','JR奈良線',58,50],['JR宇治','南口',75,35],['平等院','表參道',91,58]
     ],
     '2026-10-19':[
-      ['RTI','帶齊行李',10,62],['JR天王寺','中央口',31,45],['HARUKA','指定席',53,63],['JR關西機場','出閘過空橋',74,38],['KIX T1','4F托運',91,55]
+      ['RTI','帶齊行李',8,62],['JR天王寺','15號月台',26,45],['りんくうタウン','關空快速前4節',48,63],['Outlet','置物櫃→逛街',69,38],['KIX T1','Sky Shuttle',91,55]
     ]
   };
   const dailyPOIs={
@@ -429,7 +429,7 @@ function renderTrip(){
     ],
     '2026-10-19':[
       ['food','KIX安檢後餐飲','托運後再用餐',91,78,91,55,'Kansai Airport Terminal 1 restaurants'],
-      ['locker','不寄物','行李直接托運',74,16,74,38,'Kansai Airport baggage storage']
+      ['locker','Outlet置物櫃','XL ¥800',69,16,69,38,'りんくうプレミアム・アウトレット コインロッカー']
     ]
   };
   const commons=(file)=>`https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(file)}?width=640`;
