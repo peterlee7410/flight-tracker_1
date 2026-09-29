@@ -428,7 +428,7 @@ function renderTrip(){
       ['locker','RTI天王寺','大行李留飯店',10,88,8,70,'RTI Tennoji luggage storage']
     ],
     '2026-10-19':[
-      ['food','KIX安檢後餐飲','托運後再用餐',91,78,91,55,'Kansai Airport Terminal 1 restaurants'],
+      ['food','Outlet 美食街','11:30 午餐',69,80,69,38,'りんくうプレミアム・アウトレット フードコート'],
       ['locker','Outlet置物櫃','XL ¥800',69,16,69,38,'りんくうプレミアム・アウトレット コインロッカー']
     ]
   };
@@ -460,8 +460,9 @@ function renderTrip(){
       ['車站','JR奈良站','由東口轉市內循環巴士',commons('JR Nara Station.jpg'),'JR奈良站 東口','https://commons.wikimedia.org/wiki/File:JR_Nara_Station.jpg']
     ],
     '2026-10-19':[
-      ['景點','KIX第一航廈','實際航廈',commons('Kansai Airport Terminal1 (20382128393).jpg'),'關西機場第一航廈','https://commons.wikimedia.org/wiki/File:Kansai_Airport_Terminal1_(20382128393).jpg'],
-      ['美食','KIX安檢後餐飲','依當日營業店家選擇',commons('A bowl of ramen in Osaka, Japan.jpg'),'Kansai Airport Terminal 1 restaurants','https://commons.wikimedia.org/wiki/File:A_bowl_of_ramen_in_Osaka,_Japan.jpg'],
+      ['景點','りんくう Premium Outlets','海邊 Outlet 全景',commons('Rinku premium outlets01s3200.jpg'),'りんくうプレミアム・アウトレット','https://commons.wikimedia.org/wiki/File:Rinku_premium_outlets01s3200.jpg'],
+      ['景點','Outlet 店街','約 250 家店・10:00 開門',commons('Rinku premium outlets02s3200.jpg'),'りんくうプレミアム・アウトレット','https://commons.wikimedia.org/wiki/File:Rinku_premium_outlets02s3200.jpg'],
+      ['景點','Outlet 拍照點','海邊廣場',commons('Rinku Premium Outlet (35669222573).jpg'),'りんくうプレミアム・アウトレット','https://commons.wikimedia.org/wiki/File:Rinku_Premium_Outlet_(35669222573).jpg'],
       ['車站','KIX第一航廈出發層','4樓辦理托運',commons('Kansai Airport Terminal 1 Departure 2025.JPG'),'KIX Terminal 1 Departure','https://commons.wikimedia.org/wiki/File:Kansai_Airport_Terminal_1_Departure_2025.JPG']
     ]
   };
@@ -536,7 +537,7 @@ function renderTrip(){
     const mapUrl=d.mapUrl||dayMaps[d.date];
     const map=mapUrl?`<div class="guide-links"><a class="map-link" href="${esc(mapUrl)}" target="_blank" rel="noopener noreferrer">📍 開啟今日 Google Maps ↗</a></div>`:'';
     const route=(d.route||[]).length?`<div class="day-route-title"><span>🗺️ 今日路線地圖</span><span>依編號前進</span></div>${miniMap(d.date)}${photoGallery(d.date)}<div class="day-route-title"><span>🚉 出口與轉乘細節</span><span>左右滑動查看</span></div><div class="route-strip" aria-label="${esc(d.date)} 詳細路線">${d.route.map((s,i)=>`<div class="route-step" data-n="${i+1}">${esc(s)}</div>`).join('')}</div><div class="route-help">地圖編號對應下方步驟；每格都有下一個站名、出口或地標</div>`:'';
-    return `<article class="day"><div class="scene scene-${esc(sc.theme)}"><div class="scene-copy"><div class="scene-icon">${esc(sc.icon)}</div><div class="scene-title">${esc(sc.title)}</div><div class="scene-blurb">${esc(sc.blurb)}</div></div></div><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">🏨 ${esc(d.stay)}</p>${route}${map}${trainBlock(d)}${detail('🚆 備用文字版交通',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${detail('🍜 平價美食',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`;
+    return `<article class="day"><div class="scene scene-${esc(sc.theme)}"><div class="scene-copy"><div class="scene-icon">${esc(sc.icon)}</div><div class="scene-title">${esc(sc.title)}</div><div class="scene-blurb">${esc(sc.blurb)}</div></div></div><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">🏨 ${esc(d.stay)}</p>${route}${map}${trainBlock(d)}${detail('🚆 備用文字版交通',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${d.shopping?detail('🛍️ Outlet 採購攻略',d.shopping):''}${detail('🍜 平價美食',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`;
   }).join('');
   if(trip.ticketPlan){
     $('ticketPlanTitle').textContent=trip.ticketPlan.title;
