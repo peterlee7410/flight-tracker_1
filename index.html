@@ -109,6 +109,7 @@ tr.over td{color:var(--muted)}
 @media(max-width:600px){.scene{height:126px}.route-canvas svg{min-width:700px}.big{font-size:26px}}
 .action{background:none;border:1px solid var(--accent);border-radius:6px;color:var(--accent);padding:4px 8px;cursor:pointer;font:inherit;font-size:12px}
 .action:focus-visible{outline:2px solid var(--accent)}
+.booked-stays{display:grid;gap:8px;margin:6px 0 12px}.booked-stay{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px}
 </style>
 </head>
 <body>
@@ -186,6 +187,8 @@ tr.over td{color:var(--muted)}
       <label class="field">機票<select id="flightChoice" aria-label="選擇航班"></select></label>
       <label class="field">10/15 天橋立住宿<select id="stay15"></select></label>
       <label class="field">10/16 京都住宿<select id="stay16"></select></label>
+      <label class="field" id="stay15PaidWrap" hidden>與謝荘已付（¥，選填）<input id="stay15Paid" type="number" min="0" step="100" inputmode="numeric" placeholder="例：14268"></label>
+      <label class="field" id="stay16PaidWrap" hidden>Almont 已付（¥，選填）<input id="stay16Paid" type="number" min="0" step="100" inputmode="numeric" placeholder="例：18000"></label>
       <label class="field">餐飲預算<select id="foodLevel"></select></label>
       <label class="field">淀川花火<select id="fireworksMode"><option value="free">免費觀賞（姫島／十三側河川敷）｜¥0</option><option value="paid">付費席｜兩人約 ¥28,000</option></select></label>
       <label class="field" id="flightPaidWrap" hidden>已訂機票金額（NT$，兩人，選填）<input id="flightPaid" type="number" min="0" step="100" inputmode="numeric" placeholder="例：28000"></label>
@@ -203,7 +206,8 @@ tr.over td{color:var(--muted)}
   </section>
 
   <section class="panel" aria-label="天橋立與京都住宿">
-    <h2>天橋立與京都住宿（每日自動查價）</h2>
+    <h2>天橋立與京都住宿</h2>
+    <div id="bookedStays"></div>
     <p class="sub">天橋立 10/15、京都 10/16；2位成人、1間房。訂房按鈕以 Agoda 為主（日期與人數已帶入）；價格與空房由 GitHub 每天 08:47、20:47 自動查詢じゃらん與 Booking.com，降價、出現空房或快客滿時推播提醒。</p>
     <div class="stay-updated" id="stayUpdated">正在讀取住宿價格…</div>
     <div id="stayGroups"></div>
@@ -295,6 +299,8 @@ function hotelOptions(city){
 }
 function fillStayChoices(){
   [['stay15','amanohashidate'],['stay16','kyoto']].forEach(([id,city])=>{
+    const bk=trip&&trip.bookedStays&&trip.bookedStays[id==='stay15'?'2026-10-15':'2026-10-16'];
+    if(bk){$(id).innerHTML=`<option value="booked">已訂 ${esc(bk.name.replace(/（.*?）/,''))}</option>`;$(id).value='booked';$(id).disabled=true;$(id+'PaidWrap').hidden=false;try{$(id+'Paid').value=localStorage.getItem('cost_'+id+'Paid')||'';}catch(e){}return;}
     const opts=hotelOptions(city), el=$(id), saved=localStorage.getItem('cost_'+id);
     el.innerHTML=opts.map(o=>`<option value="${o.value}" ${o.disabled?'disabled':''}>${esc(o.label)}</option>`).join('')||'<option value="">尚無查價資料</option>';
     const ok=opts.find(o=>o.value===saved&&!o.disabled), first=opts.find(o=>!o.disabled);
@@ -310,7 +316,9 @@ function quote(){
   if(booked){const b=trip.bookedFlights,paid=Number($('flightPaid').value)||0;rows.push({cat:'機票',label:`${b.airline} ${b.outbound.no}／${b.return.no}（已訂）`,twd:paid,note:paid?'已付金額':'已訂，未填金額不計入'});}
   else if(o) rows.push({cat:'機票',label:`${o.airline}（含行李估算）`,twd:o.totalEst,note:`${o.out} 去／${o.ret} 回`});
   let mealAdj=0;
-  [['stay15','10/15 天橋立'],['stay16','10/16 京都']].forEach(([id,day])=>{const opt=hotelOptions(id==='stay15'?'amanohashidate':'kyoto').find(x=>x.value===$(id).value);
+  [['stay15','10/15 天橋立'],['stay16','10/16 京都']].forEach(([id,day])=>{
+    if($(id).value==='booked'){const bk=trip.bookedStays[id==='stay15'?'2026-10-15':'2026-10-16'],paid=Number($(id+'Paid').value)||0;rows.push({cat:'住宿',label:`${day}｜${bk.name.replace(/（.*?）/,'')}（已訂）`,jpy:paid,note:paid?'已付金額':'已訂，未填金額不計入'});return;}
+    const opt=hotelOptions(id==='stay15'?'amanohashidate':'kyoto').find(x=>x.value===$(id).value);
     if(opt&&opt.jpy){rows.push({cat:'住宿',label:`${day}｜${opt.hotel.nameZh.replace(/（.*?）/,'')}`,jpy:opt.jpy,note:opt.label.split('｜')[0].split('・').pop()+'・じゃらん含稅'});
       if(opt.meal==='dinner'||opt.meal==='both')mealAdj+=2500*trip.travelers; if(opt.meal==='breakfast'||opt.meal==='both')mealAdj+=800*trip.travelers;}
     else rows.push({cat:'住宿',label:`${day}｜尚未選定`,jpy:0,note:'目前無可訂資料'});});
@@ -331,7 +339,7 @@ function quote(){
   $('costBar').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span style="flex:${v};background:${COST_COLORS[k]}" title="${esc(k)} ${fmt(v)}"></span>`).join('');
   $('costLegend').innerHTML=Object.entries(byCat).filter(([,v])=>v>0).map(([k,v])=>`<span><i style="background:${COST_COLORS[k]}"></i>${esc(k)} <b class="num">${fmt(v)}</b> <small>${Math.round(v/total*100)}%</small></span>`).join('');
   $('costRows').innerHTML=rows.map(r=>`<tr><td><span class="cat-dot" style="background:${COST_COLORS[r.cat]}"></span>${esc(r.cat)}</td><td>${esc(r.label)}</td><td class="r num">${r.jpy!=null?'¥'+r.jpy.toLocaleString():'—'}</td><td class="r num">${fmt(r.twd)}</td><td class="sub">${esc(r.note||'')}</td></tr>`).join('')+`<tr class="cost-total"><td colspan="3"><b>合計（兩人）</b></td><td class="r num"><b>${fmt(total)}</b></td><td class="sub">每人約 ${fmt(Math.round(total/trip.travelers))}</td></tr>`;
-  try{localStorage.setItem('flightTripRate',String(rate));['stay15','stay16','foodLevel','rtiJpy','fireworksMode','flightPaid'].forEach(id=>localStorage.setItem('cost_'+id,$(id).value));}catch(e){}
+  try{localStorage.setItem('flightTripRate',String(rate));['stay15','stay16','foodLevel','rtiJpy','fireworksMode','flightPaid','stay15Paid','stay16Paid'].forEach(id=>localStorage.setItem('cost_'+id,$(id).value));}catch(e){}
 }
 function applyBooked(){
   const b=trip&&trip.bookedFlights; if(!b) return false;
@@ -528,6 +536,7 @@ function renderTrip(){
   $('couponGrid').innerHTML=(trip.coupons||[]).map(c=>`<article class="coupon"><h3>${esc(c.store)}</h3><p>${esc(c.offer)}</p><p class="valid">有效期：${esc(c.valid)}</p><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">開啟最新優惠券 ↗</a></article>`).join('');
   $('lockerLinks').innerHTML=(trip.lockerLinks||[]).map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a>`).join('');
   renderStays();
+  if(trip.bookedStays){$('bookedStays').innerHTML=`<div class="booked-stays">${Object.entries(trip.bookedStays).map(([dt,b])=>`<div class="booked-stay"><span class="pill good">已訂</span> <b>${esc(dt.slice(5).replace('-','/'))}</b> ${esc(b.name)}<br><span class="sub">${esc(b.city)}｜入住 ${esc(b.in)}，退房 ${esc(b.out)}｜${esc(b.note)}</span></div>`).join('')}<p class="sub">已停止飯店查價；下方為訂房前的比價紀錄。</p></div>`;}
   if(latest.length)render(latest);
 }
 
@@ -615,6 +624,7 @@ function drawChart(pts){
 let latest = [];
 $('flightChoice').addEventListener('change',()=>{userSelected=true;quote()});
 $('flightPaid').addEventListener('input',quote);
+$('stay15Paid').addEventListener('input',quote);$('stay16Paid').addEventListener('input',quote);
 ['stay15','stay16','foodLevel','fireworksMode'].forEach(id=>$(id).addEventListener('change',quote));$('rtiJpy').addEventListener('input',quote);
 $('jpyRate').addEventListener('input',quote);
 window.addEventListener('resize',()=>{ if(latest.length) render(latest); });

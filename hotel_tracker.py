@@ -207,6 +207,9 @@ def main():
         DATA = base / "data"
 
     cfg = json.loads((base / "hotels.json").read_text(encoding="utf-8"))
+    if cfg.get("booked"):
+        print("住宿已訂（hotels.json booked=true），停止查價。")
+        return
     now = dt.datetime.now(TPE_TZ)
     last_night = max(h["checkin"] for h in cfg["hotels"])
     if now.date().isoformat() >= last_night:
