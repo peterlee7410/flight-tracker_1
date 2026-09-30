@@ -80,6 +80,8 @@ tr.over td{color:var(--muted)}
 .train-row .t{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}.train-row .t small{font-weight:400;color:var(--muted)}.train-row .n small{color:var(--muted)}.train-row .pf{font-size:12px;text-align:right;white-space:nowrap}
 .train-row .note{grid-column:1/-1;font-size:12px;color:var(--muted)}.train-row.rec{border:2px solid var(--good);background:color-mix(in srgb,var(--good) 9%,transparent)}.rec-badge{display:inline-block;background:var(--good);color:#fff;font-size:11px;font-weight:700;border-radius:4px;padding:0 5px;margin-right:5px}
 .train-tip{font-size:12px;color:var(--muted);margin:2px 0 0}
+.wx{margin:8px 0;border:1px solid var(--line,#e5e7eb);border-radius:10px;padding:8px 10px;font-size:13px;background:rgba(14,165,233,.06)}.wx h4{margin:0 0 4px;font-size:13px}.wx-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 8px;align-items:center;padding:3px 0}.wx-row .i{font-size:20px}.wx-row b{font-weight:600}.wx-tip{margin:4px 0 0;font-size:12px}.wx small,.wx .sub{color:var(--muted);font-size:12px}
+
 .day details p{font-size:13px;margin:6px 0}.day details ul{margin-bottom:2px}
 .route-strip{display:flex;align-items:stretch;gap:22px;overflow-x:auto;padding:10px 4px 14px;margin:8px 0 4px;scroll-snap-type:x proximity}.route-step{flex:0 0 180px;background:#f4fafb;border:1px solid #bcd9df;border-radius:8px;padding:10px 10px 10px 38px;position:relative;scroll-snap-align:start;font-size:12px;line-height:1.45;color:#263b45}.route-step::before{content:attr(data-n);position:absolute;left:9px;top:10px;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font:700 11px var(--mono)}.route-step::after{content:'›';position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:28px;color:#0b6e8a}.route-step:last-child::after{display:none}.route-help{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin-top:6px}.route-help::before{content:'←';color:var(--accent);font-weight:800}.day-route-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-weight:700;font-size:13px}.day-route-title span:last-child{font-weight:400;color:var(--muted);font-size:11px}
 .day-map{margin:10px 0 6px;border:1px solid #bcd9df;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#eef8f9,#f8f5e9);position:relative}.day-map::before{content:'';position:absolute;inset:0;background-image:linear-gradient(#0b6e8a0d 1px,transparent 1px),linear-gradient(90deg,#0b6e8a0d 1px,transparent 1px);background-size:24px 24px}.day-map svg{display:block;width:100%;height:auto;min-height:210px;position:relative}.map-path{fill:none;stroke:#0b6e8a;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:8 6;animation:routeFlow 14s linear infinite}.map-halo{fill:#fff;stroke:#0b6e8a;stroke-width:3}.map-stop-no{fill:#0b6e8a;font:700 10px var(--mono)}.map-stop-label{fill:#15202b;font:700 12px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}.map-stop-sub{fill:#5d6b78;font:10px var(--sans);paint-order:stroke;stroke:#fff;stroke-width:3px}.map-compass{fill:#0b6e8a;font:700 10px var(--mono)}.map-legend{display:flex;gap:12px;flex-wrap:wrap;padding:0 12px 10px;color:var(--muted);font-size:11px}.map-legend b{color:var(--accent)}
@@ -202,6 +204,7 @@ tr.over td{color:var(--muted)}
 
   <section class="panel" aria-label="逐日行程">
     <h2>逐日行程</h2>
+    <p class="sub" id="wxNote"></p>
     <div class="day-grid" id="dayGrid"><div class="empty">正在載入行程…</div></div>
   </section>
 
@@ -537,7 +540,7 @@ function renderTrip(){
     const mapUrl=d.mapUrl||dayMaps[d.date];
     const map=mapUrl?`<div class="guide-links"><a class="map-link" href="${esc(mapUrl)}" target="_blank" rel="noopener noreferrer">📍 開啟今日 Google Maps ↗</a></div>`:'';
     const route=(d.route||[]).length?`<div class="day-route-title"><span>🗺️ 今日路線地圖</span><span>依編號前進</span></div>${miniMap(d.date)}${photoGallery(d.date)}<div class="day-route-title"><span>🚉 出口與轉乘細節</span><span>左右滑動查看</span></div><div class="route-strip" aria-label="${esc(d.date)} 詳細路線">${d.route.map((s,i)=>`<div class="route-step" data-n="${i+1}">${esc(s)}</div>`).join('')}</div><div class="route-help">地圖編號對應下方步驟；每格都有下一個站名、出口或地標</div>`:'';
-    return `<article class="day"><div class="scene scene-${esc(sc.theme)}"><div class="scene-copy"><div class="scene-icon">${esc(sc.icon)}</div><div class="scene-title">${esc(sc.title)}</div><div class="scene-blurb">${esc(sc.blurb)}</div></div></div><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">🏨 ${esc(d.stay)}</p>${route}${map}${trainBlock(d)}${detail('🚆 備用文字版交通',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${d.shopping?detail('🛍️ Outlet 採購攻略',d.shopping):''}${detail('🍜 平價美食',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`;
+    return `<article class="day"><div class="scene scene-${esc(sc.theme)}"><div class="scene-copy"><div class="scene-icon">${esc(sc.icon)}</div><div class="scene-title">${esc(sc.title)}</div><div class="scene-blurb">${esc(sc.blurb)}</div></div></div><h3>${esc(d.date.slice(5))} · ${esc(d.place)}</h3><ul>${d.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="sub">🏨 ${esc(d.stay)}</p>${wxSlot(d.date)}${route}${map}${trainBlock(d)}${detail('🚆 備用文字版交通',d.transport)}<details><summary>🎫 車票與購買方式</summary><p>${esc(d.tickets)}</p></details>${d.shopping?detail('🛍️ Outlet 採購攻略',d.shopping):''}${detail('🍜 平價美食',d.restaurants)}${detail('🧳 寄物櫃／行李',d.lockers)}</article>`;
   }).join('');
   if(trip.ticketPlan){
     $('ticketPlanTitle').textContent=trip.ticketPlan.title;
@@ -548,6 +551,48 @@ function renderTrip(){
   renderStays();
   if(trip.bookedStays){$('bookedStays').innerHTML=`<div class="booked-stays">${Object.entries(trip.bookedStays).map(([dt,b])=>`<div class="booked-stay"><span class="pill good">已訂</span> <b>${esc(dt.slice(5).replace('-','/'))}</b> ${esc(b.name)}<br><span class="sub">${esc(b.city)}｜入住 ${esc(b.in)}，退房 ${esc(b.out)}｜${esc(b.note)}</span></div>`).join('')}<p class="sub">兩晚都已訂好，已停止飯店查價。</p></div>`;}
   if(latest.length)render(latest);
+  loadWeather();
+}
+
+
+const WX_CODE=c=>c===0?['☀️','晴']:c<=2?['🌤️','晴時多雲']:c===3?['☁️','陰']:c<=48?['🌫️','霧']:c<=57?['🌦️','毛毛雨']:c<=65?['🌧️','雨']:c<=67?['🌧️','凍雨']:c<=77?['🌨️','雪']:c<=82?['🌦️','陣雨']:c<=86?['🌨️','陣雪']:['⛈️','雷雨'];
+function wxSlot(date){
+  const w=trip.weather;if(!w||!(w.days||{})[date])return '';
+  const rows=w.days[date].map(k=>{const sp=w.spots[k];return `<div class="wx-row" data-wx="${esc(date)}|${esc(k)}"><span class="i">🌡️</span><span><b>${esc(sp.name)}</b> <small>${esc(w.climate[k]||'')}</small></span></div>`}).join('');
+  return `<div class="wx" data-wxday="${esc(date)}"><h4>🌤️ 天氣預報</h4>${rows}<p class="wx-tip sub" data-wxtip="${esc(date)}">預報載入中…（失敗時顯示 10 月平年概況）</p></div>`;
+}
+async function loadWeather(){
+  const w=trip.weather;if(!w)return;
+  const keys=Object.keys(w.spots),dates=Object.keys(w.days).sort();
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${keys.map(k=>w.spots[k].lat).join(',')}&longitude=${keys.map(k=>w.spots[k].lon).join(',')}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&timezone=Asia%2FTokyo&start_date=${dates[0]}&end_date=${dates[dates.length-1]}`;
+  const fail=msg=>document.querySelectorAll('[data-wxtip]').forEach(e=>{e.textContent=msg});
+  try{
+    const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),9000);
+    const r=await fetch(url,{signal:ac.signal});clearTimeout(tm);
+    if(!r.ok)throw new Error(r.status);
+    let j=await r.json();if(!Array.isArray(j))j=[j];
+    const by={};keys.forEach((k,i)=>{by[k]=j[i]&&j[i].daily});
+    const dayMax={};
+    document.querySelectorAll('[data-wx]').forEach(el=>{
+      const [dt,k]=el.dataset.wx.split('|');const dd=by[k];const i=dd&&dd.time?dd.time.indexOf(dt):-1;
+      if(i<0||dd.temperature_2m_max[i]==null)return;
+      const [ic,tx]=WX_CODE(dd.weather_code[i]);const hi=Math.round(dd.temperature_2m_max[i]),lo=Math.round(dd.temperature_2m_min[i]);
+      const pp=dd.precipitation_probability_max[i],wd=Math.round(dd.wind_speed_10m_max[i]);
+      el.querySelector('.i').textContent=ic;
+      el.lastElementChild.innerHTML=`<b>${esc(w.spots[k].name)}</b> ${esc(tx)}｜${lo}–${hi}°C｜降雨機率 ${pp==null?'—':pp+'%'}｜風 ${wd} km/h`;
+      const m=dayMax[dt]||(dayMax[dt]={hi:-99,lo:99,pp:0,wd:0});m.hi=Math.max(m.hi,hi);m.lo=Math.min(m.lo,lo);m.pp=Math.max(m.pp,pp||0);m.wd=Math.max(m.wd,wd);
+    });
+    const now=new Date().toLocaleString('zh-TW',{timeZone:'Asia/Taipei',hour12:false});
+    Object.entries(dayMax).forEach(([dt,m])=>{
+      const tips=[];
+      if(m.pp>=50)tips.push('降雨機率高，帶摺傘或輕便雨衣，鞋子選防滑');else if(m.pp>=30)tips.push('可能下雨，包包放一把摺傘');
+      if(m.lo<=14)tips.push('早晚偏涼，帶薄外套');if(m.hi>=25)tips.push('白天偏熱，短袖＋水');
+      if(m.wd>=30)tips.push('風大，海邊留意保暖');
+      const e=document.querySelector(`[data-wxtip="${dt}"]`);if(e)e.innerHTML=`${tips.length?'👕 '+esc(tips.join('；'))+'<br>':''}Open-Meteo 預報，讀取於 ${esc(now)}（台北）`;
+    });
+    if(!Object.keys(dayMax).length)fail('預報尚未涵蓋這些日期，先看上方 10 月平年概況');
+    const n=document.getElementById('wxNote');if(n)n.textContent=w.note||'';
+  }catch(e){fail('目前讀不到即時預報，先看上方 10 月平年概況（估）；可到 tenki.jp 或 Yahoo!天気查看')}
 }
 
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
