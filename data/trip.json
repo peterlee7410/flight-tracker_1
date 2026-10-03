@@ -1127,7 +1127,7 @@
     "note": "預報距出發越近越準；目前離出發 13 天，只能當參考，建議 10/11 前後再看一次。"
   },
   "cafes": {
-    "note": "查證日 2026-10-03。『電源』欄只寫來源有明確記載的；寫「未確認」的請現場問店員，並自備行動電源。營業時間可能變動，出發前看店家官網或 Google 地圖。",
+    "note": "查證日 2026-10-03。『電源』欄只寫來源有明確記載的；寫「未確認」的請現場問店員，並自備行動電源。營業時間可能變動，出發前看店家官網或 Google 地圖。 天橋立站周邊的咖啡廳，我查到的資料都沒寫電源。",
     "items": [
       {
         "city": "大阪天王寺",
@@ -1166,6 +1166,18 @@
         "url": "https://www.mapple.net/article/103591/"
       },
       {
+        "city": "宮津（天橋立隔壁一站）",
+        "name": "前尾記念クロスワークセンターMIYAZU（共享工作空間）",
+        "when": "10/15 不可用：週四公休",
+        "hours": "9:00–21:00，週四公休；最後入場 19:30",
+        "view": "無特別景觀",
+        "power": "有：官方寫『Wi-Fi／電源完備』",
+        "wifi": "有，高速",
+        "price": "非當地居民 3 小時內 ¥550、超過 ¥1,100；免預約",
+        "verdict": "天橋立一帶唯一確認有電源的工作點，但 10/15 剛好公休，行程裡用不到",
+        "url": "https://note.com/cross_miyazu0506/n/n453f95e45c77"
+      },
+      {
         "city": "京都站",
         "name": "Starbucks 京都タワーサンド店",
         "when": "10/16（五）或 10/17（六）晚上",
@@ -1188,6 +1200,18 @@
         "price": "",
         "verdict": "早起先工作的備案",
         "url": "https://www.tasru-media.com/cafe_space/1789/"
+      },
+      {
+        "city": "京都四条烏丸",
+        "name": "Excelsior Caffé 四条烏丸店",
+        "when": "10/17（六）逛完市區想工作時",
+        "hours": "7:30–22:00",
+        "view": "無特別景觀",
+        "power": "有：每張桌子和吧台都有",
+        "wifi": "有",
+        "price": "",
+        "verdict": "京都電源最完整的一間；離京都站搭地下鐵約 5 分鐘（烏丸站 1 分鐘）",
+        "url": "https://kyoto-note.com/cafe-lounge-with-wifi-and-power-for-study-and-work-around-karasuma-station-and-kawaramachi-station/"
       },
       {
         "city": "京都鴨川",
