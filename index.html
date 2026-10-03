@@ -228,6 +228,12 @@ tr.over td{color:var(--muted)}
     <div class="notes" id="ticketPlan"><div class="empty">正在載入票券資料…</div></div>
   </section>
 
+  <section class="panel" aria-label="景觀咖啡廳">
+    <h2>景觀咖啡廳（可工作）</h2>
+    <p class="sub" id="cafeNote"></p>
+    <div class="coupon-grid" id="cafeGrid"><div class="empty">正在載入…</div></div>
+  </section>
+
   <section class="panel" aria-label="商店優惠券">
     <h2>藥妝與量販店優惠券</h2>
     <p class="sub">優惠券須在結帳前出示；免稅資格、最低消費、排除品牌與有效期以手機當下顯示的券面為準。</p>
@@ -546,6 +552,7 @@ function renderTrip(){
     $('ticketPlanTitle').textContent=trip.ticketPlan.title;
     $('ticketPlan').innerHTML=`<ul>${trip.ticketPlan.items.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p><b>購買方式：</b>${esc(trip.ticketPlan.buy)}</p><div class="guide-links">${trip.ticketPlan.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a>`).join('')}</div>`;
   }
+  if(trip.cafes){$('cafeNote').textContent=trip.cafes.note;$('cafeGrid').innerHTML=trip.cafes.items.map(c=>`<article class="coupon"><h3>${esc(c.city)}｜${esc(c.name)}</h3><p><b>${esc(c.verdict)}</b></p><p>🕒 ${esc(c.hours)}<br>🌅 ${esc(c.view)}<br>🔌 ${esc(c.power)}${c.wifi?`<br>📶 ${esc(c.wifi)}`:''}${c.price?`<br>💴 ${esc(c.price)}`:''}</p><p class="valid">建議：${esc(c.when)}</p><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">資料來源 ↗</a></article>`).join('');}
   $('couponGrid').innerHTML=(trip.coupons||[]).map(c=>`<article class="coupon"><h3>${esc(c.store)}</h3><p>${esc(c.offer)}</p><p class="valid">有效期：${esc(c.valid)}</p><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">開啟最新優惠券 ↗</a></article>`).join('');
   $('lockerLinks').innerHTML=(trip.lockerLinks||[]).map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)} ↗</a>`).join('');
   renderStays();

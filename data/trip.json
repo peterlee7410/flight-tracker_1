@@ -1125,5 +1125,106 @@
       "uji": "10 月中旬宇治約 12–23°C（估），河邊早晚涼"
     },
     "note": "預報距出發越近越準；目前離出發 13 天，只能當參考，建議 10/11 前後再看一次。"
+  },
+  "cafes": {
+    "note": "查證日 2026-10-03。『電源』欄只寫來源有明確記載的；寫「未確認」的請現場問店員，並自備行動電源。營業時間可能變動，出發前看店家官網或 Google 地圖。",
+    "items": [
+      {
+        "city": "大阪天王寺",
+        "name": "CAFFE CIAO PRESSO あべのハルカス店（塔樓館17樓）",
+        "when": "10/14（三）入住前後或晚上",
+        "hours": "平日 7:00–20:00／週末假日 8:00–20:00",
+        "view": "17 樓大窗，看得到生駒山系、天王寺動物園、梅田方向大樓",
+        "power": "有：大桌和窗邊座位（兩個來源）",
+        "wifi": "有",
+        "price": "飲料約 ¥480–680",
+        "verdict": "景觀＋電源都確認，最適合工作",
+        "url": "https://ciaopresso.com/due/"
+      },
+      {
+        "city": "天橋立",
+        "name": "Café du Pin 千歳",
+        "when": "10/15（四）下午",
+        "hours": "9:00–18:00，無休",
+        "view": "海邊座位正對松林步道和迴旋橋",
+        "power": "未確認",
+        "wifi": "未確認",
+        "price": "",
+        "verdict": "景色最好；電源要現場問，建議只做輕量工作",
+        "url": "https://www.mapple.net/article/103591/"
+      },
+      {
+        "city": "天橋立",
+        "name": "セントジョンズ ベア",
+        "when": "10/15（四）上午",
+        "hours": "9:00–14:30（最後點餐），週三休",
+        "view": "露台座位可一覽天橋立（在纜車站附近）",
+        "power": "未確認",
+        "wifi": "未確認",
+        "price": "",
+        "verdict": "看景為主，不建議當工作點",
+        "url": "https://www.mapple.net/article/103591/"
+      },
+      {
+        "city": "京都站",
+        "name": "Starbucks 京都タワーサンド店",
+        "when": "10/16（五）或 10/17（六）晚上",
+        "hours": "7:00–23:00",
+        "view": "無特別景觀",
+        "power": "有",
+        "wifi": "有，晚上 19:00 後較安靜",
+        "price": "",
+        "verdict": "離京都站 4 分鐘，晚上工作最方便",
+        "url": "https://www.tasru-media.com/cafe_space/1789/"
+      },
+      {
+        "city": "京都站",
+        "name": "Cafe Veloce 京都駅前店",
+        "when": "10/16–10/17 早上",
+        "hours": "6:30–22:45",
+        "view": "無特別景觀",
+        "power": "有：窗邊座位",
+        "wifi": "有",
+        "price": "",
+        "verdict": "早起先工作的備案",
+        "url": "https://www.tasru-media.com/cafe_space/1789/"
+      },
+      {
+        "city": "京都鴨川",
+        "name": "Starbucks 京都三条大橋店",
+        "when": "10/17（六）想看鴨川時",
+        "hours": "依店家公告",
+        "view": "鴨川景觀，有納涼床（川床）座位",
+        "power": "沒有：有來源指出此店沒有電源",
+        "wifi": "",
+        "price": "",
+        "verdict": "只適合休息看景，不能工作",
+        "url": "https://www.h9v.net/%E4%BA%AC%E9%83%BD%E4%B8%89%E6%9D%A1%E5%A4%A7%E6%A9%8B%E5%BA%97/"
+      },
+      {
+        "city": "宇治",
+        "name": "喫茶コンソラ",
+        "when": "10/18（日）",
+        "hours": "日、祝 10:00–16:00（週一～三休）",
+        "view": "遠望宇治川的宅邸咖啡廳",
+        "power": "未確認",
+        "wifi": "未確認",
+        "price": "",
+        "verdict": "景色與氣氛好，電源要現場問",
+        "url": "https://matcha-jp.com/jp/23123"
+      },
+      {
+        "city": "奈良",
+        "name": "CAFFE CIAO PRESSO 奈良駅店",
+        "when": "10/18（日）早上",
+        "hours": "7:00 開",
+        "view": "無特別景觀（在車站內）",
+        "power": "有",
+        "wifi": "有",
+        "price": "",
+        "verdict": "車站內，臨時要充電時用",
+        "url": "https://try-r-es.com/nara-cafe-summary/"
+      }
+    ]
   }
 }
