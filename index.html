@@ -386,7 +386,7 @@ function renderTrip(){
     '2026-10-14':'https://www.google.com/maps/dir/?api=1&origin=Kansai+International+Airport&destination=Shinsaibashi&waypoints=Tennoji%7CShinsekai%7CNamba+Yasaka+Shrine%7CDotonbori&travelmode=transit',
     '2026-10-15':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Bekkan+Yosanoso+Miyazu&waypoints=Fukuchiyama+Station%7CAmanohashidate+Station&travelmode=transit',
     '2026-10-16':'https://www.google.com/maps/dir/?api=1&origin=Bekkan+Yosanoso+Miyazu&destination=Starbucks+Kyoto+Tower+Sand&waypoints=Amanohashidate+Station%7CInewan+meguri+Hinode%7CIne+Town+Tourist+Information+Center%7CAmanohashidate+Station%7CKyoto+Station%7CAlmont+Hotel+Kyoto&travelmode=transit',
-    '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Shin-Imamiya+Station&waypoints=Kiyomizu-dera%7CShimogamo+Shrine%7CTennoji+Station%7COsaka-Umeda+Station+Hanshin%7CHimejima+Station+Osaka%7CTennoji+Station&travelmode=transit',
+    '2026-10-17':'https://www.google.com/maps/dir/?api=1&origin=Kyoto+Station&destination=Shin-Imamiya+Station&waypoints=Shimogamo+Shrine%7CKyoto+Imperial+Palace%7CTennoji+Station%7COsaka-Umeda+Station+Hanshin%7CHimejima+Station+Osaka%7CTennoji+Station&travelmode=transit',
     '2026-10-18':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Tennoji+Station&waypoints=Nara+Park%7CTodai-ji%7CByodoin%7CUji+Station%7CBentencho+Station%7CSolaniwa+Onsen+Osaka+Bay+Tower&travelmode=transit',
     '2026-10-19':'https://www.google.com/maps/dir/?api=1&origin=Tennoji+Station&destination=Kansai+International+Airport&waypoints=Rinku+Premium+Outlets&travelmode=transit'
   };
@@ -401,7 +401,7 @@ function renderTrip(){
       ['與謝荘','09:30接駁',5,80],['天橋立站','09:50特急巴士',17,52],['日出碼頭','11:00遊船',29,20],['舟屋區','午餐・散步',41,46],['天橋立站','13:47はしだて4號',54,74],['京都住宿','16:06到・入住',68,42],['拉麵小路','晚餐',82,70],['星巴克','工作到22:30',95,36]
     ],
     '2026-10-17':[
-      ['Almont','7:00退房',5,78],['清水寺','7:20人少',18,34],['二年坂','石板街',31,66],['祇園四条','京阪',44,36],['下鴨神社','糺之森',58,26],['京都站','取行李',68,62],['天王寺','放行李',78,82],['姫島河堤','17:00到・免費',84,40],['スパワールド','花火後泡湯',95,64]
+      ['Almont','8:05退房',5,78],['下鴨神社','糺之森',22,26],['出町ふたば','豆餅',38,50],['京都御所','免費',52,30],['京都站','取行李',68,62],['天王寺','放行李',78,82],['姫島河堤','17:00到・免費',84,40],['スパワールド','花火後泡湯',95,64]
     ],
     '2026-10-18':[
       ['天王寺','大和路快速',8,70],['JR奈良','東口2號站牌',27,50],['東大寺','奈良公園',44,25],['JR奈良','JR奈良線',58,50],['JR宇治','南口',68,35],['平等院','表參道',80,58],['空庭溫泉','弁天町 19:15',95,30]
@@ -458,7 +458,6 @@ function renderTrip(){
       ['美食','伊根海鮮丼／定食','代表餐點實拍',commons('Kaisendon.jpg'),'舟屋食堂 伊根','https://commons.wikimedia.org/wiki/File:Kaisendon.jpg']
     ],
     '2026-10-17':[
-      ['景點','清水寺','清晨人少',commons('Kiyomizu-dera in Kyoto.jpg'),'清水寺','https://commons.wikimedia.org/wiki/File:Kiyomizu-dera_in_Kyoto.jpg'],
       ['景點','下鴨神社','糺之森',commons('Shimogamo Shrine, Kyoto.jpg'),'下鴨神社','https://commons.wikimedia.org/wiki/File:Shimogamo_Shrine,_Kyoto.jpg'],
       ['車站','出町柳站今出川口','前往糺之森方向',commons('Demachiyanagi station Imadegawa gate.jpg'),'出町柳站 5號出口','https://commons.wikimedia.org/wiki/File:Demachiyanagi_station_Imadegawa_gate.jpg']
     ],
@@ -482,7 +481,7 @@ function renderTrip(){
   const hotelLinks=(h,cfg)=>{const nights=1;const d=new Date(h.checkin+'T00:00:00');const jal=h.jalan?`https://www.jalan.net/yad${h.jalan}/plan/?stayYear=${d.getFullYear()}&stayMonth=${d.getMonth()+1}&stayDay=${d.getDate()}&stayCount=${nights}&roomCount=1&adultNum=${cfg.adults}&yadNo=${h.jalan}&roomCrack=200000`:'';const bq=(h.booking&&h.booking.query)||h.map;const booking=`https://www.booking.com/searchresults.zh-tw.html?ss=${encodeURIComponent(bq)}&checkin=${h.checkin}&checkout=${h.checkout}&group_adults=${cfg.adults}&no_rooms=1&group_children=0&selected_currency=TWD`;const ag=`${h.agoda}?checkIn=${h.checkin}&checkOut=${h.checkout}&los=1&rooms=1&adults=${cfg.adults}&children=0&currencyCode=TWD`;const map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.map)}`;return {jal,booking,ag,map}};
   const transferFlow={
     amanohashidate:[['🚆','天橋立站','10/15 抵達'],['🧳','大型寄物櫃','¥800／可放大行李箱'],['🌲','智恩寺・View Land','輕裝觀光'],['📞','約好的時間','站前上接駁車'],['🏨','與謝荘','車程約5分・18:00前入住'],['🚐','10/16 接駁回站','行李寄站內櫃→伊根巴士']],
-    kyoto:[['🚆','京都站','はしだて到 31 號月台'],['🚶','八条東口','南側、麥當勞那側出口'],['🏨','Almont Hotel Kyoto','步行約5分・14:00 起入住'],['🍜','10/16 晚上','放好行李輕裝出門，京都站拉麵小路晚餐，再到京都塔旁星巴克工作'],['♨️','回飯店泡大浴場','16:00–翌 2:00'],['🚕','10/17 7:00','退房寄行李，計程車約15分到清水寺']]
+    kyoto:[['🚆','京都站','はしだて到 31 號月台'],['🚶','八条東口','南側、麥當勞那側出口'],['🏨','Almont Hotel Kyoto','步行約5分・14:00 起入住'],['🍜','10/16 晚上','放好行李輕裝出門，京都站拉麵小路晚餐，再到京都塔旁星巴克工作'],['♨️','回飯店泡大浴場','16:00–翌 2:00'],['🚶','10/17 8:05','退房寄行李，前往下鴨神社']]
   };
   const renderStays=()=>{
     if(trip&&trip.bookedStays){
